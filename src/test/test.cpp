@@ -1,23 +1,15 @@
 #include "../util/config/Config.h"
-#include "sleepy_discord/sleepy_discord.h"
-#include "test.h"
-#include "../module/io/IOModule.h"
-#include "../client/MyClient.h"
-using namespace SleepyDiscord;
+#include "../core/commandParser/ParseCommand.h"
+#include <iostream>
+#include <vector>
 
 int main() {
-	std::unique_ptr<std::map<std::string, std::string>> config = std::move(Util::LoadConfig("maidea.cfg"));
-	
-	if (!config) {
-		std::cout << "‚Ó‚Ÿ‚¢‚é‚Ð‚ç‚¯‚Ê";
-		return 0;
+	std::string test = ">command test arg1 arg2";
+	std::vector<std::string> vec = {">"};
+	std::vector<std::string> result;
+	std::cout << Core::ParseCommand(">", test) << std::endl;
+	result = Core::ParseArgument(test);
+	for (std::string s : result) {
+		std::cout << s << std::endl;
 	}
-
-	for (auto iter = config->begin(); iter != config->end(); iter++) {
-		std::cout << iter->first << " : " << iter->second << std::endl;
-	}
-	
-
-
-	return 0;
 }
