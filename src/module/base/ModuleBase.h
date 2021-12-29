@@ -12,5 +12,10 @@ namespace Module {
 	public:
 		ModuleBase(std::string moduleName, std::string command, boost::program_options::option_description opt);
 		virtual void Handler(SleepyDiscord::Message message) = 0;
+		std::string GetCommand();
 	};
+
+	inline std::string ModuleBase::GetCommand() {
+		return this->command;
+	}
 }
