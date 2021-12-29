@@ -7,8 +7,12 @@ add_subdirectory(module)
 add_subdirectory(util)
 
 add_library(Main INTERFACE)
+
 target_link_libraries(Main INTERFACE MyClient)
 target_link_libraries(Main INTERFACE Core)
 target_link_libraries(Main INTERFACE Handler)
 target_link_libraries(Main INTERFACE Module)
 target_link_libraries(Main INTERFACE Util)
+
+find_package(Boost REQUIRED)
+target_link_libraries(Main INTERFACE ${Boost_LIBRARIES})
