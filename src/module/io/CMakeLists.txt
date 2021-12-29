@@ -1,3 +1,4 @@
 add_library(Module_IOModule STATIC IOModule.cpp IOModule.h)
 
 target_link_libraries(Module_IOModule sleepy-discord)
+target_link_libraries(Module_IOModule Module)

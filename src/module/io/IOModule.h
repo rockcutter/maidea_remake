@@ -3,8 +3,8 @@
 #include <memory>
 #include <optional>
 #include <filesystem>
-#include "../BaseModule.h"
-#include "../../client/MyClient.h"
+#include "module/BaseModule.h"
+#include "client/MyClient.h"
 #include "sleepy_discord/sleepy_discord.h"
 
 class IOModule {
