@@ -3,7 +3,7 @@
 #include <memory>
 #include <optional>
 #include <filesystem>
-#include "module/BaseModule.h"
+#include "module/base/ModuleBase.h"
 #include "client/MyClient.h"
 #include "sleepy_discord/sleepy_discord.h"
 
