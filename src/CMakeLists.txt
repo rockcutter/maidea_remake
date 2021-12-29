@@ -21,5 +21,6 @@ target_include_directories(Module PUBLIC INTERFACE ${PROJECT_SOURCE_DIR}/src)
 target_include_directories(Util PUBLIC INTERFACE ${PROJECT_SOURCE_DIR}/src)
 
 
-find_package(Boost REQUIRED)
+find_package(Boost REQUIRED COMPONENTS program_options)
 target_link_libraries(Main INTERFACE ${Boost_LIBRARIES})
+target_link_libraries(Main INTERFACE Boost::program_options)

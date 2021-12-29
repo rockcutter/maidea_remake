@@ -2,6 +2,7 @@
 #include <memory>
 #include "main.h"
 #include "client/MyClient.h"
+#include "module/io/IOModule.h"
 #include "Config.h"
 
 constexpr char CONFIG_FILE_PATH[] = "maidea.cfg";
@@ -17,5 +18,6 @@ std::shared_ptr<MyClientClass> client(
 );
 
 int main() {
+	IOModule::IOModule::RegisterClient(client);
 	client->run();	
 }
