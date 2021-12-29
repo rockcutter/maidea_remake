@@ -7,5 +7,3 @@ target_link_libraries(Module_BaseModule PRIVATE sleepy-discord)
 
 target_link_libraries(Module INTERFACE Module_BaseModule)
 target_link_libraries(Module INTERFACE Module_IOModule)
-
-target_include_directories(Handler PUBLIC ${PROJECT_SOURCE_DIR}/src)
