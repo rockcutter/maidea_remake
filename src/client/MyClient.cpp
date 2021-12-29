@@ -1,6 +1,7 @@
 #include "MyClient.h"
-#include "../handler/MessageHandler.h"
-#include "../util/ConsoleOut.h"
+#include "handler/MessageHandler.h"
+#include "util/ConsoleOut.h"
+
 
 void MyClientClass::onMessage(SleepyDiscord::Message message) {	
 	Handler::MessageHandler(message);

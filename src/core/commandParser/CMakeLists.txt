@@ -1,0 +1,1 @@
+add_library(CommandParser STATIC ParseCommand.cpp ParseCommand.h)
