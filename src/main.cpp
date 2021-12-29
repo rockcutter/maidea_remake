@@ -2,7 +2,7 @@
 #include <memory>
 #include "main.h"
 #include "client/MyClient.h"
-#include "util/config/Config.h"
+#include "Config.h"
 
 constexpr char CONFIG_FILE_PATH[] = "maidea.cfg";
 constexpr char CONFIG_DISCORD_TOKEN_KEY[] = "DISCORD_TOKEN";
