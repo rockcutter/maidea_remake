@@ -4,7 +4,13 @@ add_library(Module INTERFACE)
 add_subdirectory(io)
 add_subdirectory(base)
 add_subdirectory(hello)
+#add_subdirectory(timer)
 
 target_link_libraries(Module INTERFACE Module_ModuleBase)
 target_link_libraries(Module INTERFACE Module_IOModule)
 target_link_libraries(Module INTERFACE Module_Hello)
+
+target_include_directories(Module_ModuleBase PUBLIC ${PROJECT_SOURCE_DIR}/src)
+target_include_directories(Module_IOModule PUBLIC ${PROJECT_SOURCE_DIR}/src)
+target_include_directories(Module_Hello PUBLIC ${PROJECT_SOURCE_DIR}/src)
+#target_link_libraries(Module INTERFACE Module_Timer)
