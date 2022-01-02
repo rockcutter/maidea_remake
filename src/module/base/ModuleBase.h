@@ -8,9 +8,9 @@ namespace Module {
 	protected:
 		std::string moduleName;
 		std::string command;
-		std::unique_ptr<boost::program_options::option_description> options;
+		boost::program_options::options_description options;
 	public:
-		ModuleBase(std::string moduleName, std::string command, boost::program_options::option_description* opt);
+		ModuleBase(std::string moduleName, std::string command, boost::program_options::options_description opt);
 		virtual void Handler(SleepyDiscord::Message message) = 0;
 		std::string GetCommand();
 	};
