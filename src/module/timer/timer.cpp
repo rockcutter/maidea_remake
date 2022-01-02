@@ -53,7 +53,7 @@ namespace Module {
 		}
 		else if (vm.count("min")) {
 			time = chrono::minutes(vm["min"].as<int>());
-			outStr = std::to_string(vm["min"].as<int>()) + u8"秒";
+			outStr = std::to_string(vm["min"].as<int>()) + u8"分";
 		}
 		else if (vm.count("sec")) {
 			time = chrono::seconds(vm["sec"].as<int>());
@@ -61,11 +61,11 @@ namespace Module {
 		}
 		else if (vm.count("hour")) {
 			time = chrono::hours(vm["hour"].as<int>());
-			outStr = std::to_string(vm["hour"].as<int>()) + u8"秒";
+			outStr = std::to_string(vm["hour"].as<int>()) + u8"時間";
 		}
 		else if (vm.count("day")) {
 			time = chrono::hours(vm["day"].as<int>() * 24);
-			outStr = std::to_string(vm["day"].as<int>()) + u8"秒";
+			outStr = std::to_string(vm["day"].as<int>()) + u8"日";
 		}
 		else {
 			std::stringstream ss;
