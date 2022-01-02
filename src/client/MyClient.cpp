@@ -1,6 +1,5 @@
 #include "MyClient.h"
 #include "handler/MessageHandler.h"
-#include "handler/ReactionHandler.h"
 #include "util/ConsoleOut.h"
 
 
