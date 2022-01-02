@@ -3,6 +3,7 @@
 #include <boost/algorithm/string.hpp>
 #include "CommandHandler.h"
 #include "module/hello/Hello.h"
+#include "module/timer/timer.h"
 
 
 namespace Handler {
@@ -13,7 +14,8 @@ namespace Handler {
 		std::vector<std::unique_ptr<Module::ModuleBase>> moduleArray;
 
 		//ここで追加したモジュールのインスタンスをemplace_back
-		moduleArray.emplace_back(std::unique_ptr<Module::ModuleBase>(new Module::Hello()));
+		moduleArray.emplace_back(new Module::Hello());
+		moduleArray.emplace_back(new Module::Timer());
 
 		//ここまで
 		for (auto& p : moduleArray) {
