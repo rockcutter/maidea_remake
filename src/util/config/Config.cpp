@@ -12,7 +12,7 @@ namespace Util {
 		std::string value;
 
 		if (!ifs) {
-			return nullptr;
+			throw std::runtime_error("config file not found");
 		}
 		while (std::getline(ifs, buf)) {
 			//‹ó”’Á‹
