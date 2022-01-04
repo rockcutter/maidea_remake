@@ -8,6 +8,13 @@ add_subdirectory(util)
 
 add_library(Main INTERFACE)
 
+add_library(Essential INTERFACE)
+find_package(Boost REQUIRED COMPONENTS program_options)
+target_link_libraries(Essential INTERFACE sleepy-discord)
+target_include_directories(Essential INTERFACE ${Boost_INCLUDE_DIRS})
+target_link_libraries(Essential INTERFACE ${Boost_LIBRALIES})
+
+
 target_link_libraries(Main INTERFACE MyClient)
 target_link_libraries(Main INTERFACE Core)
 target_link_libraries(Main INTERFACE Handler)
