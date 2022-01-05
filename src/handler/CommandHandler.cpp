@@ -30,8 +30,13 @@ namespace Handler {
 		}
 		std::vector<std::string> tmp;
 		boost::algorithm::split(tmp, message.content, boost::is_space());
-		
-		commandMap.at(tmp.at(0).erase(0, 1))->Handler(message);
+		tmp.at(0).erase(0, 1);
+
+		if (commandMap.count(tmp.at(0)) == 0) {
+			return;
+		}
+
+		commandMap.at(tmp.at(0))->Handler(message);
 		return;
 	}
 }
