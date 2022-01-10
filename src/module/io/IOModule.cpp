@@ -17,3 +17,14 @@ std::string IOModule::Send(SleepyDiscord::Snowflake<SleepyDiscord::Channel> chan
 	s->sendMessage(channelID, str);
 	return str;
 }
+
+void IOModule::DeleteMessage(SleepyDiscord::Snowflake<SleepyDiscord::Channel> channelID, SleepyDiscord::Snowflake<SleepyDiscord::Message> messageID) {
+	try {
+		if (std::shared_ptr<MyClientClass> p = this->client.lock()) {
+			p->deleteMessage(channelID, messageID);
+		}
+	}
+	catch (SleepyDiscord::ErrorCode) {
+		this->Send(channelID, "missing permission to delete the message");
+	}
+}
