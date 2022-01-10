@@ -13,6 +13,7 @@ private:
 	std::string displayModuleName;
 public:
 	static void RegisterClient(std::weak_ptr<MyClientClass>);
+	void DeleteMessage(SleepyDiscord::Snowflake<SleepyDiscord::Channel> channelID, SleepyDiscord::Snowflake<SleepyDiscord::Message> messageID);
 	IOModule(std::string moduleName);
 	std::string Send(SleepyDiscord::Snowflake<SleepyDiscord::Channel> channelID, std::string message);
 };

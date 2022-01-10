@@ -4,6 +4,7 @@
 #include "CommandHandler.h"
 #include "module/hello/Hello.h"
 #include "module/timer/timer.h"
+#include "module/urlshortening/URLShortening.h"
 
 
 namespace Handler {
@@ -16,6 +17,7 @@ namespace Handler {
 		//ここで追加したモジュールのインスタンスをemplace_back
 		moduleArray.emplace_back(new Module::Hello());
 		moduleArray.emplace_back(new Module::Timer());
+		moduleArray.emplace_back(new Module::URLShortening());
 
 		//ここまで
 		for (auto& p : moduleArray) {
