@@ -22,7 +22,7 @@ namespace Module {
 
 	std::string URLShortening::ShortenAmazonURL(std::string url) {
 		std::vector<std::string> dirs;
-		boost::split(dirs, url, boost::is_any_of("/"));
+		boost::split(dirs, url, boost::is_any_of("/?"));
 		auto pos = std::find(dirs.begin(), dirs.end(), "dp");
 		if (pos == dirs.end()) {
 			throw std::invalid_argument("invalid Amazon URL");
