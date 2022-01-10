@@ -1,0 +1,3 @@
+add_library(Module_URLShortening STATIC URLShortening.cpp)
+
+target_link_libraries(Module_URLShortening PRIVATE Essential)
