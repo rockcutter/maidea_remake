@@ -75,6 +75,11 @@ namespace Module {
 		}
 		iomodule.Send(message.channelID, outStr + u8"のタイマーをセット! " + vm["title"].as<std::string>());
 		std::this_thread::sleep_for(time);
-		iomodule.Send(message.channelID, outStr + u8"経ったよ " + vm["title"].as<std::string>());
+		//iomodule.Send(message.channelID, outStr + u8"経ったよ @!" + message.author.ID + " " + vm["title"].as<std::string>());
+		iomodule.Send(message.channelID, (boost::format(u8"%1%経ったよ <@!%2%> %3%") %
+			outStr %
+			message.author.ID.string() %
+			vm["title"].as<std::string>()).str()			
+		);
 	}
 }
