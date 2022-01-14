@@ -35,10 +35,7 @@ namespace Module {
 			);
 		}
 		catch (program_options::error& e) {
-			std::cout << e.what() << std::endl;
-			std::stringstream ss;
-			ss << this->options;
-			this->iomodule.Send(message.channelID, ss.str());
+			this->iomodule.Send(message.channelID, this->options);
 			return;
 		}
 		chrono::seconds time(0);
@@ -68,9 +65,7 @@ namespace Module {
 			outStr = std::to_string(vm["day"].as<int>()) + u8"日";
 		}
 		else {
-			std::stringstream ss;
-			ss << this->options;
-			this->iomodule.Send(message.channelID, ss.str());
+			this->iomodule.Send(message.channelID, this->options);
 			return;
 		}
 		iomodule.Send(message.channelID, outStr + u8"のタイマーをセット! " + vm["title"].as<std::string>());
