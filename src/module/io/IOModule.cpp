@@ -1,4 +1,5 @@
 #include "IOModule.h"
+#include <sstream>
 
 std::weak_ptr<MyClientClass> IOModule::client;
 
@@ -16,6 +17,12 @@ std::string IOModule::Send(SleepyDiscord::Snowflake<SleepyDiscord::Channel> chan
 	}
 	s->sendMessage(channelID, str);
 	return str;
+}
+
+std::string IOModule::Send(SleepyDiscord::Snowflake<SleepyDiscord::Channel> channelID, const boost::program_options::options_description& opt) {
+	std::stringstream ss;
+	ss << opt;
+	return this->Send(channelID, ss.str());
 }
 
 void IOModule::DeleteMessage(SleepyDiscord::Snowflake<SleepyDiscord::Channel> channelID, SleepyDiscord::Snowflake<SleepyDiscord::Message> messageID) {

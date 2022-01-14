@@ -35,9 +35,7 @@ namespace Module {
 		std::vector<std::string> splitedCommandLine = boost::program_options::split_unix(message.content);
 
 		if (splitedCommandLine.size() < 2) {
-			std::stringstream ss;
-			ss << this->options;
-			this->iomodule.Send(message.channelID, ss.str());
+			this->iomodule.Send(message.channelID, this->options);
 			return;
 		}
 
@@ -53,16 +51,11 @@ namespace Module {
 		}
 		catch (program_options::error& e) {
 			e.what();
-			std::stringstream ss;
-			ss << this->options;
-			this->iomodule.Send(message.channelID, ss.str());
+			this->iomodule.Send(message.channelID, this->options);
 			return;
 		}
-
 		if (vm.count("help")) {
-			std::stringstream ss;
-			ss << this->options;
-			this->iomodule.Send(message.channelID, ss.str());
+			this->iomodule.Send(message.channelID, this->options);
 			return;
 		}
 
@@ -81,9 +74,5 @@ namespace Module {
 			}
 			return;
 		}
-
-
-
 	}
-
 }
