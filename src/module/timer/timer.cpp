@@ -35,6 +35,7 @@ namespace Module {
 			);
 		}
 		catch (program_options::error& e) {
+			e.what();
 			this->iomodule.Send(message.channelID, this->options);
 			return;
 		}
@@ -46,7 +47,10 @@ namespace Module {
 				time = chrono::minutes(boost::lexical_cast<int>(splitedCommandLine[1]));
 				outStr = std::to_string(boost::lexical_cast<int>(splitedCommandLine[1])) + u8"分";
 			}
-			catch (boost::bad_lexical_cast&) {}
+			catch (boost::bad_lexical_cast&) {
+				this->iomodule.Send(message.channelID, this->options);
+				return;
+			}
 		}
 		else if (vm.count("min")) {
 			time = chrono::minutes(vm["min"].as<int>());
