@@ -35,3 +35,9 @@ void IOModule::DeleteMessage(SleepyDiscord::Snowflake<SleepyDiscord::Channel> ch
 		this->Send(channelID, "missing permission to delete the message");
 	}
 }
+
+void IOModule::AddReaction(SleepyDiscord::Snowflake<SleepyDiscord::Channel> channelID, SleepyDiscord::Snowflake<SleepyDiscord::Message> messageID, std::string emoji) {
+	if (std::shared_ptr<MyClientClass> p = this->client.lock()) {
+		p->addReaction(channelID, messageID, emoji);
+	}
+}
