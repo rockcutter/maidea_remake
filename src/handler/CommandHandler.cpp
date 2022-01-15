@@ -5,7 +5,7 @@
 #include "module/hello/Hello.h"
 #include "module/timer/timer.h"
 #include "module/urlshortening/URLShortening.h"
-
+#include "module/checklist/Checklist.h"
 
 namespace Handler {
 	std::unordered_map<std::string, std::unique_ptr<Module::ModuleBase>> commandMap = std::move(FillCommandMap());
@@ -18,6 +18,7 @@ namespace Handler {
 		moduleArray.emplace_back(new Module::Hello());
 		moduleArray.emplace_back(new Module::Timer());
 		moduleArray.emplace_back(new Module::URLShortening());
+		moduleArray.emplace_back(new Module::Checklist());
 
 		//‚±‚±‚Ü‚Å
 		for (auto& p : moduleArray) {
