@@ -1,4 +1,4 @@
-#include "Checklist.h"
+﻿#include "Checklist.h"
 #include <algorithm>
 
 namespace program_options = boost::program_options;
@@ -18,7 +18,7 @@ namespace Module {
 	}
 
 	bool Checklist::Enable(SleepyDiscord::Snowflake<SleepyDiscord::Channel> channelID) {
-		if (this->isEnable(channelID)) {
+		if (this->IsEnable(channelID)) {
 			return false;
 		}
 		this->channels.emplace_back(channelID.string());
@@ -26,14 +26,14 @@ namespace Module {
 	}
 
 	bool Checklist::Disable(SleepyDiscord::Snowflake<SleepyDiscord::Channel> channelID) {
-		if (!this->isEnable(channelID)) {
+		if (!this->IsEnable(channelID)) {
 			return false;
 		}
 		this->channels.erase(std::find(this->channels.begin(), this->channels.end(), channelID.string()));
 		return true;
 	}
 
-	bool Checklist::isEnable(SleepyDiscord::Snowflake<SleepyDiscord::Channel> channelID) {
+	bool Checklist::IsEnable(SleepyDiscord::Snowflake<SleepyDiscord::Channel> channelID) {
 		if (std::find(Checklist::channels.begin(), Checklist::channels.end(), channelID.string()) == Checklist::channels.end()) {
 			return false;
 		}
@@ -76,5 +76,11 @@ namespace Module {
 		}
 		this->iomodule.Send(message.channelID, this->options);
 		return;
+	}
+
+	void Checklist::PlainTextHandler(SleepyDiscord::Message message) {
+		if (this->IsEnable(message.channelID)) {
+			this->iomodule.AddReaction(message.channelID, message.ID, u8"✅");
+		}
 	}
 }
