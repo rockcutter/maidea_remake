@@ -6,6 +6,7 @@
 #include "module/timer/timer.h"
 #include "module/urlshortening/URLShortening.h"
 #include "module/checklist/Checklist.h"
+#include "module/random/Random.h"
 
 Handler::MessageHandler handler;
 
@@ -19,8 +20,10 @@ void MyClientClass::onReady(SleepyDiscord::Ready readyData) {
 	handler.RegisterModuleIntoCommandHandler(std::make_unique<Module::Timer>());
 	handler.RegisterModuleIntoCommandHandler(std::make_unique<Module::URLShortening>());
 	handler.RegisterModuleIntoCommandHandler(std::make_unique<Module::Checklist>());
+	handler.RegisterModuleIntoCommandHandler(std::make_unique<Module::Random>());
 	
 	handler.RegisterModuleIntoPlainTextHandler(std::make_unique<Module::Checklist>());
+	handler.RegisterModuleIntoPlainTextHandler(std::make_unique<Module::Random>());
 
 	Util::ConsoleOut("Ready");
 	return;
