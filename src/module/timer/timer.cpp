@@ -22,7 +22,7 @@ namespace Module {
 			;
 	}
 
-	void Timer::Handler(SleepyDiscord::Message message) {
+	void Timer::Handler(const SleepyDiscord::Message& message) {
 		boost::program_options::variables_map vm;
 		std::vector<std::string> splitedCommandLine = program_options::split_unix(message.content);
 

@@ -9,7 +9,7 @@ void IOModule::RegisterClient(std::weak_ptr<MyClientClass> p) {
 	IOModule::client = p;
 }
 
-std::string IOModule::Send(SleepyDiscord::Snowflake<SleepyDiscord::Channel> channelID, std::string message) {
+std::string IOModule::Send(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const std::string& message) {
 	std::string str = "`" + this->displayModuleName + "`\n" + message;
 	std::shared_ptr<MyClientClass> s;
 	if (!(s = this->client.lock())) {
@@ -19,13 +19,13 @@ std::string IOModule::Send(SleepyDiscord::Snowflake<SleepyDiscord::Channel> chan
 	return str;
 }
 
-std::string IOModule::Send(SleepyDiscord::Snowflake<SleepyDiscord::Channel> channelID, const boost::program_options::options_description& opt) {
+std::string IOModule::Send(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const boost::program_options::options_description& opt) {
 	std::stringstream ss;
 	ss << opt;
 	return this->Send(channelID, ss.str());
 }
 
-void IOModule::DeleteMessage(SleepyDiscord::Snowflake<SleepyDiscord::Channel> channelID, SleepyDiscord::Snowflake<SleepyDiscord::Message> messageID) {
+void IOModule::DeleteMessage(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const SleepyDiscord::Snowflake<SleepyDiscord::Message>& messageID) {
 	try {
 		if (std::shared_ptr<MyClientClass> p = this->client.lock()) {
 			p->deleteMessage(channelID, messageID);
@@ -36,7 +36,7 @@ void IOModule::DeleteMessage(SleepyDiscord::Snowflake<SleepyDiscord::Channel> ch
 	}
 }
 
-void IOModule::AddReaction(SleepyDiscord::Snowflake<SleepyDiscord::Channel> channelID, SleepyDiscord::Snowflake<SleepyDiscord::Message> messageID, std::string emoji) {
+void IOModule::AddReaction(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const SleepyDiscord::Snowflake<SleepyDiscord::Message>& messageID, const std::string& emoji) {
 	if (std::shared_ptr<MyClientClass> p = this->client.lock()) {
 		p->addReaction(channelID, messageID, emoji);
 	}

@@ -6,9 +6,9 @@ namespace Module {
 	class URLShortening : public ModuleBase {
 	private:
 		IOModule iomodule;
-		std::string ShortenAmazonURL(std::string url);
+		std::string ShortenAmazonURL(const std::string& url);
 	public:
 		URLShortening();
-		void Handler(SleepyDiscord::Message) override;
+		void Handler(const SleepyDiscord::Message& message) override;
 	};
 }

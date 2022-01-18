@@ -12,6 +12,6 @@ namespace Module {
 		IOModule iomodule;
 	public:
 		Timer();
-		void Handler(SleepyDiscord::Message message) override;
+		void Handler(const SleepyDiscord::Message& message) override;
 	};
 }

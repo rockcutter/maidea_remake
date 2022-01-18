@@ -20,7 +20,7 @@ namespace Module {
 			;
 	}
 
-	std::string URLShortening::ShortenAmazonURL(std::string url) {
+	std::string URLShortening::ShortenAmazonURL(const std::string& url) {
 		std::vector<std::string> dirs;
 		boost::split(dirs, url, boost::is_any_of("/?"));
 		auto pos = std::find(dirs.begin(), dirs.end(), "dp");
@@ -30,7 +30,7 @@ namespace Module {
 		return (boost::format("%1%/dp/%2%") % TOP_AMAZON % *++pos).str();
 	}
 
-	void URLShortening::Handler(SleepyDiscord::Message message) {
+	void URLShortening::Handler(const SleepyDiscord::Message& message) {
 		program_options::variables_map vm;
 		std::vector<std::string> splitedCommandLine = boost::program_options::split_unix(message.content);
 

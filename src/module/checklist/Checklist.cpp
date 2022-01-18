@@ -17,7 +17,7 @@ namespace Module {
 			;
 	}
 
-	bool Checklist::Enable(SleepyDiscord::Snowflake<SleepyDiscord::Channel> channelID) {
+	bool Checklist::Enable(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID) {
 		if (this->IsEnable(channelID)) {
 			return false;
 		}
@@ -25,7 +25,7 @@ namespace Module {
 		return true;
 	}
 
-	bool Checklist::Disable(SleepyDiscord::Snowflake<SleepyDiscord::Channel> channelID) {
+	bool Checklist::Disable(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID) {
 		if (!this->IsEnable(channelID)) {
 			return false;
 		}
@@ -33,14 +33,14 @@ namespace Module {
 		return true;
 	}
 
-	bool Checklist::IsEnable(SleepyDiscord::Snowflake<SleepyDiscord::Channel> channelID) {
+	bool Checklist::IsEnable(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID) {
 		if (std::find(Checklist::channels.begin(), Checklist::channels.end(), channelID.string()) == Checklist::channels.end()) {
 			return false;
 		}
 		return true;
 	}
 	
-	void Checklist::Handler(SleepyDiscord::Message message) {
+	void Checklist::Handler(const SleepyDiscord::Message& message) {
 		program_options::variables_map vm;
 		std::vector<std::string> splitedCommandLine = program_options::split_unix(message.content);
 
@@ -78,7 +78,7 @@ namespace Module {
 		return;
 	}
 
-	void Checklist::PlainTextHandler(SleepyDiscord::Message message) {
+	void Checklist::PlainTextHandler(const SleepyDiscord::Message& message) {
 		if (this->IsEnable(message.channelID)) {
 			this->iomodule.AddReaction(message.channelID, message.ID, u8"✅");
 		}
