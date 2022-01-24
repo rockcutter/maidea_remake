@@ -37,9 +37,11 @@ namespace Handler {
 		if (message.author.bot || message.content.size() < 2) {
 			return;
 		}
-
-		std::string cmd = 
-			boost::split(std::vector<std::string>(), message.content, boost::is_space()).at(0).erase(0,1);
+		
+		std::vector<std::string> tmp;
+		boost::split(tmp, message.content, boost::is_space());
+		std::string cmd = tmp.at(0).erase(0, 1);
+			
 				
 		for (auto& m : this->modules) {
 			if (m->GetCommand() == cmd) {
