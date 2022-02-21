@@ -52,7 +52,7 @@ namespace Module {
 				vm);
 		}
 		catch (program_options::error& e) {
-			e.what();
+			(void)e.what();
 			this->discordio.SendWithName(message.channelID, this->options);
 			return;
 		}
