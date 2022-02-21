@@ -14,7 +14,7 @@ namespace program_options = boost::program_options;
 namespace Module {
 	URLShortening::URLShortening() :
 		ModuleBase(URLSHORTENING_MODULE_NAME, URLSHORTENING_MODULE_COMMAND, boost::program_options::options_description("URLShortening Module Usage")),
-		iomodule(URLSHORTENING_MODULE_NAME) {
+		discordio(URLSHORTENING_MODULE_NAME) {
 		this->options.add_options()
 			("help,h", "show help")
 			;
@@ -35,7 +35,7 @@ namespace Module {
 		std::vector<std::string> splitedCommandLine = boost::program_options::split_unix(message.content);
 
 		if (splitedCommandLine.size() < 2) {
-			this->iomodule.Send(message.channelID, this->options);
+			this->discordio.SendWithName(message.channelID, this->options);
 			return;
 		}
 
@@ -50,27 +50,28 @@ namespace Module {
 			);
 		}
 		catch (program_options::error& e) {
-			e.what();
-			this->iomodule.Send(message.channelID, this->options);
+			(void)e.what();
+			this->discordio.SendWithName(message.channelID, this->options);
 			return;
 		}
 		if (vm.count("help")) {
-			this->iomodule.Send(message.channelID, this->options);
+			this->discordio.SendWithName(message.channelID, this->options);
 			return;
 		}
 
 		if (url.find(TOP_AMAZON) != std::string::npos) {
 			try {
-				this->iomodule.Send(message.channelID,
+				this->discordio.SendWithName(message.channelID,
 					(boost::format("from `%1%`\n%2%") %
 						message.author.username % 
 						this->ShortenAmazonURL(url)
 						).str()
 				);
-				this->iomodule.DeleteMessage(message.channelID, message.ID);
+				auto sp = this->discordio.GetClientPtr().lock();
+				sp->deleteMessage(message.channelID, message.ID);
 			}
-			catch (std::invalid_argument) {
-				this->iomodule.Send(message.channelID, "invalid Amazon URL");
+			catch (std::invalid_argument&) {
+				this->discordio.SendWithName(message.channelID, "invalid Amazon URL");
 			}
 			return;
 		}

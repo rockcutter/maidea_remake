@@ -5,7 +5,7 @@
 namespace Module {
 	class URLShortening : public ModuleBase {
 	private:
-		IOModule iomodule;
+		DiscordIO discordio;
 		std::string ShortenAmazonURL(const std::string& url);
 	public:
 		URLShortening();
