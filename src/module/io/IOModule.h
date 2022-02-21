@@ -17,11 +17,20 @@ namespace Module {
 		DiscordIO();
 		DiscordIO(std::string moduleName);
 		static void RegisterClient(std::weak_ptr<MyClientClass>);
+		static std::weak_ptr<MyClientClass> GetClientPtr();
 		std::string Send(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const std::string& message);
 		std::string Send(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const boost::program_options::options_description&);
 		std::string SendWithName(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const std::string& message);
 		std::string SendWithName(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const boost::program_options::options_description&);
 	};
+	
+	inline void DiscordIO::RegisterClient(std::weak_ptr<MyClientClass> wp) {
+		DiscordIO::client = wp;
+	}
+
+	inline std::weak_ptr<MyClientClass> DiscordIO::GetClientPtr() {
+		return DiscordIO::client;
+	}
 }
 
 class IOModule {

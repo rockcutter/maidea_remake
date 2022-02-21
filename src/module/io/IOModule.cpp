@@ -7,10 +7,6 @@ namespace Module {
 	
 	DiscordIO::DiscordIO(): moduleName("") {}
 	DiscordIO::DiscordIO(std::string moduleName): moduleName(moduleName) {}
-	
-	void DiscordIO::RegisterClient(std::weak_ptr<MyClientClass> wp) {
-		DiscordIO::client = wp;
-	}
 
 	std::string DiscordIO::Send(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const std::string& message) {
 		if (this->client.expired()) {
