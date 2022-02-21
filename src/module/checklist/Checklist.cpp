@@ -8,7 +8,7 @@ namespace Module {
 
 	Checklist::Checklist() :
 		ModuleBase("Checklist", "cl", program_options::options_description("Checklist Module Usage")),
-		iomodule("Checklist")
+		discordio("Checklist")
 	{
 		this->options.add_options()
 			("help,h", "show help")
@@ -53,34 +53,40 @@ namespace Module {
 		}
 		catch (program_options::error& e) {
 			e.what();
-			this->iomodule.Send(message.channelID, this->options);
+			this->discordio.SendWithName(message.channelID, this->options);
 			return;
 		}
 
 		if (vm.count("enable")) {
 			if (!this->Enable(message.channelID)) {
-				this->iomodule.Send(message.channelID, "Checklist mode is already enabled");
+				this->discordio.SendWithName(message.channelID, "Checklist mode is already enabled");
 				return;
 			}
-			this->iomodule.Send(message.channelID, "Checklist mode enabled");
+			this->discordio.SendWithName(message.channelID, "Checklist mode enabled");
 			return;
 		}
 
 		if (vm.count("disable")) {
 			if (!this->Disable(message.channelID)) {
-				this->iomodule.Send(message.channelID, "Checklist mode is already disabled");
+				this->discordio.SendWithName(message.channelID, "Checklist mode is already disabled");
 				return;
 			}
-			this->iomodule.Send(message.channelID, "Checklist mode disabled");
+			this->discordio.SendWithName(message.channelID, "Checklist mode disabled");
 			return;
 		}
-		this->iomodule.Send(message.channelID, this->options);
+		this->discordio.SendWithName(message.channelID, this->options);
 		return;
 	}
 
 	void Checklist::PlainTextHandler(const SleepyDiscord::Message& message) {
 		if (this->IsEnable(message.channelID)) {
-			this->iomodule.AddReaction(message.channelID, message.ID, u8"✅");
+			std::weak_ptr<MyClientClass> wp = this->discordio.GetClientPtr();
+			if (wp.expired()) {
+				return;
+			}
+			std::shared_ptr<MyClientClass> sp = wp.lock();
+			sp->addReaction(message.channelID, message.ID, u8"✅");	
 		}
+		return;
 	}
 }
