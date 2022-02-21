@@ -14,7 +14,7 @@ namespace Module {
 		IOModule iomodule;
 	public:
 		Hello();
-		void Send(SleepyDiscord::Snowflake<SleepyDiscord::Channel> channelID);
-		void Handler(SleepyDiscord::Message message) override;
+		void Send(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID);
+		void Handler(const SleepyDiscord::Message& message) override;
 	};
 }

@@ -6,14 +6,17 @@
 namespace Module {
 	class ModuleBase {
 	protected:
-		std::string moduleName;
-		std::string command;
+		const std::string moduleName;
+		const std::string command;
 		boost::program_options::options_description options;
 	public:
-		ModuleBase(std::string moduleName, std::string command, boost::program_options::options_description opt);
-		virtual void Handler(SleepyDiscord::Message message) = 0;
+		ModuleBase(const std::string& moduleName, const std::string& command, boost::program_options::options_description opt);
+		virtual void Handler(const SleepyDiscord::Message& message) = 0;
+		virtual void PlainTextHandler(const SleepyDiscord::Message& message);
 		std::string GetCommand();
 	};
+	
+	inline void ModuleBase::PlainTextHandler(const SleepyDiscord::Message& message){}
 
 	inline std::string ModuleBase::GetCommand() {
 		return this->command;

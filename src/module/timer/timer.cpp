@@ -22,7 +22,7 @@ namespace Module {
 			;
 	}
 
-	void Timer::Handler(SleepyDiscord::Message message) {
+	void Timer::Handler(const SleepyDiscord::Message& message) {
 		boost::program_options::variables_map vm;
 		std::vector<std::string> splitedCommandLine = program_options::split_unix(message.content);
 
@@ -35,10 +35,8 @@ namespace Module {
 			);
 		}
 		catch (program_options::error& e) {
-			std::cout << e.what() << std::endl;
-			std::stringstream ss;
-			ss << this->options;
-			this->iomodule.Send(message.channelID, ss.str());
+			e.what();
+			this->iomodule.Send(message.channelID, this->options);
 			return;
 		}
 		chrono::seconds time(0);
@@ -49,7 +47,10 @@ namespace Module {
 				time = chrono::minutes(boost::lexical_cast<int>(splitedCommandLine[1]));
 				outStr = std::to_string(boost::lexical_cast<int>(splitedCommandLine[1])) + u8"分";
 			}
-			catch (boost::bad_lexical_cast&) {}
+			catch (boost::bad_lexical_cast&) {
+				this->iomodule.Send(message.channelID, this->options);
+				return;
+			}
 		}
 		else if (vm.count("min")) {
 			time = chrono::minutes(vm["min"].as<int>());
@@ -68,13 +69,15 @@ namespace Module {
 			outStr = std::to_string(vm["day"].as<int>()) + u8"日";
 		}
 		else {
-			std::stringstream ss;
-			ss << this->options;
-			this->iomodule.Send(message.channelID, ss.str());
+			this->iomodule.Send(message.channelID, this->options);
 			return;
 		}
 		iomodule.Send(message.channelID, outStr + u8"のタイマーをセット! " + vm["title"].as<std::string>());
 		std::this_thread::sleep_for(time);
-		iomodule.Send(message.channelID, outStr + u8"経ったよ " + vm["title"].as<std::string>());
+		iomodule.Send(message.channelID, (boost::format(u8"%1%経ったよ <@!%2%> %3%") %
+			outStr %
+			message.author.ID.string() %
+			vm["title"].as<std::string>()).str()			
+		);
 	}
 }
