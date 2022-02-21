@@ -70,7 +70,7 @@ namespace Module {
 				auto sp = this->discordio.GetClientPtr().lock();
 				sp->deleteMessage(message.channelID, message.ID);
 			}
-			catch (std::invalid_argument) {
+			catch (std::invalid_argument&) {
 				this->discordio.SendWithName(message.channelID, "invalid Amazon URL");
 			}
 			return;
