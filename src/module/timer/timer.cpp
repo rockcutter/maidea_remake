@@ -11,7 +11,7 @@ namespace program_options = boost::program_options;
 namespace chrono = std::chrono;
 
 namespace Module {
-	Timer::Timer(): ModuleBase(TIMER_MODULE_NAME, TIMER_COMMAND, boost::program_options::options_description("Timer Module Usage")), discordio(TIMER_MODULE_NAME){
+	Timer::Timer(): ModuleBase(TIMER_MODULE_NAME, TIMER_COMMAND, program_options::options_description("Timer Module Usage")), discordio(TIMER_MODULE_NAME){
 		this->options.add_options()
 			("help,h", "show help")
 			("sec,s", boost::program_options::value<int>(), "set the timer for [argument] seconds")
@@ -23,7 +23,7 @@ namespace Module {
 	}
 
 	void Timer::Handler(const SleepyDiscord::Message& message) {
-		boost::program_options::variables_map vm;
+		program_options::variables_map vm;
 		std::vector<std::string> splitedCommandLine = program_options::split_unix(message.content);
 
 		try {
@@ -35,7 +35,7 @@ namespace Module {
 			);
 		}
 		catch (program_options::error& e) {
-			(void*)e.what();
+			(void)e.what();
 			this->discordio.SendWithName(message.channelID, this->options);
 			return;
 		}
