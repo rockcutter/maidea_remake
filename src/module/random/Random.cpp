@@ -13,7 +13,7 @@ namespace Module {
 	Random::Random() : ModuleBase("Random", "rand", program_options::options_description("Random Module Usage")), discordio("Random") {
 		this->options.add_options()
 			("help,h", "show help")
-			("upper,u", program_options::value<int>()->default_value(9), "upper limit of random value")
+			("upper,u", program_options::value<int>()->default_value(99), "upper limit of random value")
 			("lower,l", program_options::value<int>()->default_value(0), "lower limit of random value")
 			;
 	}
@@ -30,7 +30,7 @@ namespace Module {
 			);
 		}
 		catch (program_options::error& e) {
-			e.what();
+			(void)e.what();
 			this->discordio.SendWithName(message.channelID, this->options);
 			return;
 		}
