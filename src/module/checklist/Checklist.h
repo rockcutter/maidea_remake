@@ -8,7 +8,7 @@
 namespace Module {
 	class Checklist : public ModuleBase {
 	private:
-		IOModule iomodule;
+		DiscordIO discordio;
 		static std::vector<std::string> channels;
 	public:
 		Checklist();

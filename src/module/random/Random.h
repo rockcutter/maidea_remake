@@ -5,7 +5,7 @@
 
 namespace Module {
 	class Random : public ModuleBase {
-		IOModule iomodule;
+		DiscordIO discordio;
 	public:
 		Random();
 		void Handler(const SleepyDiscord::Message& message)override ;

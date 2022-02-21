@@ -24,5 +24,6 @@ int main() {
 		configvm[CONFIG_DISCORD_TOKEN_KEY].as<std::string>(), SleepyDiscord::USER_CONTROLED_THREADS)
 	);
 	IOModule::RegisterClient(client);
+	Module::DiscordIO::RegisterClient(client);
 	client->run();	
 }

@@ -10,10 +10,10 @@
 namespace program_options = boost::program_options;
 
 namespace Module {
-	Random::Random() : ModuleBase("Random", "rand", program_options::options_description("Random Module Usage")), iomodule("Random") {
+	Random::Random() : ModuleBase("Random", "rand", program_options::options_description("Random Module Usage")), discordio("Random") {
 		this->options.add_options()
 			("help,h", "show help")
-			("upper,u", program_options::value<int>()->default_value(9), "upper limit of random value")
+			("upper,u", program_options::value<int>()->default_value(99), "upper limit of random value")
 			("lower,l", program_options::value<int>()->default_value(0), "lower limit of random value")
 			;
 	}
@@ -30,13 +30,13 @@ namespace Module {
 			);
 		}
 		catch (program_options::error& e) {
-			e.what();
-			this->iomodule.Send(message.channelID, this->options);
+			(void)e.what();
+			this->discordio.SendWithName(message.channelID, this->options);
 			return;
 		}
 		
 		if (vm.count("help")) {
-			this->iomodule.Send(message.channelID, this->options);
+			this->discordio.SendWithName(message.channelID, this->options);
 			return;
 		}
 
@@ -44,7 +44,7 @@ namespace Module {
 		std::mt19937 engine(rnd());
 		std::uniform_int_distribution<int> randGenerator(vm["lower"].as<int>(), vm["upper"].as<int>());
 		
-		iomodule.Send(message.channelID, std::to_string(randGenerator(engine)));
+		discordio.SendWithName(message.channelID, std::to_string(randGenerator(engine)));
 		return;
 	}
 
@@ -68,7 +68,7 @@ namespace Module {
 		std::mt19937 engine(rnd());
 		std::uniform_int_distribution<int> randGenerator(1, integers[1]);
 
-		iomodule.Send(message.channelID, std::to_string(integers[0] * randGenerator(engine)));
+		discordio.SendWithName(message.channelID, std::to_string(integers[0] * randGenerator(engine)));
 
 		return;
 	}
