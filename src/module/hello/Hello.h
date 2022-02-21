@@ -11,7 +11,7 @@ namespace Module {
 
 	class Hello : public ModuleBase {
 	private:
-		IOModule iomodule;
+		DiscordIO discordio;
 	public:
 		Hello();
 		void Send(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID);
