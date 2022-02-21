@@ -8,6 +8,21 @@
 #include "client/MyClient.h"
 #include "sleepy_discord/sleepy_discord.h"
 
+namespace Module {
+	class DiscordIO {
+	private:
+		static std::weak_ptr<MyClientClass> client;
+		std::string moduleName;
+	public:
+		DiscordIO();
+		DiscordIO(std::string moduleName);
+		static void RegisterClient(std::weak_ptr<MyClientClass>);
+		std::string Send(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const std::string& message);
+		std::string Send(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const boost::program_options::options_description&);
+		std::string SendWithName(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const std::string& message);
+		std::string SendWithName(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const boost::program_options::options_description&);
+	};
+}
 
 class IOModule {
 private:

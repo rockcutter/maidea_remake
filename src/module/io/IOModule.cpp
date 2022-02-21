@@ -1,5 +1,53 @@
 #include "IOModule.h"
 #include <sstream>
+#include <boost/format.hpp>
+
+namespace Module {	
+	std::weak_ptr<MyClientClass> DiscordIO::client;
+	
+	DiscordIO::DiscordIO(): moduleName("") {}
+	DiscordIO::DiscordIO(std::string moduleName): moduleName(moduleName) {}
+	
+	void DiscordIO::RegisterClient(std::weak_ptr<MyClientClass> wp) {
+		DiscordIO::client = wp;
+	}
+
+	std::string DiscordIO::Send(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const std::string& message) {
+		if (this->client.expired()) {
+			return "";
+		}
+		std::shared_ptr<MyClientClass> s = this->client.lock();
+		s->sendMessage(channelID, message);
+		return message;
+	}
+
+	std::string DiscordIO::Send(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const boost::program_options::options_description& opt) {
+		if (this->client.expired()) {
+			return "";
+		}
+		std::shared_ptr<MyClientClass> s = this->client.lock();
+		std::stringstream ss;
+		ss << opt;
+		s->sendMessage(channelID, ss.str());
+		return ss.str();
+	}
+
+	std::string DiscordIO::SendWithName(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const std::string& message) {
+		return this->Send(channelID, (boost::format("`%1%`\n%2%") % this->moduleName % message).str());
+	}
+
+	std::string DiscordIO::SendWithName(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const boost::program_options::options_description& opt) {
+		if (this->client.expired()) {
+			return "";
+		}
+		std::shared_ptr<MyClientClass> s = this->client.lock();
+		std::stringstream ss;
+		ss << boost::format("`%1%`\n") % this->moduleName;
+		ss << opt;
+		s->sendMessage(channelID, ss.str());
+		return ss.str();
+	}
+}
 
 std::weak_ptr<MyClientClass> IOModule::client;
 
