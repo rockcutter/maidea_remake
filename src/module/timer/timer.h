@@ -9,7 +9,7 @@ namespace Module {
 
 	class Timer : public ModuleBase{
 	private:
-		IOModule iomodule;
+		DiscordIO discordio;
 	public:
 		Timer();
 		void Handler(const SleepyDiscord::Message& message) override;
