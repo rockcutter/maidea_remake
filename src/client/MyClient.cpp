@@ -8,22 +8,24 @@
 #include "module/checklist/Checklist.h"
 #include "module/random/Random.h"
 
-Handler::MessageHandler handler;
-
-void MyClientClass::onMessage(SleepyDiscord::Message message) {	
-	handler.Execute(message);
+void MyClientClass::onMessage(SleepyDiscord::Message message) {
+	if (this->cmdHandler.IsCommand(message.content)) {
+		this->cmdHandler.Run(message);
+		return;
+	}
+	this->txtHandler.Run(message);
 	return;
 }
 
 void MyClientClass::onReady(SleepyDiscord::Ready readyData) {
-	handler.RegisterModuleIntoCommandHandler(std::make_unique<Module::Hello>());
-	handler.RegisterModuleIntoCommandHandler(std::make_unique<Module::Timer>());
-	handler.RegisterModuleIntoCommandHandler(std::make_unique<Module::URLShortening>());
-	handler.RegisterModuleIntoCommandHandler(std::make_unique<Module::Checklist>());
-	handler.RegisterModuleIntoCommandHandler(std::make_unique<Module::Random>());
+	this->cmdHandler.RegisterModule(std::make_unique<Module::Hello>());
+	this->cmdHandler.RegisterModule(std::make_unique<Module::Timer>());
+	this->cmdHandler.RegisterModule(std::make_unique<Module::URLShortening>());
+	this->cmdHandler.RegisterModule(std::make_unique<Module::Checklist>());
+	this->cmdHandler.RegisterModule(std::make_unique<Module::Random>());
 	
-	handler.RegisterModuleIntoPlainTextHandler(std::make_unique<Module::Checklist>());
-	handler.RegisterModuleIntoPlainTextHandler(std::make_unique<Module::Random>());
+	this->txtHandler.RegisterModule(std::make_unique<Module::Checklist>());
+	this->txtHandler.RegisterModule(std::make_unique<Module::Random>());
 
 	Util::ConsoleOut("Ready");
 	return;

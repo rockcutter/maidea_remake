@@ -1,9 +1,12 @@
 #pragma once
 #include "sleepy_discord/sleepy_discord.h"
+#include "handler/Handler.h"
 
 class MyClientClass : public SleepyDiscord::DiscordClient {
-
-public :
+private:
+	Handler::CommandHandler cmdHandler;
+	Handler::PlainTextHandler txtHandler;
+public:
 	using SleepyDiscord::DiscordClient::DiscordClient;
 	void onReady(SleepyDiscord::Ready) override;
 	void onMessage(SleepyDiscord::Message message) override;
