@@ -7,6 +7,7 @@
 #include "module/urlshortening/URLShortening.h"
 #include "module/checklist/Checklist.h"
 #include "module/random/Random.h"
+#include "module/role/Role.h"
 
 void MyClientClass::onMessage(SleepyDiscord::Message message) {
 	if (this->cmdHandler.IsCommand(message.content)) {
@@ -36,12 +37,12 @@ void MyClientClass::onReaction(
 	SleepyDiscord::Snowflake<SleepyDiscord::Channel> channelID, 
 	SleepyDiscord::Snowflake<SleepyDiscord::Message> messageID, 
 	SleepyDiscord::Emoji emoji) {
-	
 	SleepyDiscord::User user = getUser(userID);
-	if (user.bot) {
-		return;
-	}
-
+	if (user.bot) return;
+	SleepyDiscord::Message message = getMessage(channelID, messageID).cast();	
+	SleepyDiscord::Channel channel = getChannel(channelID);
+	Module::Role role;
+	role.Handler(channel, message, user, emoji);
 	//repeat
 	if (emoji.name == "🔁") {
 		SleepyDiscord::Message message;
@@ -49,6 +50,7 @@ void MyClientClass::onReaction(
 		getMessage(channelID, messageID).cast(message);
 		this->onMessage(message);
 	}
+	
 
 	return;
 }
