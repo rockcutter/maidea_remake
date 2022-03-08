@@ -42,10 +42,13 @@ namespace Module {
 		
 		if (fGrant) {
 			if (!this->AddUsingMarker(message, channel.serverID, user.ID)) {
-				this->discordIO.SendWithName(channel.ID, "ƒ[ƒ‹•t—^‚ÉŽ¸”s‚µ‚Ü‚µ‚½ Œ ŒÀ“™‚ðŠm”F‚µ‚Ä‚­‚¾‚³‚¢");
+				//this->discordIO.SendWithName(channel.ID, "ƒ[ƒ‹•t—^‚ÉŽ¸”s‚µ‚Ü‚µ‚½ Œ ŒÀ“™‚ðŠm”F‚µ‚Ä‚­‚¾‚³‚¢");
 			}
 		}
 		if (fRemove) {
+			if (!this->RemoveUsingMarker(message, channel.serverID, user.ID)) {
+				//
+			}
 		}
 		return;
 	}
@@ -57,6 +60,17 @@ namespace Module {
 		bool ret = true;
 		for (auto i : roleIDs) {
 			if (!this->Add(serverID, targetUserID, i)) ret = false;
+		}
+		return ret;
+	}
+
+	bool Role::RemoveUsingMarker(const SleepyDiscord::Message& message,
+		const SleepyDiscord::Snowflake<SleepyDiscord::Server>& serverID,
+		const SleepyDiscord::Snowflake<SleepyDiscord::User>& targetUserID) {
+		std::vector<std::string> roleIDs = this->MentionedRoleID(message.content);
+		bool ret = true;
+		for (auto i : roleIDs) {
+			if (!this->Remove(serverID, targetUserID, i)) ret = false;
 		}
 		return ret;
 	}
@@ -74,6 +88,19 @@ namespace Module {
 		}
 	}
 
+	bool Role::Remove(const SleepyDiscord::Snowflake<SleepyDiscord::Server>& serverID,
+		const SleepyDiscord::Snowflake<SleepyDiscord::User>& userID,
+		const SleepyDiscord::Snowflake<SleepyDiscord::Role>& roleID){
+		auto clientPtr = this->discordIO.GetClientPtr().lock();
+		try {
+			return clientPtr->removeRole(serverID, userID, roleID).cast();
+		}
+		catch (SleepyDiscord::ErrorCode) {
+			return false;
+		}
+		
+	}
+
 	std::vector<std::string> Role::MentionedRoleID(const std::string& context) {
 		std::vector<std::string> ret;
 		xp::sregex rex = "<@&" >> (+xp::_d) >> ">";
@@ -89,7 +116,6 @@ namespace Module {
 			std::string mention = (*mentionItr).str();
 			xp::sregex_token_iterator idItr(mention.begin(), mention.end(), r, 0);
 			for (; idItr != end; ++idItr) {
-				std::cout << (*idItr).str() << std::endl;
 				ret.push_back((*idItr).str());
 			}
 		}

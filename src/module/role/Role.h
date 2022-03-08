@@ -19,6 +19,9 @@ namespace Module {
 		void Handler(const SleepyDiscord::Channel& channel, const SleepyDiscord::Message& message, const SleepyDiscord::User& user, const SleepyDiscord::Emoji& emoji);
 		bool Add(const SleepyDiscord::Snowflake<SleepyDiscord::Server>& serverID, const SleepyDiscord::Snowflake<SleepyDiscord::User>& userID, const SleepyDiscord::Snowflake<SleepyDiscord::Role>& roleID);
 		bool AddUsingMarker(const SleepyDiscord::Message& message, const SleepyDiscord::Snowflake<SleepyDiscord::Server>& serverID, const SleepyDiscord::Snowflake<SleepyDiscord::User>& userID);
+		bool Remove(const SleepyDiscord::Snowflake<SleepyDiscord::Server>& serverID, const SleepyDiscord::Snowflake<SleepyDiscord::User>& userID, const SleepyDiscord::Snowflake<SleepyDiscord::Role>& roleID);
+		bool RemoveUsingMarker(const SleepyDiscord::Message& message, const SleepyDiscord::Snowflake<SleepyDiscord::Server>& serverID, const SleepyDiscord::Snowflake<SleepyDiscord::User>& userID);
+
 	};
 }
 
