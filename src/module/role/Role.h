@@ -3,25 +3,54 @@
 #include "module/base/ModuleBase.h"
 #include "module/io/IOModule.h"
 #include <string>
+#include <functional>
 
 namespace Module {
+
 	class Role : public ModuleBase {
 	private:
+		struct Operation {
+			struct Arguments {
+				Role* objPtr;
+				SleepyDiscord::Snowflake<SleepyDiscord::Server> serverID;
+				SleepyDiscord::Snowflake<SleepyDiscord::User> userID;
+				SleepyDiscord::Snowflake<SleepyDiscord::Role> roleID;
+			};
+			using RoleOperationType = const std::function<SleepyDiscord::BoolResponse(Arguments)>;
+		};
+		struct Marker {
+			const static std::string GRANT;
+			const static std::string REMOVE;
+		};
+
 		DiscordIO discordIO;
-		struct marker{
-			const std::string GRANT{"grant"};
-			const std::string REMOVE{"remove"};
-		} MARKER;
 		static std::vector<std::string> MentionedRoleID(const std::string&);
 	public:
-		Role();
-		void Handler(const SleepyDiscord::Message& msg)override {}
-		void Handler(const SleepyDiscord::Channel& channel, const SleepyDiscord::Message& message, const SleepyDiscord::User& user, const SleepyDiscord::Emoji& emoji);
-		bool Add(const SleepyDiscord::Snowflake<SleepyDiscord::Server>& serverID, const SleepyDiscord::Snowflake<SleepyDiscord::User>& userID, const SleepyDiscord::Snowflake<SleepyDiscord::Role>& roleID);
-		bool AddUsingMarker(const SleepyDiscord::Message& message, const SleepyDiscord::Snowflake<SleepyDiscord::Server>& serverID, const SleepyDiscord::Snowflake<SleepyDiscord::User>& userID);
-		bool Remove(const SleepyDiscord::Snowflake<SleepyDiscord::Server>& serverID, const SleepyDiscord::Snowflake<SleepyDiscord::User>& userID, const SleepyDiscord::Snowflake<SleepyDiscord::Role>& roleID);
-		bool RemoveUsingMarker(const SleepyDiscord::Message& message, const SleepyDiscord::Snowflake<SleepyDiscord::Server>& serverID, const SleepyDiscord::Snowflake<SleepyDiscord::User>& userID);
+		Role();		
 
+		void Handler(const SleepyDiscord::Message& msg)override {}
+
+		void Handler(
+			const SleepyDiscord::Channel& channel,
+			const SleepyDiscord::Message& message,
+			const SleepyDiscord::User& user,
+			const SleepyDiscord::Emoji& emoji);
+
+		bool ExecuteMarker(
+			const SleepyDiscord::Message& message,
+			const SleepyDiscord::Snowflake<SleepyDiscord::Server>& serverID,
+			const SleepyDiscord::Snowflake<SleepyDiscord::User>& userID, 
+			const Operation::RoleOperationType operation);
+
+		SleepyDiscord::BoolResponse Add(
+			const SleepyDiscord::Snowflake<SleepyDiscord::Server>& serverID,
+			const SleepyDiscord::Snowflake<SleepyDiscord::User>& userID,
+			const SleepyDiscord::Snowflake<SleepyDiscord::Role>& roleID);
+
+		SleepyDiscord::BoolResponse Remove(
+			const SleepyDiscord::Snowflake<SleepyDiscord::Server>& serverID,
+			const SleepyDiscord::Snowflake<SleepyDiscord::User>& userID,
+			const SleepyDiscord::Snowflake<SleepyDiscord::Role>& roleID);
 	};
 }
 

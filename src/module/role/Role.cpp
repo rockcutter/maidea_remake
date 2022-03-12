@@ -11,11 +11,33 @@
 namespace xp = boost::xpressive;
 
 namespace Module {
-	Role::Role() : ModuleBase("Role", "role", boost::program_options::options_description("Role Module Usage")), discordIO("Role") {
-		return;
+	const std::string Role::Marker::GRANT = "grant";
+	const std::string Role::Marker::REMOVE = "remove";
+
+	Role::Role() :
+		ModuleBase("Role", "role", boost::program_options::options_description("Role Module Usage")),
+		discordIO("Role") {}
+
+	bool Role::ExecuteMarker(
+		const SleepyDiscord::Message& message,
+		const SleepyDiscord::Snowflake<SleepyDiscord::Server>& serverID,
+		const SleepyDiscord::Snowflake<SleepyDiscord::User>& userID,
+		const Role::Operation::RoleOperationType operation)
+	{
+		std::vector<std::string> roleIDs = this->MentionedRoleID(message.content);
+		bool ret = true;
+		for (auto i : roleIDs) {
+			if (!operation(Role::Operation::Arguments{ this, serverID, userID, i })) ret = false;
+		}
+		return ret;
 	}
-	
-	void Role::Handler(const SleepyDiscord::Channel& channel, const SleepyDiscord::Message& message, const SleepyDiscord::User& user, const SleepyDiscord::Emoji& emoji) {
+
+	void Role::Handler(
+		const SleepyDiscord::Channel& channel,
+		const SleepyDiscord::Message& message,
+		const SleepyDiscord::User& user,
+		const SleepyDiscord::Emoji& emoji)
+	{
 		auto IsCommand = [&message]() {
 			for (auto prefix : { ">", "!", "?", "\\" }) {
 				if (boost::starts_with(message.content, prefix + std::string{ "role" })) {
@@ -31,74 +53,40 @@ namespace Module {
 		bool fRemove = false;
 		boost::split(splitedRow, message.content, boost::is_any_of("\n"));
 		boost::split(splitedArgs, splitedRow[0], boost::is_space());
-		for (auto args : splitedArgs) {
-			if (args == this->MARKER.GRANT) {
-				fGrant = true;
-			}
-			if (args == this->MARKER.REMOVE) {
-				fRemove = true;
-			}
+		for (auto arg : splitedArgs) {
+			if (arg == Role::Marker::GRANT) fGrant = true;
+			if (arg == Role::Marker::REMOVE) fRemove = true;
 		}
-		
+
 		if (fGrant) {
-			if (!this->AddUsingMarker(message, channel.serverID, user.ID)) {
-				//this->discordIO.SendWithName(channel.ID, "ƒ[ƒ‹•t—^‚ÉŽ¸”s‚µ‚Ü‚µ‚½ Œ ŒÀ“™‚ðŠm”F‚µ‚Ä‚­‚¾‚³‚¢");
-			}
+			this->ExecuteMarker(message, channel.serverID, user.ID, [](Role::Operation::Arguments arg) {
+				return arg.objPtr->Add(arg.serverID, arg.userID, arg.roleID);
+				});
 		}
 		if (fRemove) {
-			if (!this->RemoveUsingMarker(message, channel.serverID, user.ID)) {
-				//
-			}
+			this->ExecuteMarker(message, channel.serverID, user.ID, [](Role::Operation::Arguments arg) {
+				return arg.objPtr->Remove(arg.serverID, arg.userID, arg.roleID);
+				});
 		}
 		return;
 	}
 
-	bool Role::AddUsingMarker(const SleepyDiscord::Message& message,
+	SleepyDiscord::BoolResponse Role::Add(
 		const SleepyDiscord::Snowflake<SleepyDiscord::Server>& serverID,
-		const SleepyDiscord::Snowflake<SleepyDiscord::User>& targetUserID) {
-		std::vector<std::string> roleIDs = this->MentionedRoleID(message.content);
-		bool ret = true;
-		for (auto i : roleIDs) {
-			if (!this->Add(serverID, targetUserID, i)) ret = false;
-		}
-		return ret;
+		const SleepyDiscord::Snowflake<SleepyDiscord::User>& userID,
+		const SleepyDiscord::Snowflake<SleepyDiscord::Role>& roleID)
+	{
+		auto clientPtr = this->discordIO.GetClientPtr().lock();
+		return clientPtr->addRole(serverID, userID, roleID);
 	}
 
-	bool Role::RemoveUsingMarker(const SleepyDiscord::Message& message,
+	SleepyDiscord::BoolResponse Role::Remove(
 		const SleepyDiscord::Snowflake<SleepyDiscord::Server>& serverID,
-		const SleepyDiscord::Snowflake<SleepyDiscord::User>& targetUserID) {
-		std::vector<std::string> roleIDs = this->MentionedRoleID(message.content);
-		bool ret = true;
-		for (auto i : roleIDs) {
-			if (!this->Remove(serverID, targetUserID, i)) ret = false;
-		}
-		return ret;
-	}
-
-	bool Role::Add(const SleepyDiscord::Snowflake<SleepyDiscord::Server>& serverID,
 		const SleepyDiscord::Snowflake<SleepyDiscord::User>& userID,
-		const SleepyDiscord::Snowflake<SleepyDiscord::Role>& roleID) {
+		const SleepyDiscord::Snowflake<SleepyDiscord::Role>& roleID)
+	{
 		auto clientPtr = this->discordIO.GetClientPtr().lock();
-		
-		try {
-			return clientPtr->addRole(serverID, userID, roleID).cast();
-		}
-		catch (SleepyDiscord::ErrorCode) {
-			return false;
-		}
-	}
-
-	bool Role::Remove(const SleepyDiscord::Snowflake<SleepyDiscord::Server>& serverID,
-		const SleepyDiscord::Snowflake<SleepyDiscord::User>& userID,
-		const SleepyDiscord::Snowflake<SleepyDiscord::Role>& roleID){
-		auto clientPtr = this->discordIO.GetClientPtr().lock();
-		try {
-			return clientPtr->removeRole(serverID, userID, roleID).cast();
-		}
-		catch (SleepyDiscord::ErrorCode) {
-			return false;
-		}
-		
+		return clientPtr->removeRole(serverID, userID, roleID);
 	}
 
 	std::vector<std::string> Role::MentionedRoleID(const std::string& context) {
