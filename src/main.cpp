@@ -25,5 +25,6 @@ int main() {
 	);
 	IOModule::RegisterClient(client);
 	Module::DiscordIO::RegisterClient(client);
+	client->setIntents(SleepyDiscord::Intent::SERVER_MESSAGES, SleepyDiscord::Intent::SERVER_MESSAGE_REACTIONS);
 	client->run();	
 }
