@@ -20,6 +20,43 @@ namespace Module {
 			;
 	}
 
+	void URLShortening::InitializeAppCommand() {
+		this->appCommand.name = "url";
+		this->appCommand.description = "Shorten specific URLs";
+
+		SleepyDiscord::AppCommand::Option url;
+		url.name = "url";
+		url.isRequired = true;
+		url.type = SleepyDiscord::AppCommand::Option::TypeHelper<std::string>().getType();
+		url.description = "url here";
+
+		this->appCommand.options.push_back(std::move(url));
+	}
+
+	void URLShortening::InteractionHandler(SleepyDiscord::Interaction& interaction) {
+		std::string url = "";
+		for (auto& opt : interaction.data.options) {
+			if (!opt.get<std::string>(url)) return;
+		}
+		
+		if (!boost::starts_with(url, TOP_AMAZON)) {
+			SleepyDiscord::Interaction::Response<> response;
+			response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
+			response.data.content = this->discordio.CombineName("Invalid URL");
+			response.data.flags = SleepyDiscord::InteractionAppCommandCallbackData::Flags::Ephemeral; //only for the user to see
+			auto clientPtr = this->discordio.GetClientPtr().lock();
+			clientPtr->createInteractionResponse(interaction, interaction.token, response);
+			return;
+		}
+
+		SleepyDiscord::Interaction::Response<> response;
+		response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
+		response.data.content = this->discordio.CombineName(this->ShortenAmazonURL(url));
+		auto clientPtr = this->discordio.GetClientPtr().lock();
+		clientPtr->createInteractionResponse(interaction, interaction.token, response);
+		return;
+	}
+
 	std::string URLShortening::ShortenAmazonURL(const std::string& url) {
 		std::vector<std::string> dirs;
 		boost::split(dirs, url, boost::is_any_of("/?"));

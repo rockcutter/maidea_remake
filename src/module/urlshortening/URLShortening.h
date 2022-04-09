@@ -10,7 +10,7 @@ namespace Module {
 	public:
 		URLShortening();
 		void Handler(const SleepyDiscord::Message& message) override;
-		void InteractionHandler(SleepyDiscord::Interaction& interaction) {};
-		void InitializeAppCommand() override {}
+		void InteractionHandler(SleepyDiscord::Interaction& interaction) override;
+		void InitializeAppCommand() override;
 	};
 }
