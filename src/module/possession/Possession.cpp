@@ -75,7 +75,7 @@ namespace Module {
 		{
 			Response response;
 			response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
-			response.data.content = this->discordio.CombineName(u8"使用できません");
+			response.data.content = this->discordio.CombineName(u8"菴ｿ逕ｨ縺ｧ縺阪∪縺帙ｓ");
 			response.data.flags = SleepyDiscord::InteractionAppCommandCallbackData::Flags::Ephemeral; //only for the user to see
 			auto clientPtr = this->discordio.GetClientPtr().lock();
 			clientPtr->createInteractionResponse(interaction, interaction.token, response);
@@ -87,7 +87,7 @@ namespace Module {
 				if (!this->possession) {
 					Response response;
 					response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
-					response.data.content = this->discordio.CombineName(u8"有効ではありません");
+					response.data.content = this->discordio.CombineName(u8"譛牙柑縺ｧ縺ｯ縺ゅｊ縺ｾ縺帙ｓ");
 					response.data.flags = SleepyDiscord::InteractionAppCommandCallbackData::Flags::Ephemeral; //only for the user to see
 					auto clientPtr = this->discordio.GetClientPtr().lock();
 					clientPtr->createInteractionResponse(interaction, interaction.token, response);
@@ -106,7 +106,7 @@ namespace Module {
 				
 				Response response;
 				response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
-				response.data.content = this->discordio.CombineName(u8"送信しました");
+				response.data.content = this->discordio.CombineName(u8"騾∽ｿ｡縺励∪縺励◆");
 				response.data.flags = SleepyDiscord::InteractionAppCommandCallbackData::Flags::Ephemeral; //only for the user to see
 				auto clientPtr = this->discordio.GetClientPtr().lock();
 				clientPtr->createInteractionResponse(interaction, interaction.token, response);
@@ -115,7 +115,7 @@ namespace Module {
 				this->Start(interaction.channelID);
 				Response response;
 				response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
-				response.data.content = this->discordio.CombineName(u8"有効化しました");
+				response.data.content = this->discordio.CombineName(u8"譛牙柑蛹悶＠縺ｾ縺励◆");
 				response.data.flags = SleepyDiscord::InteractionAppCommandCallbackData::Flags::Ephemeral; //only for the user to see
 				auto clientPtr = this->discordio.GetClientPtr().lock();
 				clientPtr->createInteractionResponse(interaction, interaction.token, response);
@@ -124,25 +124,13 @@ namespace Module {
 				this->Stop();
 				Response response;
 				response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
-				response.data.content = this->discordio.CombineName(u8"無効化しました");
+				response.data.content = this->discordio.CombineName(u8"辟｡蜉ｹ蛹悶＠縺ｾ縺励◆");
 				response.data.flags = SleepyDiscord::InteractionAppCommandCallbackData::Flags::Ephemeral; //only for the user to see
 				auto clientPtr = this->discordio.GetClientPtr().lock();
 				clientPtr->createInteractionResponse(interaction, interaction.token, response);
 			}
 
 		}
-
-		if (!this->possession) {
-			Response response;
-			response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
-			response.data.content = this->discordio.CombineName(u8"有効ではありません");
-			response.data.flags = SleepyDiscord::InteractionAppCommandCallbackData::Flags::Ephemeral; //only for the user to see
-			auto clientPtr = this->discordio.GetClientPtr().lock();
-			clientPtr->createInteractionResponse(interaction, interaction.token, response);
-			return;
-		}
-
-
 		return;
 	}
 }
