@@ -55,7 +55,6 @@ namespace Module {
 
 	void Timer::InteractionHandler(SleepyDiscord::Interaction& interaction) {
 		std::array<std::string, 4> durationName{ "min" , "sec", "hour", "day"};
-		std::chrono::seconds::period;
 		
 		//autocomplete
 		SleepyDiscord::Interaction::AutocompleteResponse autoCompleteResponse;
