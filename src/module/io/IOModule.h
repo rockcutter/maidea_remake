@@ -18,6 +18,7 @@ namespace Module {
 		DiscordIO(std::string moduleName);
 		static void RegisterClient(std::weak_ptr<MyClientClass>);
 		static std::weak_ptr<MyClientClass> GetClientPtr();
+		std::string CombineName(const std::string&);
 		std::string Send(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const std::string& message);
 		std::string Send(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const boost::program_options::options_description&);
 		std::string SendWithName(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const std::string& message);

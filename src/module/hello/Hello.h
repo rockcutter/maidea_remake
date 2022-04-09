@@ -16,5 +16,7 @@ namespace Module {
 		Hello();
 		void Send(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID);
 		void Handler(const SleepyDiscord::Message& message) override;
+		void InitializeAppCommand() override;
+		void InteractionHandler(SleepyDiscord::Interaction& interaction) override;
 	};
 }

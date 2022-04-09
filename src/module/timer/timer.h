@@ -13,5 +13,7 @@ namespace Module {
 	public:
 		Timer();
 		void Handler(const SleepyDiscord::Message& message) override;
+		void InteractionHandler(SleepyDiscord::Interaction& interaction) override;
+		void InitializeAppCommand() override;
 	};
 }

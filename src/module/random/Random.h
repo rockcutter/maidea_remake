@@ -10,5 +10,7 @@ namespace Module {
 		Random();
 		void Handler(const SleepyDiscord::Message& message)override ;
 		void PlainTextHandler(const SleepyDiscord::Message& message) override;
+		void InteractionHandler(SleepyDiscord::Interaction& interaction) {};
+		void InitializeAppCommand() override {}
 	};
 }

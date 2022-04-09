@@ -36,6 +36,8 @@ namespace Module {
 			const SleepyDiscord::User& user,
 			const SleepyDiscord::Emoji& emoji);
 
+		void InteractionHandler(SleepyDiscord::Interaction& interaction) {};
+
 		bool ExecuteMarker(
 			const SleepyDiscord::Message& message,
 			const SleepyDiscord::Snowflake<SleepyDiscord::Server>& serverID,
@@ -51,6 +53,8 @@ namespace Module {
 			const SleepyDiscord::Snowflake<SleepyDiscord::Server>& serverID,
 			const SleepyDiscord::Snowflake<SleepyDiscord::User>& userID,
 			const SleepyDiscord::Snowflake<SleepyDiscord::Role>& roleID);
+
+		void InitializeAppCommand() override {}
 	};
 }
 

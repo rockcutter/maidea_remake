@@ -7,6 +7,10 @@ namespace Module {
 	
 	DiscordIO::DiscordIO(): moduleName("") {}
 	DiscordIO::DiscordIO(std::string moduleName): moduleName(moduleName) {}
+	
+	std::string DiscordIO::CombineName(const std::string& str) {
+		return (boost::format("`%1%`\n%2%") % this->moduleName % str).str();
+	}
 
 	std::string DiscordIO::Send(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const std::string& message) {
 		if (this->client.expired()) {
@@ -29,7 +33,7 @@ namespace Module {
 	}
 
 	std::string DiscordIO::SendWithName(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const std::string& message) {
-		return this->Send(channelID, (boost::format("`%1%`\n%2%") % this->moduleName % message).str());
+		return this->Send(channelID, this->CombineName(message));
 	}
 
 	std::string DiscordIO::SendWithName(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const boost::program_options::options_description& opt) {

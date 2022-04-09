@@ -6,10 +6,12 @@ class MyClientClass : public SleepyDiscord::DiscordClient {
 private:
 	Handler::CommandHandler cmdHandler;
 	Handler::PlainTextHandler txtHandler;
+	std::vector<std::unique_ptr<Module::ModuleBase>> modules;
 public:
 	using SleepyDiscord::DiscordClient::DiscordClient;
 	void onReady(SleepyDiscord::Ready) override;
 	void onMessage(SleepyDiscord::Message message) override;
 	void onReaction(SleepyDiscord::Snowflake<SleepyDiscord::User> userID, SleepyDiscord::Snowflake<SleepyDiscord::Channel> channelID, SleepyDiscord::Snowflake<SleepyDiscord::Message> messageID, SleepyDiscord::Emoji emoji) override;
+	void onInteraction(SleepyDiscord::Interaction interaction) override;
 };
 
