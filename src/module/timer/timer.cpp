@@ -24,7 +24,7 @@ namespace Module {
 			;
 	}
 	void Timer::InitializeAppCommand() {
-		this->appCommand.name = "test";
+		this->appCommand.name = "timer";
 		this->appCommand.description = "set timer";
 
 		SleepyDiscord::AppCommand::Option duration;
@@ -54,7 +54,7 @@ namespace Module {
 	}
 
 	void Timer::InteractionHandler(SleepyDiscord::Interaction& interaction) {
-		static std::array<std::string, 4> durationName{ "min" , "sec", "hour", "day"};
+		std::array<std::string, 4> durationName{ "min" , "sec", "hour", "day"};
 		std::chrono::seconds::period;
 		
 		//autocomplete
