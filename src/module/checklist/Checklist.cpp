@@ -39,6 +39,30 @@ namespace Module {
 		}
 		return true;
 	}
+
+	void Checklist::InitializeAppCommand() {
+		this->appCommand.name = "cl";
+		this->appCommand.description = "switch Checklist mode";
+	}
+
+	void Checklist::InteractionHandler(SleepyDiscord::Interaction& interaction) {
+		SleepyDiscord::Interaction::Response<> response;
+		const auto& channelID = interaction.channelID;
+		response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
+
+		if (this->IsEnable(channelID)) {
+			this->Disable(channelID);
+			response.data.content = this->discordio.CombineName("Checklist mode disabled");
+		}
+		else {
+			this->Enable(channelID);
+			response.data.content = this->discordio.CombineName("Checklist mode enabled");
+		}
+		
+		auto clientPtr = this->discordio.GetClientPtr().lock();
+		clientPtr->createInteractionResponse(interaction.ID, interaction.token, response);
+	}
+
 	
 	void Checklist::Handler(const SleepyDiscord::Message& message) {
 		program_options::variables_map vm;
