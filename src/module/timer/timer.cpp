@@ -78,12 +78,15 @@ namespace Module {
 		for (auto& option : interaction.data.options) {
 			if (option.name == "length") {
 				if (!option.get<int>(length)) return;
+				continue;
 			}
 			if (option.name == "duration") {
 				if (!option.get<std::string>(duration)) return;
+				continue;
 			}
 			if (option.name == "name") {
 				if (!option.get<std::string>(timerName)) return;
+				continue;
 			}
 		}
 		

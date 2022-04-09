@@ -8,6 +8,7 @@
 #include "module/checklist/Checklist.h"
 #include "module/random/Random.h"
 #include "module/role/Role.h"
+#include "module/possession/Possession.h"
 
 //#define DEBUG
 
@@ -29,6 +30,7 @@ void MyClientClass::onReady(SleepyDiscord::Ready readyData) {
 		this->modules.emplace_back(std::make_unique<URLShortening>());
 		this->modules.emplace_back(std::make_unique<Checklist>());
 		this->modules.emplace_back(std::make_unique<Random>());
+		this->modules.emplace_back(std::make_unique<Possession>());
 	}
 
 	if (isFirstTime) {
@@ -46,7 +48,7 @@ void MyClientClass::onReady(SleepyDiscord::Ready readyData) {
 #else
 				SleepyDiscord::Snowflake<SleepyDiscord::Server> ser;
 				for (auto& server : readyData.servers) {
-					if (server.ID == 838848396227117067) {
+					if (server.ID == 0000000000000) {
 						ser = server.ID;
 					}
 				}

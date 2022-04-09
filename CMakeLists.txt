@@ -2,7 +2,7 @@
 cmake_minimum_required (VERSION 3.6)
 project(maidea)
 
-add_executable(maidea "src/main.cpp" "src/module/timer/timer.cpp" "src/module/random/Random.cpp" "src/module/random/Random.h" "src/module/role/Role.cpp" "src/module/role/Role.h")
+add_executable(maidea "src/main.cpp" "src/module/timer/timer.cpp" "src/module/random/Random.cpp" "src/module/random/Random.h" "src/module/role/Role.cpp" "src/module/role/Role.h" "src/module/possession/Possession.cpp" "src/module/possession/Possession.h")
 
 #add_executable(all_purpose_test  "src/test/test.cpp" "src/test/test.h" "src/util/ConsoleOut.cpp" "src/util/ConsoleOut.h" "src/handler/MessageHandler.cpp" "src/handler/MessageHandler.h" "src/client/MyClient.cpp" "src/client/MyClient.h" "src/handler/CommandHandler.cpp" "src/handler/CommandHandler.h" "src/module/BaseModule.cpp" "src/module/BaseModule.h" "src/module/io/IOModule.cpp" "src/module/io/IOModule.h" "src/util/config/Config.cpp" "src/util/config/Config.h" "src/core/commandParser/ParseCommand.h" "src/core/commandParser/ParseCommand.cpp")
 
