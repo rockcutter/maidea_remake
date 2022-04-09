@@ -9,7 +9,7 @@
 #include "module/random/Random.h"
 #include "module/role/Role.h"
 
-#define DEBUG
+//#define DEBUG
 
 void MyClientClass::onMessage(SleepyDiscord::Message message) {
 	if (this->cmdHandler.IsCommand(message.content)) {
@@ -108,12 +108,4 @@ void MyClientClass::onInteraction(SleepyDiscord::Interaction interaction) {
 			mod->InteractionHandler(interaction);
 		}
 	}
-
-
-	//if (interaction.data.name == "hello") {
-	//	SleepyDiscord::Interaction::Response<> response;
-	//	response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
-	//	response.data.content = "hello";
-	//	this->createInteractionResponse(interaction.ID, interaction.token, response);
-	//}
 }
