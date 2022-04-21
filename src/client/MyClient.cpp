@@ -23,7 +23,7 @@ MyClientClass::MyClientClass(const std::string token, const char numOfThreads) :
 
 std::shared_ptr<MyClientClass> MyClientClass::InitInstance(const std::string token, const char numOfThreads) {
 	if (MyClientClass::instance != nullptr) return MyClientClass::instance;
-	MyClientClass::instance = std::make_shared<MyClientClass>(token, numOfThreads);
+	MyClientClass::instance.reset(new MyClientClass(token, numOfThreads));
 	return MyClientClass::instance;
 }
 

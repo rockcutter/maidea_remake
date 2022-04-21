@@ -29,6 +29,7 @@ int main() {
 	);
 	MyClientClass::InitInstance(configvm[CONFIG_DISCORD_TOKEN_KEY].as<std::string>(), SleepyDiscord::USER_CONTROLED_THREADS);
 	std::shared_ptr<MyClientClass> client(MyClientClass::GetInstance());
+	//«—ˆ“I‚ÉIOModule‚Íclient‚ğ•Û‚µ‚È‚¢‚æ‚¤‚É‚·‚é
 	IOModule::RegisterClient(client);
 	Module::DiscordIO::RegisterClient(client);
 
