@@ -12,6 +12,7 @@ namespace Module {
 	public:
 		static std::vector<SleepyDiscord::AppCommand> allAppCommands;
 		ModuleBase(const std::string& moduleName, const std::string& command, boost::program_options::options_description opt);
+		auto DiscordOut(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const std::string& str);
 		virtual void Handler(const SleepyDiscord::Message& message) = 0;
 		virtual void PlainTextHandler(const SleepyDiscord::Message& message);
 		virtual void InitializeAppCommand() = 0;
