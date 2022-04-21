@@ -22,10 +22,13 @@ namespace Module {
 			const static std::string GRANT;
 			const static std::string REMOVE;
 		};
-
-		DiscordIO discordIO;
 		static std::vector<std::string> MentionedRoleID(const std::string&);
 	public:
+		struct Info {
+			const static std::string COMMAND;
+			const static std::string MODULE_NAME;
+		};
+
 		Role();		
 
 		void Handler(const SleepyDiscord::Message& msg)override {}

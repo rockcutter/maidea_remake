@@ -14,9 +14,15 @@ namespace Module {
 	const std::string Role::Marker::GRANT = "grant";
 	const std::string Role::Marker::REMOVE = "remove";
 
+	const std::string Role::Info::COMMAND{"role"};
+	const std::string Role::Info::MODULE_NAME{"Role"};
+
 	Role::Role() :
-		ModuleBase("Role", "role", boost::program_options::options_description("Role Module Usage")),
-		discordIO("Role") {}
+		ModuleBase(
+			Info::MODULE_NAME,
+			Info::COMMAND,
+			boost::program_options::options_description("Role Module Usage"))
+		{}
 
 	bool Role::ExecuteMarker(
 		const SleepyDiscord::Message& message,
@@ -76,7 +82,7 @@ namespace Module {
 		const SleepyDiscord::Snowflake<SleepyDiscord::User>& userID,
 		const SleepyDiscord::Snowflake<SleepyDiscord::Role>& roleID)
 	{
-		auto clientPtr = this->discordIO.GetClientPtr().lock();
+		auto clientPtr = MyClientClass::GetInstance();
 		return clientPtr->addRole(serverID, userID, roleID);
 	}
 
@@ -85,7 +91,7 @@ namespace Module {
 		const SleepyDiscord::Snowflake<SleepyDiscord::User>& userID,
 		const SleepyDiscord::Snowflake<SleepyDiscord::Role>& roleID)
 	{
-		auto clientPtr = this->discordIO.GetClientPtr().lock();
+		auto clientPtr = MyClientClass::GetInstance();
 		return clientPtr->removeRole(serverID, userID, roleID);
 	}
 
