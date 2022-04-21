@@ -6,12 +6,7 @@
 #include "module/base/ModuleBase.h"
 
 namespace Module {
-	constexpr char HELLO_MODULE_NAME[] = "Hello";
-	constexpr char HELLO_COMMAND[] = "hello";
-
 	class Hello : public ModuleBase {
-	private:
-		DiscordIO discordio;
 	public:
 		Hello();
 		void Send(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID);

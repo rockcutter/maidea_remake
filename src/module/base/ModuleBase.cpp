@@ -16,8 +16,12 @@ namespace Module {
 		appCommand()
 	{}
 
-	auto ModuleBase::DiscordOut(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const std::string& str) {
+	SleepyDiscord::ObjectResponse<SleepyDiscord::Message> ModuleBase::DiscordOut(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID, const std::string& str){
 		std::shared_ptr<MyClientClass> client = MyClientClass::GetInstance();
-		return client->sendMessage(channelID, (boost::format("`%1%`\n%2%") % this->moduleName % str).str());
+		return client->sendMessage(channelID, this->JoinModuleName(str));
+	}
+
+	std::string ModuleBase::JoinModuleName(const std::string& str) {
+		return (boost::format("`%1%`\n%2%") % this->moduleName % str).str();
 	}
 }
