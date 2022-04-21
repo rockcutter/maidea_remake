@@ -2,6 +2,13 @@
 
 namespace Module {
 	
+	const std::string Possession::Info::MODULENAME{"Possession"};
+	const std::string Possession::Info::COMMAND{"possession"};
+	const std::string Possession::Info::COMMAND_START{"start"};
+	const std::string Possession::Info::COMMAND_END{"end"};
+	const std::string Possession::Info::COMMAND_SAY{"say"};
+	const std::string Possession::Info::COMMAND_DESCRIPTION{"possess this bot"};
+
 	std::vector<SleepyDiscord::Snowflake<SleepyDiscord::User>> Possession::privilegedUser{};
 
 	void Possession::RegisterPrivilegedUser(const SleepyDiscord::Snowflake<SleepyDiscord::User>& userID) {
@@ -9,32 +16,31 @@ namespace Module {
 	}
 
 	Possession::Possession():
-		ModuleBase("Possession", "possession", boost::program_options::options_description()),
+		ModuleBase(Info::MODULENAME, Info::COMMAND, boost::program_options::options_description()),
 		possession(false),
-		targetChannelID(),
-		discordio("Possession")
+		targetChannelID()
 	{}
 
 	void Possession::InitializeAppCommand() {
 		using CmdOption = SleepyDiscord::AppCommand::Option;
 
-		this->appCommand.name = "possession";
-		this->appCommand.description = "possess this bot";
+		this->appCommand.name = Info::COMMAND;
+		this->appCommand.description = Info::COMMAND_DESCRIPTION;
 		
 		CmdOption start;
 		start.type = CmdOption::Type::SUB_COMMAND;
-		start.name = "start";
-		start.description = "start possession";
+		start.name = Info::COMMAND_START;
+		start.description = Info::COMMAND_DESCRIPTION;
 		
 		CmdOption end;
 		end.type = CmdOption::Type::SUB_COMMAND;
-		end.name = "end";
-		end.description = "end possession";
+		end.name = Info::COMMAND_END;
+		end.description = Info::COMMAND_DESCRIPTION;
 
 		CmdOption say;
 		say.type = CmdOption::Type::SUB_COMMAND;
-		say.name = "say";
-		say.description = "speak as the bot";
+		say.name = Info::COMMAND_SAY;
+		say.description = Info::COMMAND_DESCRIPTION;
 
 		CmdOption statement;
 		statement.isRequired = true;
@@ -75,21 +81,22 @@ namespace Module {
 		{
 			Response response;
 			response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
-			response.data.content = this->discordio.CombineName(u8"使用できません");
+			response.data.content = this->JoinModuleName("使用できません");
+			
 			response.data.flags = SleepyDiscord::InteractionAppCommandCallbackData::Flags::Ephemeral; //only for the user to see
-			auto clientPtr = this->discordio.GetClientPtr().lock();
+			auto clientPtr = MyClientClass::GetInstance();
 			clientPtr->createInteractionResponse(interaction, interaction.token, response);
 			return;
 		}
 
 		for (auto& opt : interaction.data.options) {
-			if (opt.name == "say") {
+			if (opt.name == Info::COMMAND_SAY) {
 				if (!this->possession) {
 					Response response;
 					response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
-					response.data.content = this->discordio.CombineName(u8"有効ではありません");
+					response.data.content = this->JoinModuleName("有効ではありません");
 					response.data.flags = SleepyDiscord::InteractionAppCommandCallbackData::Flags::Ephemeral; //only for the user to see
-					auto clientPtr = this->discordio.GetClientPtr().lock();
+					auto clientPtr = MyClientClass::GetInstance();
 					clientPtr->createInteractionResponse(interaction, interaction.token, response);
 					return;
 				}
@@ -102,31 +109,31 @@ namespace Module {
 					}
 				}
 				if (statement == "") return;
-				this->discordio.Send(this->targetChannelID, statement);
-				
+				auto clientPtr = MyClientClass::GetInstance();
+				clientPtr->sendMessage(this->targetChannelID, statement);
+
 				Response response;
 				response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
-				response.data.content = this->discordio.CombineName(u8"送信しました");
+				response.data.content = this->JoinModuleName("送信しました");
 				response.data.flags = SleepyDiscord::InteractionAppCommandCallbackData::Flags::Ephemeral; //only for the user to see
-				auto clientPtr = this->discordio.GetClientPtr().lock();
 				clientPtr->createInteractionResponse(interaction, interaction.token, response);
 			}
-			else if (opt.name == "start") {
+			else if (opt.name == Info::COMMAND_START) {
 				this->Start(interaction.channelID);
 				Response response;
 				response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
-				response.data.content = this->discordio.CombineName(u8"有効化しました");
+				response.data.content = this->JoinModuleName("有効化しました");
 				response.data.flags = SleepyDiscord::InteractionAppCommandCallbackData::Flags::Ephemeral; //only for the user to see
-				auto clientPtr = this->discordio.GetClientPtr().lock();
+				auto clientPtr = MyClientClass::GetInstance();
 				clientPtr->createInteractionResponse(interaction, interaction.token, response);
 			}
-			else if (opt.name == "end") {
+			else if (opt.name == Info::COMMAND_END) {
 				this->Stop();
 				Response response;
 				response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
-				response.data.content = this->discordio.CombineName(u8"無効化しました");
+				response.data.content = this->JoinModuleName("無効化しました");
 				response.data.flags = SleepyDiscord::InteractionAppCommandCallbackData::Flags::Ephemeral; //only for the user to see
-				auto clientPtr = this->discordio.GetClientPtr().lock();
+				auto clientPtr = MyClientClass::GetInstance();
 				clientPtr->createInteractionResponse(interaction, interaction.token, response);
 			}
 
