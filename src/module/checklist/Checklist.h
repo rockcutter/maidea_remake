@@ -8,9 +8,13 @@
 namespace Module {
 	class Checklist : public ModuleBase {
 	private:
-		DiscordIO discordio;
 		static std::vector<std::string> channels;
 	public:
+		static struct Info {
+			const static std::string MODULE_NAME;
+			const static std::string COMMAND;
+			const static std::string COMMAND_DESCRIPTION;
+		};
 		Checklist();
 		static bool IsEnable(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID);
 		void Handler(const SleepyDiscord::Message& message) override;
