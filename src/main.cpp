@@ -14,25 +14,25 @@ constexpr char CONFIG_DISCORD_TOKEN_KEY[] = "DISCORD_TOKEN";
 namespace program_options = boost::program_options;
 
 int main() {
-	program_options::options_description configDescription("configration");
-	std::shared_ptr<MyClientClass> client(nullptr);
+	//コンフィグファイルからコンフィグを取得
+	program_options::options_description configDescription("configration");	
 	program_options::variables_map configvm;
-
 	configDescription.add_options()
 		(CONFIG_DISCORD_TOKEN_KEY, program_options::value<std::string>(), "token of discord bot")
 		("PRIVILEGED_USER", program_options::value<std::string>(), "privileged user id")
 		;
 	program_options::store(program_options::parse_config_file(CONFIG_FILE_PATH, configDescription), configvm);
 
+	//初期化
 	Module::Possession::RegisterPrivilegedUser(
 		configvm["PRIVILEGED_USER"].as<std::string>()
 	);
-
-	client.reset(new MyClientClass(
-		configvm[CONFIG_DISCORD_TOKEN_KEY].as<std::string>(), SleepyDiscord::USER_CONTROLED_THREADS)
-	);
+	MyClientClass::InitInstance(configvm[CONFIG_DISCORD_TOKEN_KEY].as<std::string>(), SleepyDiscord::USER_CONTROLED_THREADS);
+	std::shared_ptr<MyClientClass> client(MyClientClass::GetInstance());
 	IOModule::RegisterClient(client);
 	Module::DiscordIO::RegisterClient(client);
+
+	//実行
 	client->setIntents(SleepyDiscord::Intent::SERVER_MESSAGES, SleepyDiscord::Intent::SERVER_MESSAGE_REACTIONS);
 	client->run();
 }
