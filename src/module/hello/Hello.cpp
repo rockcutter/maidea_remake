@@ -1,4 +1,5 @@
 #include "Hello.h"
+#include "client/MyClient.h"
 #include <boost/format.hpp>
 
 namespace Module {

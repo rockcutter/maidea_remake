@@ -1,7 +1,6 @@
 #pragma once
 #include "sleepy_discord/sleepy_discord.h"
 #include "module/base/ModuleBase.h"
-#include "module/io/IOModule.h"
 #include <string>
 #include <functional>
 

@@ -1,5 +1,6 @@
 ﻿#include "Checklist.h"
 #include <algorithm>
+#include "client/MyClient.h"
 
 namespace program_options = boost::program_options;
 

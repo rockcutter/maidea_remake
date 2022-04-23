@@ -8,6 +8,7 @@
 #include <array>
 #include <stdexcept>
 #include "timer.h"
+#include "client/MyClient.h"
 
 namespace program_options = boost::program_options;
 namespace chrono = std::chrono;

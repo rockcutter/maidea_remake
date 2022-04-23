@@ -6,6 +6,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include "Random.h"
+#include "client/MyClient.h"
 
 namespace program_options = boost::program_options;
 

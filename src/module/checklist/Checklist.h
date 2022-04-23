@@ -3,7 +3,6 @@
 #include <string>
 #include "sleepy_discord/sleepy_discord.h"
 #include "module/base/ModuleBase.h"
-#include "module/io/IOModule.h"
 
 namespace Module {
 	class Checklist : public ModuleBase {

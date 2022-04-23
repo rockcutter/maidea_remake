@@ -1,6 +1,5 @@
 #include <boost/program_options.hpp>
 #include "module/base/ModuleBase.h"
-#include "module/io/IOModule.h"
 #include "sleepy_discord/sleepy_discord.h"
 
 namespace Module {

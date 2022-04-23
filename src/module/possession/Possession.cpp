@@ -1,4 +1,5 @@
 #include "Possession.h"
+#include "client/MyClient.h"
 
 namespace Module {
 	

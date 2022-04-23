@@ -5,7 +5,6 @@
 #include <memory>
 #include "main.h"
 #include "client/MyClient.h"
-#include "module/io/IOModule.h"
 #include "module/possession/Possession.h"
 
 constexpr char CONFIG_FILE_PATH[] = "maidea.cfg";
@@ -27,11 +26,7 @@ int main() {
 	Module::Possession::RegisterPrivilegedUser(
 		configvm["PRIVILEGED_USER"].as<std::string>()
 	);
-	MyClientClass::InitInstance(configvm[CONFIG_DISCORD_TOKEN_KEY].as<std::string>(), SleepyDiscord::USER_CONTROLED_THREADS);
-	std::shared_ptr<MyClientClass> client(MyClientClass::GetInstance());
-	//è´óàìIÇ…IOModuleÇÕclientÇï€éùÇµÇ»Ç¢ÇÊÇ§Ç…Ç∑ÇÈ
-	IOModule::RegisterClient(client);
-	Module::DiscordIO::RegisterClient(client);
+	auto client = MyClientClass::InitInstance(configvm[CONFIG_DISCORD_TOKEN_KEY].as<std::string>(), SleepyDiscord::USER_CONTROLED_THREADS);
 
 	//é¿çs
 	client->setIntents(SleepyDiscord::Intent::SERVER_MESSAGES, SleepyDiscord::Intent::SERVER_MESSAGE_REACTIONS);

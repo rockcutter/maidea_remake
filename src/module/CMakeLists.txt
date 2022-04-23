@@ -1,7 +1,6 @@
 #src/module
 add_library(Module INTERFACE)
 
-add_subdirectory(io)
 add_subdirectory(base)
 add_subdirectory(hello)
 add_subdirectory(timer)
@@ -12,7 +11,6 @@ add_subdirectory(role)
 add_subdirectory(possession)
 
 target_link_libraries(Module INTERFACE Module_ModuleBase)
-target_link_libraries(Module INTERFACE Module_IOModule)
 target_link_libraries(Module INTERFACE Module_Hello)
 target_link_libraries(Module INTERFACE Module_Timer)
 target_link_libraries(Module INTERFACE Module_URLShortening)
@@ -22,7 +20,6 @@ target_link_libraries(Module INTERFACE Module_Possession)
 
 
 target_include_directories(Module_ModuleBase PUBLIC ${PROJECT_SOURCE_DIR}/src)
-target_include_directories(Module_IOModule PUBLIC ${PROJECT_SOURCE_DIR}/src)
 target_include_directories(Module_Hello PUBLIC ${PROJECT_SOURCE_DIR}/src)
 target_include_directories(Module_Timer PUBLIC ${PROJECT_SOURCE_DIR}/src)
 target_include_directories(Module_URLShortening PUBLIC ${PROJECT_SOURCE_DIR}/src)

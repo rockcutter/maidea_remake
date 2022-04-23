@@ -7,6 +7,7 @@
 #include <iostream>
 #include <boost/algorithm/string.hpp>
 #include "handler/Handler.h"
+#include "client/MyClient.h"
 
 namespace xp = boost::xpressive;
 

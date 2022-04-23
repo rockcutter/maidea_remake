@@ -1,4 +1,5 @@
 #include "URLShortening.h"
+#include "client/MyClient.h"
 #include <vector>
 #include <sstream>
 #include <algorithm>
