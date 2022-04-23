@@ -2,7 +2,6 @@
 #include <string>
 #include <boost/program_options.hpp>
 #include "sleepy_discord/sleepy_discord.h"
-#include "module/io/IOModule.h"
 #include "module/base/ModuleBase.h"
 
 namespace Module {

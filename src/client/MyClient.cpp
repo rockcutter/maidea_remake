@@ -64,6 +64,8 @@ void MyClientClass::onReady(SleepyDiscord::Ready readyData) {
 					mod->appCommand.description,
 					std::move(mod->appCommand.options)
 				);
+				Util::ConsoleOut("createdAppCommand: " + mod->appCommand.name);
+				std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 #else
 				SleepyDiscord::Snowflake<SleepyDiscord::Server> ser;
 				for (auto& server : readyData.servers) {
