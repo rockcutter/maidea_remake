@@ -4,11 +4,16 @@
 namespace program_options = boost::program_options;
 
 namespace Module {
+	const std::string Checklist::Info::MODULE_NAME{ "Checklist" };
+	const std::string Checklist::Info::COMMAND{"cl"};
+	const std::string Checklist::Info::COMMAND_DESCRIPTION{ "switch Checklist mode" };
 	std::vector<std::string> Checklist::channels;
 
 	Checklist::Checklist() :
-		ModuleBase("Checklist", "cl", program_options::options_description("Checklist Module Usage")),
-		iomodule("Checklist")
+		ModuleBase(Checklist::Info::MODULE_NAME,
+			Checklist::Info::COMMAND,
+			program_options::options_description("Checklist Module Usage")
+		)
 	{
 		this->options.add_options()
 			("help,h", "show help")
@@ -39,6 +44,29 @@ namespace Module {
 		}
 		return true;
 	}
+
+	void Checklist::InitializeAppCommand() {
+		this->appCommand.name = Info::COMMAND;
+		this->appCommand.description = Info::COMMAND_DESCRIPTION;
+	}
+
+	void Checklist::InteractionHandler(SleepyDiscord::Interaction& interaction) {
+		SleepyDiscord::Interaction::Response<> response;
+		const auto& channelID = interaction.channelID;
+		response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
+
+		if (this->IsEnable(channelID)) {
+			this->Disable(channelID);
+			response.data.content = this->JoinModuleName("Checklist mode disabled");
+		}
+		else {
+			this->Enable(channelID);
+			response.data.content = this->JoinModuleName("Checklist mode enabled");
+		}
+		auto clientPtr = MyClientClass::GetInstance();
+		clientPtr->createInteractionResponse(interaction.ID, interaction.token, response);
+	}
+
 	
 	void Checklist::Handler(const SleepyDiscord::Message& message) {
 		program_options::variables_map vm;
@@ -52,35 +80,37 @@ namespace Module {
 				vm);
 		}
 		catch (program_options::error& e) {
-			e.what();
-			this->iomodule.Send(message.channelID, this->options);
+			(void)e.what();
+			this->DiscordOut(message.channelID, this->options);
 			return;
 		}
 
 		if (vm.count("enable")) {
 			if (!this->Enable(message.channelID)) {
-				this->iomodule.Send(message.channelID, "Checklist mode is already enabled");
+				this->DiscordOut(message.channelID, "Checklist mode is already enabled");
 				return;
 			}
-			this->iomodule.Send(message.channelID, "Checklist mode enabled");
+			this->DiscordOut(message.channelID, "Checklist mode enabled");
 			return;
 		}
 
 		if (vm.count("disable")) {
 			if (!this->Disable(message.channelID)) {
-				this->iomodule.Send(message.channelID, "Checklist mode is already disabled");
+				this->DiscordOut(message.channelID, "Checklist mode is already disabled");
 				return;
 			}
-			this->iomodule.Send(message.channelID, "Checklist mode disabled");
+			this->DiscordOut(message.channelID, "Checklist mode disabled");
 			return;
 		}
-		this->iomodule.Send(message.channelID, this->options);
+		this->DiscordOut(message.channelID, this->options);
 		return;
 	}
 
 	void Checklist::PlainTextHandler(const SleepyDiscord::Message& message) {
 		if (this->IsEnable(message.channelID)) {
-			this->iomodule.AddReaction(message.channelID, message.ID, u8"✅");
+			auto client = MyClientClass::GetInstance();
+			client->addReaction(message.channelID, message.ID, u8"✅");	
 		}
+		return;
 	}
 }

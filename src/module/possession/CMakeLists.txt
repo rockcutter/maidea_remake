@@ -1,0 +1,3 @@
+add_library(Module_Possession STATIC Possession.cpp)
+
+target_link_libraries(Module_Possession PRIVATE Essential)

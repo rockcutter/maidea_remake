@@ -10,11 +10,22 @@
 namespace program_options = boost::program_options;
 
 namespace Module {
-	Random::Random() : ModuleBase("Random", "rand", program_options::options_description("Random Module Usage")), iomodule("Random") {
+	const std::string Random::Info::MODULE_NAME{ "Random" };
+	const std::string Random::Info::COMMAND{ "rand" };
+	const std::string Random::Info::COMMAND_DESCRIPTION{ "generate random numbers" };
+	const int Random::Info::DEFAULT_LOWER_LIMIT{ 0 };
+	const int Random::Info::DEFAULT_UPPER_LIMIT{ 99 };
+
+	Random::Random() : 
+		ModuleBase(
+			Info::MODULE_NAME,
+			Info::COMMAND,
+			program_options::options_description("Random Module Usage"))
+	{
 		this->options.add_options()
 			("help,h", "show help")
-			("upper,u", program_options::value<int>()->default_value(9), "upper limit of random value")
-			("lower,l", program_options::value<int>()->default_value(0), "lower limit of random value")
+			("upper,u", program_options::value<int>()->default_value(Info::DEFAULT_UPPER_LIMIT), "upper limit of random value")
+			("lower,l", program_options::value<int>()->default_value(Info::DEFAULT_LOWER_LIMIT), "lower limit of random value")
 			;
 	}
 
@@ -30,13 +41,13 @@ namespace Module {
 			);
 		}
 		catch (program_options::error& e) {
-			e.what();
-			this->iomodule.Send(message.channelID, this->options);
+			(void)e.what();
+			this->DiscordOut(message.channelID, this->options);
 			return;
 		}
 		
 		if (vm.count("help")) {
-			this->iomodule.Send(message.channelID, this->options);
+			this->DiscordOut(message.channelID, this->options);
 			return;
 		}
 
@@ -44,9 +55,62 @@ namespace Module {
 		std::mt19937 engine(rnd());
 		std::uniform_int_distribution<int> randGenerator(vm["lower"].as<int>(), vm["upper"].as<int>());
 		
-		iomodule.Send(message.channelID, std::to_string(randGenerator(engine)));
+		this->DiscordOut(message.channelID, std::to_string(randGenerator(engine)));
 		return;
 	}
+
+	void Random::InitializeAppCommand() {
+		this->appCommand.name = Info::COMMAND;
+		this->appCommand.description = Info::COMMAND_DESCRIPTION;
+		SleepyDiscord::AppCommand::Option min;
+		min.name = "min";
+		min.type = SleepyDiscord::AppCommand::Option::TypeHelper<int>().getType();
+		min.minValue = INT_MIN;
+		min.maxValue = INT_MAX;
+		min.description = "lower limit of random numbers";
+		min.isRequired = false;
+		
+		SleepyDiscord::AppCommand::Option max;
+		max.name = "max";
+		max.type = SleepyDiscord::AppCommand::Option::TypeHelper<int>().getType();
+		max.minValue = INT_MIN;
+		max.maxValue = INT_MAX;
+		max.description = "upper limit of random numbers";
+		max.isRequired = false;
+		
+		this->appCommand.options.push_back(std::move(min));
+		this->appCommand.options.push_back(std::move(max));
+	}
+
+	void Random::InteractionHandler(SleepyDiscord::Interaction& interaction) {
+		int min = 0;
+		int max = 99;
+		for (auto& opt : interaction.data.options) {
+			if (opt.name == "min") {
+				if (!opt.get<int>(min)) return;
+			}
+			if (opt.name == "max") {
+				if (!opt.get<int>(max)) return;
+			}
+		}
+
+		if (min > max) {
+			std::swap(min, max);
+		}
+
+		std::random_device rnd;
+		std::mt19937 mt(rnd());
+		std::uniform_int_distribution<int> dist(min, max);
+
+		SleepyDiscord::Interaction::Response<> response;
+		response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
+		response.data.content = this->JoinModuleName(std::to_string(dist(mt)));
+		
+
+		auto clientPtr = MyClientClass::GetInstance();
+		clientPtr->createInteractionResponse(interaction.ID, interaction.token, response);
+		return;
+	};
 
 	void Random::PlainTextHandler(const SleepyDiscord::Message& message) {
 		std::vector<std::string> splited;
@@ -68,8 +132,9 @@ namespace Module {
 		std::mt19937 engine(rnd());
 		std::uniform_int_distribution<int> randGenerator(1, integers[1]);
 
-		iomodule.Send(message.channelID, std::to_string(integers[0] * randGenerator(engine)));
+		this->DiscordOut(message.channelID, std::to_string(integers[0] * randGenerator(engine)));
 
 		return;
 	}
+
 }

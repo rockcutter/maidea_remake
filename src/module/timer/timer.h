@@ -4,14 +4,17 @@
 #include "sleepy_discord/sleepy_discord.h"
 
 namespace Module {
-	constexpr char TIMER_MODULE_NAME[] = "Timer";
-	constexpr char TIMER_COMMAND[] = "timer";
-
 	class Timer : public ModuleBase{
 	private:
-		IOModule iomodule;
 	public:
+		struct Info {
+			const static std::string MODULE_NAME;
+			const static std::string COMMAND;
+			const static std::string COMMAND_DESCRIPTION;
+		};
 		Timer();
 		void Handler(const SleepyDiscord::Message& message) override;
+		void InteractionHandler(SleepyDiscord::Interaction& interaction) override;
+		void InitializeAppCommand() override;
 	};
 }
