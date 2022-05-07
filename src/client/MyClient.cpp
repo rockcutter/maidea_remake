@@ -12,6 +12,25 @@
 
 //#define DEBUG
 
+std::shared_ptr<MyClientClass> MyClientClass::instance(nullptr);
+
+MyClientClass::MyClientClass(const std::string token, const char numOfThreads) :
+	SleepyDiscord::DiscordClient(
+		token,
+		numOfThreads
+	)
+{}
+
+std::shared_ptr<MyClientClass> MyClientClass::InitInstance(const std::string token, const char numOfThreads) {
+	if (MyClientClass::instance != nullptr) return MyClientClass::instance;
+	MyClientClass::instance.reset(new MyClientClass(token, numOfThreads));
+	return MyClientClass::instance;
+}
+
+std::shared_ptr<MyClientClass> MyClientClass::GetInstance() {
+	return MyClientClass::instance;
+}
+
 void MyClientClass::onMessage(SleepyDiscord::Message message) {
 	if (this->cmdHandler.IsCommand(message.content)) {
 		this->cmdHandler.Run(message);
@@ -45,6 +64,8 @@ void MyClientClass::onReady(SleepyDiscord::Ready readyData) {
 					mod->appCommand.description,
 					std::move(mod->appCommand.options)
 				);
+				Util::ConsoleOut("createdAppCommand: " + mod->appCommand.name);
+				std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 #else
 				SleepyDiscord::Snowflake<SleepyDiscord::Server> ser;
 				for (auto& server : readyData.servers) {

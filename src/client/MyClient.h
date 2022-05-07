@@ -7,8 +7,11 @@ private:
 	Handler::CommandHandler cmdHandler;
 	Handler::PlainTextHandler txtHandler;
 	std::vector<std::unique_ptr<Module::ModuleBase>> modules;
+	static std::shared_ptr<MyClientClass> instance;
+	MyClientClass(const std::string token, const char numOfThreads = (char)1);
 public:
-	using SleepyDiscord::DiscordClient::DiscordClient;
+	static std::shared_ptr<MyClientClass> InitInstance(const std::string token, const char numOfThreads = (char)1);
+	static std::shared_ptr<MyClientClass> GetInstance();
 	void onReady(SleepyDiscord::Ready) override;
 	void onMessage(SleepyDiscord::Message message) override;
 	void onReaction(SleepyDiscord::Snowflake<SleepyDiscord::User> userID, SleepyDiscord::Snowflake<SleepyDiscord::Channel> channelID, SleepyDiscord::Snowflake<SleepyDiscord::Message> messageID, SleepyDiscord::Emoji emoji) override;

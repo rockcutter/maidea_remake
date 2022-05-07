@@ -8,12 +8,22 @@
 #include <array>
 #include <stdexcept>
 #include "timer.h"
+#include "client/MyClient.h"
 
 namespace program_options = boost::program_options;
 namespace chrono = std::chrono;
 
 namespace Module {
-	Timer::Timer() : ModuleBase(TIMER_MODULE_NAME, TIMER_COMMAND, program_options::options_description("Timer Module Usage")), discordio(TIMER_MODULE_NAME) {
+	const std::string Timer::Info::MODULE_NAME{"Timer"};
+	const std::string Timer::Info::COMMAND{"timer"};
+	const std::string Timer::Info::COMMAND_DESCRIPTION{"set timer"};
+
+	Timer::Timer() : ModuleBase(
+		Info::MODULE_NAME,
+		Info::COMMAND,
+		program_options::options_description("Timer Module Usage")
+	)
+	{
 		this->options.add_options()
 			("help,h", "show help")
 			("sec,s", boost::program_options::value<int>(), "set the timer for [argument] seconds")
@@ -23,9 +33,11 @@ namespace Module {
 			("title,t", boost::program_options::value<std::string>()->default_value(""), "set title for timer")
 			;
 	}
+
+
 	void Timer::InitializeAppCommand() {
-		this->appCommand.name = "timer";
-		this->appCommand.description = "set timer";
+		this->appCommand.name = Info::COMMAND;
+		this->appCommand.description = Info::COMMAND_DESCRIPTION;
 
 		SleepyDiscord::AppCommand::Option duration;
 		duration.name = "duration";
@@ -65,7 +77,7 @@ namespace Module {
 				choice.set<std::string>(name);
 				autoCompleteResponse.data.choices.push_back(std::move(choice));
 			}
-			auto clientPtr = this->discordio.GetClientPtr().lock();
+			auto clientPtr = MyClientClass::GetInstance();
 			clientPtr->createInteractionResponse(interaction.ID, interaction.token, std::move(autoCompleteResponse));
 			return;
 		}
@@ -101,11 +113,11 @@ namespace Module {
 		SleepyDiscord::Interaction::Response<> response;
 		response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
 		response.data.content = 
-			this->discordio.CombineName((
+			this->JoinModuleName((
 				boost::format(u8"%1% [%2%] のタイマーをセット! %3%") % length % duration % timerName
-				).str());		
+				).str());
 
-		auto clientPtr = this->discordio.GetClientPtr().lock();
+		auto clientPtr = MyClientClass::GetInstance();
 		clientPtr->createInteractionResponse(interaction.ID, interaction.token, response);
 
 		//timer
@@ -118,7 +130,7 @@ namespace Module {
 
 		std::this_thread::sleep_for(time);
 		
-		discordio.SendWithName(
+		this->DiscordOut(
 			interaction.channelID,
 			(
 				boost::format(u8"%1%[%2%] 経ったよ  <@!%3%> %4%") %
@@ -146,7 +158,7 @@ namespace Module {
 		}
 		catch (program_options::error& e) {
 			(void)e.what();
-			this->discordio.SendWithName(message.channelID, this->options);
+			this->DiscordOut(message.channelID, this->options);			
 			return;
 		}
 		chrono::seconds time(0);
@@ -158,7 +170,7 @@ namespace Module {
 				outStr = std::to_string(boost::lexical_cast<int>(splitedCommandLine[1])) + u8"分";
 			}
 			catch (boost::bad_lexical_cast&) {
-				this->discordio.SendWithName(message.channelID, this->options);
+				this->DiscordOut(message.channelID, this->options);
 				return;
 			}
 		}
@@ -179,12 +191,12 @@ namespace Module {
 			outStr = std::to_string(vm["day"].as<int>()) + u8"日";
 		}
 		else {
-			this->discordio.SendWithName(message.channelID, this->options);
+			this->DiscordOut(message.channelID, this->options);
 			return;
 		}
-		discordio.SendWithName(message.channelID, outStr + u8"のタイマーをセット! " + vm["title"].as<std::string>());
+		this->DiscordOut(message.channelID, outStr + u8"のタイマーをセット! " + vm["title"].as<std::string>());
 		std::this_thread::sleep_for(time);
-		discordio.SendWithName(message.channelID, (boost::format(u8"%1%経ったよ <@!%2%> %3%") %
+		this->DiscordOut(message.channelID, (boost::format(u8"%1%経ったよ <@!%2%> %3%") %
 			outStr %
 			message.author.ID.string() %
 			vm["title"].as<std::string>()).str()
