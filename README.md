@@ -23,6 +23,7 @@ slash commandを実装しており、/をこのbotが導入されているdiscordサーバで入力するこ
 # Installation
 boost 
 https://boostjp.github.io/howtobuild.html などを参考にインストールしておく
+
 SleepyDiscord
 https://yourwaifu.dev/sleepy-discord/docs/ に従い必要なライブラリのインストール& git cloneしておく
 
