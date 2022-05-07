@@ -1,19 +1,19 @@
 # maidea
 
-maidea‚Í‚ ‚Á‚½‚ç•Ö—˜‚È‹@”\‚ğ‹l‚ß‚ñ‚¾AC++‚Å‘‚©‚ê‚½discord bot‚Å‚·B
-SleepyDiscordƒ‰ƒCƒuƒ‰ƒŠ‚ğdiscord API‚Ìƒ‰ƒbƒp[‚Æ‚µ‚Äg—p‚µ‚Ä‚¢‚Ü‚·B
+maideaã¯ã‚ã£ãŸã‚‰ä¾¿åˆ©ãªæ©Ÿèƒ½ã‚’è©°ã‚è¾¼ã‚“ã ã€C++ã§æ›¸ã‹ã‚ŒãŸdiscord botã§ã™ã€‚
+SleepyDiscordãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’discord APIã®ãƒ©ãƒƒãƒ‘ãƒ¼ã¨ã—ã¦ä½¿ç”¨ã—ã¦ã„ã¾ã™ã€‚
 [SleepyDiscord](https://yourwaifu.dev/sleepy-discord/)
-‚Ü‚½ABoostƒ‰ƒCƒuƒ‰ƒŠ‚àg—p‚µ‚Ä‚¢‚Ü‚·
-‚»‚ê‚¼‚ê‚Ì‹@”\‚ğmodule‚Æ‚µ‚ÄÀ‘•‚µ‚Ä‚¨‚èA—eˆÕ‚É‹@”\‚Ì’Ç‰Á‚ª‰Â”\‚Å‚·
+ã¾ãŸã€Boostãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚‚ä½¿ç”¨ã—ã¦ã„ã¾ã™
+ãã‚Œãã‚Œã®æ©Ÿèƒ½ã‚’moduleã¨ã—ã¦å®Ÿè£…ã—ã¦ãŠã‚Šã€å®¹æ˜“ã«æ©Ÿèƒ½ã®è¿½åŠ ãŒå¯èƒ½ã§ã™
 
 # Features
-slash command‚ğÀ‘•‚µ‚Ä‚¨‚èA/‚ğ‚±‚Ìbot‚ª“±“ü‚³‚ê‚Ä‚¢‚édiscordƒT[ƒo‚Å“ü—Í‚·‚é‚±‚Æ‚Å‹@”\‚ğg—p‚·‚é‚±‚Æ‚ª‚Å‚«‚é
-‚Ü‚½AdiscordƒT[ƒo[‚ÅŸ‚Ì‚æ‚¤‚È”­Œ¾‚ğ‚·‚é‚ÆA‚»‚ê‚¼‚ê‚Ìmodule‚Ì‹@”\‚ª—˜—p‚Å‚«‚é
+slash commandã‚’å®Ÿè£…ã—ã¦ãŠã‚Šã€/ã‚’ã“ã®botãŒå°å…¥ã•ã‚Œã¦ã„ã‚‹discordã‚µãƒ¼ãƒã§å…¥åŠ›ã™ã‚‹ã“ã¨ã§æ©Ÿèƒ½ã‚’ä½¿ç”¨ã™ã‚‹ã“ã¨ãŒã§ãã‚‹
+ã¾ãŸã€discordã‚µãƒ¼ãƒãƒ¼ã§æ¬¡ã®ã‚ˆã†ãªç™ºè¨€ã‚’ã™ã‚‹ã¨ã€ãã‚Œãã‚Œã®moduleã®æ©Ÿèƒ½ãŒåˆ©ç”¨ã§ãã‚‹
 ```
->[command] [ƒIƒvƒVƒ‡ƒ“]
-![command] [ƒIƒvƒVƒ‡ƒ“]
-\\[command] [ƒIƒvƒVƒ‡ƒ“]
-?[command] [ƒIƒvƒVƒ‡ƒ“]
+>[command] [ã‚ªãƒ—ã‚·ãƒ§ãƒ³]
+![command] [ã‚ªãƒ—ã‚·ãƒ§ãƒ³]
+\[command] [ã‚ªãƒ—ã‚·ãƒ§ãƒ³]
+?[command] [ã‚ªãƒ—ã‚·ãƒ§ãƒ³]
 ```
   
 # Requirement
@@ -22,10 +22,10 @@ slash command‚ğÀ‘•‚µ‚Ä‚¨‚èA/‚ğ‚±‚Ìbot‚ª“±“ü‚³‚ê‚Ä‚¢‚édiscordƒT[ƒo‚Å“ü—Í‚·‚é‚±
  
 # Installation
 boost 
-https://boostjp.github.io/howtobuild.html ‚È‚Ç‚ğQl‚ÉƒCƒ“ƒXƒg[ƒ‹‚µ‚Ä‚¨‚­
+https://boostjp.github.io/howtobuild.html ãªã©ã‚’å‚è€ƒã«ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¦ãŠã
 
 SleepyDiscord
-https://yourwaifu.dev/sleepy-discord/docs/ ‚É]‚¢•K—v‚Èƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒCƒ“ƒXƒg[ƒ‹& git clone‚µ‚Ä‚¨‚­
+https://yourwaifu.dev/sleepy-discord/docs/ ã«å¾“ã„å¿…è¦ãªãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«& git cloneã—ã¦ãŠã
 
 ```bash
 projectDir# git clone https://github.com/rockcutter/maidea_remake
