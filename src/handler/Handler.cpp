@@ -3,18 +3,22 @@
 #include <stdexcept>
 
 namespace Handler {
-	ModuleHandler::ModuleHandler() :modules(){}
-	PlainTextHandler::PlainTextHandler(){}
-	CommandHandler::CommandHandler() : commandPrefixes({">", "!", "?", "\\"}){}
-	MessageHandler::MessageHandler(): PlainTextHandler(), CommandHandler(){}
+	ModuleHandler::ModuleHandler() :modules() {}
+	PlainTextHandler::PlainTextHandler() {}
+	CommandHandler::CommandHandler() : commandPrefixes({ ">", "!", "?", "\\" }) {}
+	MessageHandler::MessageHandler() : PlainTextHandler(), CommandHandler() {}
 
 
 	void ModuleHandler::RegisterModule(std::unique_ptr<Module::ModuleBase> mod) {
 		ModuleHandler::modules.emplace_back(std::move(mod));
 	}
-	
+
+	void ModuleHandler::RegisterModuleArray(std::vector<std::unique_ptr<Module::ModuleBase>>&& modules) {
+		this->modules = std::move(modules);
+	}
+
 	void PlainTextHandler::Run(const SleepyDiscord::Message& message) {
-		if (message.author.bot) { 
+		if (message.author.bot) {
 			return;
 		}
 
@@ -32,17 +36,17 @@ namespace Handler {
 		}
 		return false;
 	}
-	
+
 	void CommandHandler::Run(const SleepyDiscord::Message& message) {
 		if (message.author.bot || message.content.size() < 2) {
 			return;
 		}
-		
+
 		std::vector<std::string> tmp;
 		boost::split(tmp, message.content, boost::is_space());
 		std::string cmd = tmp.at(0).erase(0, 1);
-			
-				
+
+
 		for (auto& m : this->modules) {
 			if (m->GetCommand() == cmd) {
 				m->Handler(message);
@@ -50,7 +54,7 @@ namespace Handler {
 			}
 		}
 	}
-	
+
 	void MessageHandler::RegisterModuleIntoCommandHandler(std::unique_ptr<Module::ModuleBase> mod) {
 		CommandHandler::RegisterModule(std::move(mod));
 	}

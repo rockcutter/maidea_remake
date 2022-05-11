@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <array>
+#include <memory>
 #include "module/base/ModuleBase.h"
 #include "sleepy_discord/sleepy_discord.h"
 
@@ -11,6 +12,7 @@ namespace Handler {
 	public:
 		ModuleHandler();
 		void RegisterModule(std::unique_ptr<Module::ModuleBase> mod);
+		void RegisterModuleArray(std::vector<std::unique_ptr<Module::ModuleBase>>&& modules);
 		virtual void Run(const SleepyDiscord::Message& message) = 0;
 	};
 
