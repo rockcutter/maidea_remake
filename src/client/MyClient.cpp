@@ -2,13 +2,8 @@
 //#include "handler/MessageHandler.h"
 #include "util/ConsoleOut.h"
 #include "handler/Handler.h"
-#include "module/hello/Hello.h"
-#include "module/timer/timer.h"
-#include "module/urlshortening/URLShortening.h"
-#include "module/checklist/Checklist.h"
-#include "module/random/Random.h"
-#include "module/role/Role.h"
-#include "module/possession/Possession.h"
+
+#include "RegisterModule.h"
 
 //#define DEBUG
 
@@ -41,16 +36,20 @@ void MyClientClass::onMessage(SleepyDiscord::Message message) {
 }
 
 void MyClientClass::onReady(SleepyDiscord::Ready readyData) {
+	//textcommand処理moduleの登録
+	std::vector<std::unique_ptr<Module::ModuleBase>> textCommandProcessors;
+	ModulePackager::GetTextCommandProcessors(textCommandProcessors);
+	this->cmdHandler.RegisterModuleArray(std::move(textCommandProcessors));
+
+	//text処理moduleの登録
+	std::vector<std::unique_ptr<Module::ModuleBase>> textProcessors;
+	ModulePackager::GetTextProcessors(textProcessors);
+	this->txtHandler.RegisterModuleArray(std::move(textProcessors));
+	
+	//slashcommand処理moduleの登録
+	ModulePackager::GetSlashCommandProcessors(this->modules);
+	
 	static bool isFirstTime = true;
-	{
-		using namespace Module;
-		this->modules.emplace_back(std::make_unique<Hello>());
-		this->modules.emplace_back(std::make_unique<Timer>());
-		this->modules.emplace_back(std::make_unique<URLShortening>());
-		this->modules.emplace_back(std::make_unique<Checklist>());
-		this->modules.emplace_back(std::make_unique<Random>());
-		this->modules.emplace_back(std::make_unique<Possession>());
-	}
 
 	if (isFirstTime) {
 		std::vector<SleepyDiscord::AppCommand> allAppCommands;
@@ -83,15 +82,6 @@ void MyClientClass::onReady(SleepyDiscord::Ready readyData) {
 #endif
 			}
 		}
-		this->cmdHandler.RegisterModule(std::make_unique<Module::Hello>());
-		this->cmdHandler.RegisterModule(std::make_unique<Module::Timer>());
-		this->cmdHandler.RegisterModule(std::make_unique<Module::URLShortening>());
-		this->cmdHandler.RegisterModule(std::make_unique<Module::Checklist>());
-		this->cmdHandler.RegisterModule(std::make_unique<Module::Random>());
-
-		this->txtHandler.RegisterModule(std::make_unique<Module::Checklist>());
-		this->txtHandler.RegisterModule(std::make_unique<Module::Random>());
-
 		isFirstTime = false;
 	}
 

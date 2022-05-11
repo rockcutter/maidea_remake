@@ -24,15 +24,18 @@ namespace Module {
 		);
 
 		std::string JoinModuleName(const std::string& str);
-		virtual void Handler(const SleepyDiscord::Message& message) = 0;
+		virtual void Handler(const SleepyDiscord::Message& message);
 		virtual void PlainTextHandler(const SleepyDiscord::Message& message);
-		virtual void InitializeAppCommand() = 0;
-		virtual void InteractionHandler(SleepyDiscord::Interaction& interaction) = 0;
+		virtual void InitializeAppCommand();
+		virtual void InteractionHandler(SleepyDiscord::Interaction& interaction);
 		std::string GetCommand();
 		SleepyDiscord::AppCommand appCommand;
 	};
 	
 	inline void ModuleBase::PlainTextHandler(const SleepyDiscord::Message& message){}
+	inline void ModuleBase::Handler(const SleepyDiscord::Message& message) {}
+	inline void ModuleBase::InitializeAppCommand() {}
+	inline void ModuleBase::InteractionHandler(SleepyDiscord::Interaction& interaction){}
 
 	inline std::string ModuleBase::GetCommand() {
 		return this->command;
