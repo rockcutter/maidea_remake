@@ -1,28 +1,35 @@
-# g‚¢•û
-Œã‚Å‘‚­
+# maidea
 
-# ƒtƒ@ƒCƒ‹–½–¼‹K‘¥
-- Šî–{‚ÍUpper camel case
-- main‚ÆƒeƒXƒg‚Ì‚İsnake case
+maideaã¯ã‚ã£ãŸã‚‰ä¾¿åˆ©ãªæ©Ÿèƒ½ã‚’è©°ã‚è¾¼ã‚“ã ã€C++ã§æ›¸ã‹ã‚ŒãŸdiscord botã§ã™ã€‚
+SleepyDiscordãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’discord APIã®ãƒ©ãƒƒãƒ‘ãƒ¼ã¨ã—ã¦ä½¿ç”¨ã—ã¦ã„ã¾ã™ã€‚
+[SleepyDiscord](https://yourwaifu.dev/sleepy-discord/)
+ã¾ãŸã€Boostãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚‚ä½¿ç”¨ã—ã¦ã„ã¾ã™
+ãã‚Œãã‚Œã®æ©Ÿèƒ½ã‚’moduleã¨ã—ã¦å®Ÿè£…ã—ã¦ãŠã‚Šã€å®¹æ˜“ã«æ©Ÿèƒ½ã®è¿½åŠ ãŒå¯èƒ½ã§ã™
 
-# ƒfƒBƒŒƒNƒgƒŠ‚Ìg‚¢•û
-## ƒfƒBƒŒƒNƒgƒŠ‚Ì–½–¼‹K‘¥‚É‚Â‚¢‚Ä
-lower camel case
-## ƒfƒBƒŒƒNƒgƒŠÚ×
-### src
-ƒ\[ƒXƒtƒ@ƒCƒ‹‚ğ’u‚­
-### src/core
-‘¼‚Ìƒ‚ƒWƒ…[ƒ‹‚ªˆË‘¶‚·‚éƒtƒ@ƒCƒ‹‚ğ’u‚­
-### src/module 
-ƒ‚ƒWƒ…[ƒ‹‚Ìƒ\[ƒX‚ğ’u‚­
-### src/test
-ƒeƒXƒgƒtƒ@ƒCƒ‹‚ğ’u‚­
-### src/util
-ƒ†[ƒeƒBƒŠƒeƒBŒnŠÖ”‚Ìƒ\[ƒX‚ğ’u‚­
-### src/handler
-ƒnƒ“ƒhƒ‰‚ğ’u‚­
-### src/client
-client class‚ğ’u‚­
-# ’ˆÓ–€
-‚È‚µ
+# Features
+slash commandã‚’å®Ÿè£…ã—ã¦ãŠã‚Šã€/ã‚’ã“ã®botãŒå°å…¥ã•ã‚Œã¦ã„ã‚‹discordã‚µãƒ¼ãƒã§å…¥åŠ›ã™ã‚‹ã“ã¨ã§æ©Ÿèƒ½ã‚’ä½¿ç”¨ã™ã‚‹ã“ã¨ãŒã§ãã‚‹
+ã¾ãŸã€discordã‚µãƒ¼ãƒãƒ¼ã§æ¬¡ã®ã‚ˆã†ãªç™ºè¨€ã‚’ã™ã‚‹ã¨ã€ãã‚Œãã‚Œã®moduleã®æ©Ÿèƒ½ãŒåˆ©ç”¨ã§ãã‚‹
+```
+>[command] [ã‚ªãƒ—ã‚·ãƒ§ãƒ³]
+![command] [ã‚ªãƒ—ã‚·ãƒ§ãƒ³]
+\[command] [ã‚ªãƒ—ã‚·ãƒ§ãƒ³]
+?[command] [ã‚ªãƒ—ã‚·ãƒ§ãƒ³]
+```
+  
+# Requirement
+* boost 1.79.0
+* SleepyDiscord
+ 
+# Installation
+boost 
+https://boostjp.github.io/howtobuild.html ãªã©ã‚’å‚è€ƒã«ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã—ã¦ãŠã
 
+SleepyDiscord
+https://yourwaifu.dev/sleepy-discord/docs/ ã«å¾“ã„å¿…è¦ãªãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«& git cloneã—ã¦ãŠã
+
+```bash
+projectDir# git clone https://github.com/rockcutter/maidea_remake
+projectDir# mkdir bld
+projectDir# cd bld
+projectDir/bld# cmake ../
+```
