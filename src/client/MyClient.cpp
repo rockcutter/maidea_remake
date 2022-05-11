@@ -2,13 +2,7 @@
 //#include "handler/MessageHandler.h"
 #include "util/ConsoleOut.h"
 #include "handler/Handler.h"
-#include "module/hello/Hello.h"
-#include "module/timer/timer.h"
-#include "module/urlshortening/URLShortening.h"
-#include "module/checklist/Checklist.h"
-#include "module/random/Random.h"
-#include "module/role/Role.h"
-#include "module/possession/Possession.h"
+
 #include "RegisterModule.h"
 
 //#define DEBUG

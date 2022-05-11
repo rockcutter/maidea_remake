@@ -4,6 +4,12 @@
 #include <stdexcept>
 #include "module/base/ModuleBase.h"
 #include "module/hello/Hello.h"
+#include "module/timer/timer.h"
+#include "module/urlshortening/URLShortening.h"
+#include "module/checklist/Checklist.h"
+#include "module/random/Random.h"
+#include "module/role/Role.h"
+#include "module/possession/Possession.h"
 #include "util/MultipleUnique.h"
 
 //Ç±Ç±Ç≈ÉÇÉWÉÖÅ[ÉãÇìoò^Ç∑ÇÈ
