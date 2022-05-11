@@ -17,6 +17,7 @@ slash commandを実装しており、/をこのbotが導入されているdiscor
 ```
   
 # Requirement
+* cmake
 * boost 1.79.0
 * SleepyDiscord
  
@@ -32,4 +33,10 @@ projectDir# git clone https://github.com/rockcutter/maidea_remake
 projectDir# mkdir bld
 projectDir# cd bld
 projectDir/bld# cmake ../
+projectDir/bld# make
+projectDir/bld# ./maidea
 ```
+
+# モジュールの作成  
+src/module/example/ExampleModule.hにあるモジュールのプロトタイプを使用して作成してください
+
