@@ -74,10 +74,14 @@ namespace Module {
 		std::vector<std::string> dirs;
 		boost::split(dirs, url, boost::is_any_of("/?"));
 		auto pos = std::find(dirs.begin(), dirs.end(), "dp");
-		if (pos == dirs.end()) {
-			throw std::invalid_argument("invalid Amazon URL");
+		if (pos != dirs.end()) {
+			return (boost::format("%1%/dp/%2%") % TOP_AMAZON % *++pos).str();
 		}
-		return (boost::format("%1%/dp/%2%") % TOP_AMAZON % *++pos).str();
+		pos = std::find(dirs.begin(), dirs.end(), "gp");
+		if (pos != dirs.end()) {
+			return (boost::format("%1%\/gp\/%2%\/%3%") % TOP_AMAZON % *(pos + 1) % *(pos + 2)).str();
+		}
+		throw std::invalid_argument("invalid Amazon URL");
 	}
 
 	void URLShortening::Handler(const SleepyDiscord::Message& message) {
