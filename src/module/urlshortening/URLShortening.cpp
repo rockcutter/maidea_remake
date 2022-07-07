@@ -59,7 +59,12 @@ namespace Module {
 
 		SleepyDiscord::Interaction::Response<> response;
 		response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
-		response.data.content = this->JoinModuleName(this->ShortenAmazonURL(url));
+		try {
+			response.data.content = this->JoinModuleName(this->ShortenAmazonURL(url));
+		}
+		catch (std::invalid_argument& e) {
+			response.data.content = this->JoinModuleName("Invalid URL");
+		}
 		auto clientPtr = MyClientClass::GetInstance();
 		clientPtr->createInteractionResponse(interaction, interaction.token, response);
 		return;
