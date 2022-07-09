@@ -34,11 +34,7 @@ public:
 	static void GetTextCommandProcessors(ModulePtrArray& modules) {
 		MultipleUnique<
 			Module::ModuleBase,
-			Module::Hello,
-			Module::Timer,
-			Module::URLShortening,
-			Module::Checklist,
-			Module::Random
+			Module::Hello
 		>::Make(modules);
 	}
 
