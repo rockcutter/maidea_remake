@@ -55,17 +55,19 @@ void MyClientClass::onReady(SleepyDiscord::Ready readyData) {
 		std::vector<SleepyDiscord::AppCommand> allAppCommands;
 		for (const auto& mod : modules) {
 			mod->InitializeAppCommand();
-			if (mod->appCommand.name != "") {
+			SleepyDiscord::AppCommand::Option& opt = mod->GetAppCommand();
+			if (opt.name != "") {
 #ifndef DEBUG
 				this->createGlobalAppCommand(
 				 getID(),
-					mod->appCommand.name,
-					mod->appCommand.description,
-					std::move(mod->appCommand.options)
+					opt.name,
+					opt.description,
+					std::move(opt.options)
 				);
-				Util::ConsoleOut("createdAppCommand: " + mod->appCommand.name);
+				Util::ConsoleOut("createdAppCommand: " + opt.name);
 				std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 #else
+				SleepyDiscord::AppCommand::Option& opt = mod->GetAppCommand();
 				SleepyDiscord::Snowflake<SleepyDiscord::Server> ser;
 				for (auto& server : readyData.servers) {
 					if (server.ID == 0000000000000) {
@@ -75,9 +77,9 @@ void MyClientClass::onReady(SleepyDiscord::Ready readyData) {
 				this->createServerAppCommand(
 					getID(),
 					ser,
-					mod->appCommand.name,
-					mod->appCommand.description,
-					std::move(mod->appCommand.options)
+					opt.name,
+					opt.description,
+					std::move(opt.options)
 				);
 #endif
 			}
@@ -110,14 +112,13 @@ void MyClientClass::onReaction(
 		this->onMessage(message);
 	}
 
-
 	return;
 }
 
 void MyClientClass::onInteraction(SleepyDiscord::Interaction interaction) {
 	std::string name = interaction.data.name;
 	for (auto& mod : this->modules) {
-		if (name == mod->appCommand.name) {
+		if (name == mod->GetCommand()) {
 			mod->InteractionHandler(interaction);
 		}
 	}

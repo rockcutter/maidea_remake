@@ -20,49 +20,14 @@ namespace Module {
 	Random::Random() : 
 		ModuleBase(
 			Info::MODULE_NAME,
-			Info::COMMAND,
-			program_options::options_description("Random Module Usage"))
+			Info::COMMAND)
 	{
-		this->options.add_options()
-			("help,h", "show help")
-			("upper,u", program_options::value<int>()->default_value(Info::DEFAULT_UPPER_LIMIT), "upper limit of random value")
-			("lower,l", program_options::value<int>()->default_value(Info::DEFAULT_LOWER_LIMIT), "lower limit of random value")
-			;
-	}
-
-	void Random::Handler(const SleepyDiscord::Message& message) {
-		program_options::variables_map vm;
-		std::vector<std::string> splitedCommandLine = program_options::split_unix(message.content);
-		
-		try {
-			program_options::store(program_options::command_line_parser(
-				splitedCommandLine
-			).options(this->options).run(),
-				vm
-			);
-		}
-		catch (program_options::error& e) {
-			(void)e.what();
-			this->DiscordOut(message.channelID, this->options);
-			return;
-		}
-		
-		if (vm.count("help")) {
-			this->DiscordOut(message.channelID, this->options);
-			return;
-		}
-
-		std::random_device rnd;
-		std::mt19937 engine(rnd());
-		std::uniform_int_distribution<int> randGenerator(vm["lower"].as<int>(), vm["upper"].as<int>());
-		
-		this->DiscordOut(message.channelID, std::to_string(randGenerator(engine)));
-		return;
 	}
 
 	void Random::InitializeAppCommand() {
-		this->appCommand.name = Info::COMMAND;
-		this->appCommand.description = Info::COMMAND_DESCRIPTION;
+		SleepyDiscord::AppCommand::Option appCommand;
+		appCommand.name = Info::COMMAND;
+		appCommand.description = Info::COMMAND_DESCRIPTION;
 		SleepyDiscord::AppCommand::Option min;
 		min.name = "min";
 		min.type = SleepyDiscord::AppCommand::Option::TypeHelper<int>().getType();
@@ -79,8 +44,11 @@ namespace Module {
 		max.description = "upper limit of random numbers";
 		max.isRequired = false;
 		
-		this->appCommand.options.push_back(std::move(min));
-		this->appCommand.options.push_back(std::move(max));
+		appCommand.options.emplace_back(std::move(min));
+		appCommand.options.emplace_back(std::move(max));
+
+		this->SetAppCommand(std::move(appCommand));
+
 	}
 
 	void Random::InteractionHandler(SleepyDiscord::Interaction& interaction) {

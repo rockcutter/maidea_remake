@@ -12,15 +12,9 @@ namespace Module {
 
 	Checklist::Checklist() :
 		ModuleBase(Checklist::Info::MODULE_NAME,
-			Checklist::Info::COMMAND,
-			program_options::options_description("Checklist Module Usage")
+			Checklist::Info::COMMAND
 		)
 	{
-		this->options.add_options()
-			("help,h", "show help")
-			("enable,e", "enable checklist mode")
-			("disable,d", "disable checklist mode")
-			;
 	}
 
 	bool Checklist::Enable(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID) {
@@ -47,8 +41,10 @@ namespace Module {
 	}
 
 	void Checklist::InitializeAppCommand() {
-		this->appCommand.name = Info::COMMAND;
-		this->appCommand.description = Info::COMMAND_DESCRIPTION;
+		SleepyDiscord::AppCommand::Option appCommand;
+		appCommand.name = Info::COMMAND;
+		appCommand.description = Info::COMMAND_DESCRIPTION;
+		this->SetAppCommand(std::move(appCommand));
 	}
 
 	void Checklist::InteractionHandler(SleepyDiscord::Interaction& interaction) {
@@ -66,45 +62,6 @@ namespace Module {
 		}
 		auto clientPtr = MyClientClass::GetInstance();
 		clientPtr->createInteractionResponse(interaction.ID, interaction.token, response);
-	}
-
-	
-	void Checklist::Handler(const SleepyDiscord::Message& message) {
-		program_options::variables_map vm;
-		std::vector<std::string> splitedCommandLine = program_options::split_unix(message.content);
-
-		try {
-			program_options::store(
-				program_options::command_line_parser(
-					splitedCommandLine
-				).options(this->options).run(),
-				vm);
-		}
-		catch (program_options::error& e) {
-			(void)e.what();
-			this->DiscordOut(message.channelID, this->options);
-			return;
-		}
-
-		if (vm.count("enable")) {
-			if (!this->Enable(message.channelID)) {
-				this->DiscordOut(message.channelID, "Checklist mode is already enabled");
-				return;
-			}
-			this->DiscordOut(message.channelID, "Checklist mode enabled");
-			return;
-		}
-
-		if (vm.count("disable")) {
-			if (!this->Disable(message.channelID)) {
-				this->DiscordOut(message.channelID, "Checklist mode is already disabled");
-				return;
-			}
-			this->DiscordOut(message.channelID, "Checklist mode disabled");
-			return;
-		}
-		this->DiscordOut(message.channelID, this->options);
-		return;
 	}
 
 	void Checklist::PlainTextHandler(const SleepyDiscord::Message& message) {

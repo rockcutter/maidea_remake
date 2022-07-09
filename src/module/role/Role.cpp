@@ -21,8 +21,7 @@ namespace Module {
 	Role::Role() :
 		ModuleBase(
 			Info::MODULE_NAME,
-			Info::COMMAND,
-			boost::program_options::options_description("Role Module Usage"))
+			Info::COMMAND)
 		{}
 
 	bool Role::ExecuteMarker(

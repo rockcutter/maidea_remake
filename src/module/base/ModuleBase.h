@@ -5,39 +5,56 @@
 
 namespace Module {
 	class ModuleBase {
+	private:
+		SleepyDiscord::AppCommand::Option appCommand;
 	protected:
 		const std::string moduleName;
-		const std::string command;
-		boost::program_options::options_description options;
+		std::string command;
+
+		/// <summary>
+		/// 文字列の先頭にモジュール名を結合して表示用に整形する
+		/// </summary>
+		std::string JoinModuleName(const std::string& str);
 	public:
-		static std::vector<SleepyDiscord::AppCommand> allAppCommands;
-		ModuleBase(const std::string& moduleName, const std::string& command, boost::program_options::options_description opt);
-		
+		ModuleBase(
+			const std::string& moduleName,
+			const std::string& command
+		);
+
+		//handlers
+		virtual void InteractionHandler(SleepyDiscord::Interaction& interaction) {}
+		virtual void PlainTextHandler(const SleepyDiscord::Message& message)	 {}
+		virtual void Handler(const SleepyDiscord::Message& message)				 {}
+
+		//setter
+		void SetAppCommand(SleepyDiscord::AppCommand::Option&& appCommand);
+
+		//getter
+		const std::string& GetModuleName()					 { return this->moduleName; }
+		const std::string& GetCommand()						 { return this->command; }
+		SleepyDiscord::AppCommand::Option& GetAppCommand()	 { return this->appCommand; }
+
+		/// <summary>
+		/// モジュールがインスタンス化されるよりも前に呼び出される。
+		/// AppCommandを設定するときはこのメソッドをオーバーライドしてその中でSetAppCommandを呼べばよい
+		/// </summary>
+		virtual void InitializeAppCommand() {}
+
+
+		/// <summary>
+		/// 文字列をdiscordで送信する
+		/// </summary>
+		template <class T>
 		SleepyDiscord::ObjectResponse<SleepyDiscord::Message> DiscordOut(
 			const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID,
-			const std::string& str
-		);
-		
-		SleepyDiscord::ObjectResponse<SleepyDiscord::Message> ModuleBase::DiscordOut(
-			const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID,
-			const boost::program_options::options_description& opt
-		);
+			const T& str)
+		{
+			std::stringstream ss{};
+			ss << str;
+			std::shared_ptr<MyClientClass> client = MyClientClass::GetInstance();
+			return client->sendMessage(channelID, this->JoinModuleName(ss.str()));
+		}
 
-		std::string JoinModuleName(const std::string& str);
-		virtual void Handler(const SleepyDiscord::Message& message);
-		virtual void PlainTextHandler(const SleepyDiscord::Message& message);
-		virtual void InitializeAppCommand();
-		virtual void InteractionHandler(SleepyDiscord::Interaction& interaction);
-		std::string GetCommand();
-		SleepyDiscord::AppCommand appCommand;
 	};
-	
-	inline void ModuleBase::PlainTextHandler(const SleepyDiscord::Message& message){}
-	inline void ModuleBase::Handler(const SleepyDiscord::Message& message) {}
-	inline void ModuleBase::InitializeAppCommand() {}
-	inline void ModuleBase::InteractionHandler(SleepyDiscord::Interaction& interaction){}
 
-	inline std::string ModuleBase::GetCommand() {
-		return this->command;
-	}
 }

@@ -20,24 +20,14 @@ namespace Module {
 
 	Timer::Timer() : ModuleBase(
 		Info::MODULE_NAME,
-		Info::COMMAND,
-		program_options::options_description("Timer Module Usage")
-	)
-	{
-		this->options.add_options()
-			("help,h", "show help")
-			("sec,s", boost::program_options::value<int>(), "set the timer for [argument] seconds")
-			("min,m", boost::program_options::value<int>(), "set the timer for [argument] minutes")
-			("hour,o", boost::program_options::value<int>(), "set the timer for [argument] hours")
-			("day,d", boost::program_options::value<int>(), "set the timer for [argument] days")
-			("title,t", boost::program_options::value<std::string>()->default_value(""), "set title for timer")
-			;
-	}
+		Info::COMMAND)
+	{}
 
 
 	void Timer::InitializeAppCommand() {
-		this->appCommand.name = Info::COMMAND;
-		this->appCommand.description = Info::COMMAND_DESCRIPTION;
+		SleepyDiscord::AppCommand::Option appCommand;
+		appCommand.name = Info::COMMAND;
+		appCommand.description = Info::COMMAND_DESCRIPTION;
 
 		SleepyDiscord::AppCommand::Option duration;
 		duration.name = "duration";
@@ -59,9 +49,10 @@ namespace Module {
 		timerName.isRequired = false;
 		timerName.type = SleepyDiscord::AppCommand::Option::TypeHelper<std::string>::getType();
 
-		this->appCommand.options.push_back(std::move(length));
-		this->appCommand.options.push_back(std::move(duration));
-		this->appCommand.options.push_back(std::move(timerName));
+		appCommand.options.push_back(std::move(length));
+		appCommand.options.push_back(std::move(duration));
+		appCommand.options.push_back(std::move(timerName));
+		this->SetAppCommand(std::move(appCommand));
 		return;
 	}
 
@@ -144,62 +135,4 @@ namespace Module {
 		return;
 	}
 
-	void Timer::Handler(const SleepyDiscord::Message& message) {
-		program_options::variables_map vm;
-		std::vector<std::string> splitedCommandLine = program_options::split_unix(message.content);
-
-		try {
-			program_options::store(
-				program_options::command_line_parser(
-					splitedCommandLine
-				).options(this->options).run(),
-				vm
-			);
-		}
-		catch (program_options::error& e) {
-			(void)e.what();
-			this->DiscordOut(message.channelID, this->options);			
-			return;
-		}
-		chrono::seconds time(0);
-		std::string outStr = "";
-
-		if (splitedCommandLine.size() == 2 && vm.count("help") == 0) {
-			try {
-				time = chrono::minutes(boost::lexical_cast<int>(splitedCommandLine[1]));
-				outStr = std::to_string(boost::lexical_cast<int>(splitedCommandLine[1])) + u8"分";
-			}
-			catch (boost::bad_lexical_cast&) {
-				this->DiscordOut(message.channelID, this->options);
-				return;
-			}
-		}
-		else if (vm.count("min")) {
-			time = chrono::minutes(vm["min"].as<int>());
-			outStr = std::to_string(vm["min"].as<int>()) + u8"分";
-		}
-		else if (vm.count("sec")) {
-			time = chrono::seconds(vm["sec"].as<int>());
-			outStr = std::to_string(vm["sec"].as<int>()) + u8"秒";
-		}
-		else if (vm.count("hour")) {
-			time = chrono::hours(vm["hour"].as<int>());
-			outStr = std::to_string(vm["hour"].as<int>()) + u8"時間";
-		}
-		else if (vm.count("day")) {
-			time = chrono::hours(vm["day"].as<int>() * 24);
-			outStr = std::to_string(vm["day"].as<int>()) + u8"日";
-		}
-		else {
-			this->DiscordOut(message.channelID, this->options);
-			return;
-		}
-		this->DiscordOut(message.channelID, outStr + u8"のタイマーをセット! " + vm["title"].as<std::string>());
-		std::this_thread::sleep_for(time);
-		this->DiscordOut(message.channelID, (boost::format(u8"%1%経ったよ <@!%2%> %3%") %
-			outStr %
-			message.author.ID.string() %
-			vm["title"].as<std::string>()).str()
-		);
-	}
 }

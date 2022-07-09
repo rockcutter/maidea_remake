@@ -17,16 +17,18 @@ namespace Module {
 	}
 
 	Possession::Possession():
-		ModuleBase(Info::MODULENAME, Info::COMMAND, boost::program_options::options_description()),
+		ModuleBase(Info::MODULENAME, Info::COMMAND),
 		possession(false),
 		targetChannelID()
 	{}
 
 	void Possession::InitializeAppCommand() {
 		using CmdOption = SleepyDiscord::AppCommand::Option;
+		
+		SleepyDiscord::AppCommand::Option appCommand;
 
-		this->appCommand.name = Info::COMMAND;
-		this->appCommand.description = Info::COMMAND_DESCRIPTION;
+		appCommand.name = Info::COMMAND;
+		appCommand.description = Info::COMMAND_DESCRIPTION;
 		
 		CmdOption start;
 		start.type = CmdOption::Type::SUB_COMMAND;
@@ -51,10 +53,11 @@ namespace Module {
 
 		say.options.push_back(std::move(statement));
 		
-		this->appCommand.options.push_back(std::move(say));		
-		this->appCommand.options.push_back(std::move(start));		
-		this->appCommand.options.push_back(std::move(end));		
-		
+		appCommand.options.emplace_back(std::move(say));		
+		appCommand.options.emplace_back(std::move(start));		
+		appCommand.options.emplace_back(std::move(end));		
+
+		this->SetAppCommand(std::move(appCommand));
 	}
 
 	void Possession::Start(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID) {

@@ -19,18 +19,14 @@ namespace Module {
 	URLShortening::URLShortening() :
 		ModuleBase(
 			Info::MODULE_NAME,
-			Info::COMMAND,
-			boost::program_options::options_description("URLShortening Module Usage")
+			Info::COMMAND
 		)
-		{
-		this->options.add_options()
-			("help,h", "show help")
-			;
-	}
+		{}
 
 	void URLShortening::InitializeAppCommand() {
-		this->appCommand.name = Info::COMMAND;
-		this->appCommand.description = Info::DESCRIPTION;
+		SleepyDiscord::AppCommand::Option appCommand;
+		appCommand.name = Info::COMMAND;
+		appCommand.description = Info::DESCRIPTION;
 
 		SleepyDiscord::AppCommand::Option url;
 		url.name = "url";
@@ -38,7 +34,8 @@ namespace Module {
 		url.type = SleepyDiscord::AppCommand::Option::TypeHelper<std::string>().getType();
 		url.description = "url here";
 
-		this->appCommand.options.push_back(std::move(url));
+		appCommand.options.push_back(std::move(url));
+		this->SetAppCommand(std::move(appCommand));
 	}
 
 	void URLShortening::InteractionHandler(SleepyDiscord::Interaction& interaction) {
@@ -84,50 +81,4 @@ namespace Module {
 		throw std::invalid_argument("invalid Amazon URL");
 	}
 
-	void URLShortening::Handler(const SleepyDiscord::Message& message) {
-		program_options::variables_map vm;
-		std::vector<std::string> splitedCommandLine = boost::program_options::split_unix(message.content);
-
-		if (splitedCommandLine.size() < 2) {
-			this->DiscordOut(message.channelID, this->options);
-			return;
-		}
-
-		std::string url = splitedCommandLine.at(1);
-
-		try {
-			program_options::store(
-				program_options::command_line_parser(
-					splitedCommandLine
-				).options(this->options).run(),
-				vm
-			);
-		}
-		catch (program_options::error& e) {
-			(void)e.what();
-			this->DiscordOut(message.channelID, this->options);
-			return;
-		}
-		if (vm.count("help")) {
-			this->DiscordOut(message.channelID, this->options);
-			return;
-		}
-
-		if (url.find(TOP_AMAZON) != std::string::npos) {
-			try {
-				this->DiscordOut(message.channelID,
-					(boost::format("from `%1%`\n%2%") %
-						message.author.username % 
-						this->ShortenAmazonURL(url)
-						).str()
-				);
-				auto sp = MyClientClass::GetInstance();
-				sp->deleteMessage(message.channelID, message.ID);
-			}
-			catch (std::invalid_argument&) {
-				this->DiscordOut(message.channelID, "invalid Amazon URL");
-			}
-			return;
-		}
-	}
 }

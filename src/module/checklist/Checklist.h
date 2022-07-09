@@ -16,7 +16,6 @@ namespace Module {
 		};
 		Checklist();
 		static bool IsEnable(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID);
-		void Handler(const SleepyDiscord::Message& message) override;
 		bool Enable(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID);
 		void InteractionHandler(SleepyDiscord::Interaction& interaction) override;
 		bool Disable(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID);

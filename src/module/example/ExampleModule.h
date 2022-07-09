@@ -12,8 +12,7 @@ namespace Module {
 		ExampleModule() 
 			: ModuleBase(
 				"Module name here",
-				"command here",
-				boost::program_options::options_description()
+				"command here"
 			)
 		{}
 
