@@ -22,7 +22,12 @@ public:
 	static void GetSlashCommandProcessors(std::vector<std::unique_ptr<Module::SlashCommandProcessorBase>>& modules) {
 		MultipleUnique<
 			Module::SlashCommandProcessorBase,
-			Module::Hello
+			Module::Checklist,
+			Module::Hello,
+			Module::Timer,
+			Module::Random,
+			Module::Possession,
+			Module::URLShortening
 		>::Make(modules);
 	}
 	
@@ -38,6 +43,7 @@ public:
 	static void GetTextProcessors(std::vector<std::unique_ptr<Module::TextProcessorBase>>& modules) {
 		MultipleUnique<
 			Module::TextProcessorBase,
+			Module::Random,
 			Module::Checklist
 		>::Make(modules);
 	}
