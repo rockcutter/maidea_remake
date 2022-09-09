@@ -10,8 +10,8 @@ namespace Module {
 
 	Hello::Hello():
 		ModuleBase(
-			Hello::Info::MODULE_NAME, 
-			Hello::Info::COMMAND)
+			Hello::Info::MODULE_NAME
+		)
 	{}
 
 

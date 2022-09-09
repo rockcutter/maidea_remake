@@ -3,9 +3,11 @@
 #include <boost/program_options.hpp>
 #include "sleepy_discord/sleepy_discord.h"
 #include "module/base/ModuleBase.h"
+#include "module/base/SlashCommandProcessorBase.h"
+#include "SlashCommandProcessorBase.h"
 
 namespace Module {
-	class Hello : public ModuleBase {
+	class Hello : public ModuleBase, public SlashCommandProcessorBase{
 	public:
 		static struct Info {
 			static const std::string MODULE_NAME;
@@ -15,7 +17,7 @@ namespace Module {
 		};
 		Hello();
 		void Send(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID);
-		void InitializeAppCommand() override;
 		void InteractionHandler(SleepyDiscord::Interaction& interaction) override;
+		void InitializeAppCommand() override;
 	};
 }

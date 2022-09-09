@@ -1,11 +1,13 @@
 #pragma once
 #include <vector>
 #include <string>
-#include "sleepy_discord/sleepy_discord.h"
 #include "module/base/ModuleBase.h"
+#include "module/base/SlashCommandProcessorBase.h"
+#include "module/base/TextProcessorBase.h"
+#include "sleepy_discord/sleepy_discord.h"
 
 namespace Module {
-	class Checklist : public ModuleBase {
+	class Checklist : public ModuleBase , public SlashCommandProcessorBase, public TextProcessorBase{
 	private:
 		static std::vector<std::string> channels;
 	public:
@@ -19,7 +21,7 @@ namespace Module {
 		bool Enable(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID);
 		void InteractionHandler(SleepyDiscord::Interaction& interaction) override;
 		bool Disable(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID);
-		void PlainTextHandler(const SleepyDiscord::Message& message) override;
+		void TextHandler(const SleepyDiscord::Message& message) override;
 		void InitializeAppCommand() override;
 	};
 }

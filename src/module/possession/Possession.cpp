@@ -17,7 +17,7 @@ namespace Module {
 	}
 
 	Possession::Possession():
-		ModuleBase(Info::MODULENAME, Info::COMMAND),
+		ModuleBase(Info::MODULENAME),
 		possession(false),
 		targetChannelID()
 	{}

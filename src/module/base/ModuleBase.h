@@ -5,11 +5,8 @@
 
 namespace Module {
 	class ModuleBase {
-	private:
-		SleepyDiscord::AppCommand::Option appCommand;
 	protected:
 		const std::string moduleName;
-		std::string command;
 
 		/// <summary>
 		/// 文字列の先頭にモジュール名を結合して表示用に整形する
@@ -17,29 +14,10 @@ namespace Module {
 		std::string JoinModuleName(const std::string& str);
 	public:
 		ModuleBase(
-			const std::string& moduleName,
-			const std::string& command
+			const std::string& moduleName
 		);
-
-		//handlers
-		virtual void InteractionHandler(SleepyDiscord::Interaction& interaction) {}
-		virtual void PlainTextHandler(const SleepyDiscord::Message& message)	 {}
-		virtual void Handler(const SleepyDiscord::Message& message)				 {}
-
-		//setter
-		void SetAppCommand(SleepyDiscord::AppCommand::Option&& appCommand);
-
 		//getter
-		const std::string& GetModuleName()					 { return this->moduleName; }
-		const std::string& GetCommand()						 { return this->command; }
-		SleepyDiscord::AppCommand::Option& GetAppCommand()	 { return this->appCommand; }
-
-		/// <summary>
-		/// モジュールがインスタンス化されるよりも前に呼び出される。
-		/// AppCommandを設定するときはこのメソッドをオーバーライドしてその中でSetAppCommandを呼べばよい
-		/// </summary>
-		virtual void InitializeAppCommand() {}
-
+		const std::string& GetModuleName() { return this->moduleName; }
 
 		/// <summary>
 		/// 文字列をdiscordで送信する

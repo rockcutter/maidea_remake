@@ -1,8 +1,9 @@
 #include <string>
 #include "module/base/ModuleBase.h"
+#include "module/base/SlashCommandProcessorBase.h"
 
 namespace Module {
-	class URLShortening : public ModuleBase {
+	class URLShortening : public ModuleBase , public SlashCommandProcessorBase{
 	private:
 		std::string ShortenAmazonURL(const std::string& url);
 	public:

@@ -18,9 +18,7 @@ namespace Module {
 	const int Random::Info::DEFAULT_UPPER_LIMIT{ 99 };
 
 	Random::Random() : 
-		ModuleBase(
-			Info::MODULE_NAME,
-			Info::COMMAND)
+		ModuleBase(Info::MODULE_NAME)
 	{
 	}
 
@@ -81,7 +79,7 @@ namespace Module {
 		return;
 	};
 
-	void Random::PlainTextHandler(const SleepyDiscord::Message& message) {
+	void Random::TextHandler(const SleepyDiscord::Message& message) {
 		std::vector<std::string> splited;
 		std::array<int, 2> integers;
 		boost::split(splited, message.content, boost::is_any_of("d"));

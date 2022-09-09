@@ -1,9 +1,10 @@
 #include <boost/program_options.hpp>
 #include "module/base/ModuleBase.h"
+#include "module/base/SlashCommandProcessorBase.h"
 #include "sleepy_discord/sleepy_discord.h"
 
 namespace Module {
-	class Timer : public ModuleBase{
+	class Timer : public ModuleBase , public SlashCommandProcessorBase{
 	private:
 	public:
 		struct Info {

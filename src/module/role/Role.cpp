@@ -19,9 +19,7 @@ namespace Module {
 	const std::string Role::Info::MODULE_NAME{"Role"};
 
 	Role::Role() :
-		ModuleBase(
-			Info::MODULE_NAME,
-			Info::COMMAND)
+		ModuleBase(Info::MODULE_NAME)
 		{}
 
 	bool Role::ExecuteMarker(
@@ -44,6 +42,7 @@ namespace Module {
 		const SleepyDiscord::User& user,
 		const SleepyDiscord::Emoji& emoji)
 	{
+		return; //ˆê’U’âŽ~
 		auto IsCommand = [&message]() {
 			for (auto prefix : { ">", "!", "?", "\\" }) {
 				if (boost::starts_with(message.content, prefix + std::string{ "role" })) {

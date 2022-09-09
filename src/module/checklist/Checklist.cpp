@@ -1,4 +1,4 @@
-﻿#include "Checklist.h"
+﻿#include "module/checklist/Checklist.h"
 #include <algorithm>
 #include "client/MyClient.h"
 
@@ -11,9 +11,7 @@ namespace Module {
 	std::vector<std::string> Checklist::channels;
 
 	Checklist::Checklist() :
-		ModuleBase(Checklist::Info::MODULE_NAME,
-			Checklist::Info::COMMAND
-		)
+		ModuleBase(Checklist::Info::MODULE_NAME)
 	{
 	}
 
@@ -64,7 +62,7 @@ namespace Module {
 		clientPtr->createInteractionResponse(interaction.ID, interaction.token, response);
 	}
 
-	void Checklist::PlainTextHandler(const SleepyDiscord::Message& message) {
+	void Checklist::TextHandler(const SleepyDiscord::Message& message) {
 		if (this->IsEnable(message.channelID)) {
 			auto client = MyClientClass::GetInstance();
 			client->addReaction(message.channelID, message.ID, u8"✅");	

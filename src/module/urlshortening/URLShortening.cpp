@@ -17,10 +17,7 @@ namespace Module {
 	const std::string URLShortening::Info::DESCRIPTION{ "Shorten specific URLs" };
 
 	URLShortening::URLShortening() :
-		ModuleBase(
-			Info::MODULE_NAME,
-			Info::COMMAND
-		)
+		ModuleBase(Info::MODULE_NAME)
 		{}
 
 	void URLShortening::InitializeAppCommand() {

@@ -2,9 +2,10 @@
 #include <string>
 #include "sleepy_discord/sleepy_discord.h"
 #include "module/base/ModuleBase.h"
+#include "module/base/SlashCommandProcessorBase.h"
 
 namespace Module {
-	class Possession : public ModuleBase {
+	class Possession : public ModuleBase , public SlashCommandProcessorBase{
 	private:
 		bool possession;
 		static std::vector<SleepyDiscord::Snowflake<SleepyDiscord::User>> privilegedUser;

@@ -18,9 +18,9 @@ namespace Module {
 	const std::string Timer::Info::COMMAND{"timer"};
 	const std::string Timer::Info::COMMAND_DESCRIPTION{"set timer"};
 
-	Timer::Timer() : ModuleBase(
-		Info::MODULE_NAME,
-		Info::COMMAND)
+	Timer::Timer() : 
+		ModuleBase(Info::MODULE_NAME),
+		SlashCommandProcessorBase()
 	{}
 
 
