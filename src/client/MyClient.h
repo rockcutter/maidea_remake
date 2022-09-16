@@ -7,7 +7,6 @@
 
 class MyClientClass : public SleepyDiscord::DiscordClient {
 private:
-	std::vector<std::unique_ptr<Module::ModuleBase>> modules;
 	std::vector<std::unique_ptr<Module::SlashCommandProcessorBase>> slashCommandModuleArray;
 	std::vector<std::unique_ptr<Module::TextProcessorBase>> textModuleArray;
 	static std::shared_ptr<MyClientClass> instance;
