@@ -7,11 +7,9 @@ namespace Module {
 	class Timer : public ModuleBase , public SlashCommandProcessorBase{
 	private:
 	public:
-		struct Info {
-			const static std::string MODULE_NAME;
-			const static std::string COMMAND;
-			const static std::string COMMAND_DESCRIPTION;
-		};
+		const static std::string MODULE_NAME;
+		const static std::string COMMAND;
+		const static std::string COMMAND_DESCRIPTION;
 		Timer();
 		void InteractionHandler(SleepyDiscord::Interaction& interaction) override;
 		void InitializeAppCommand() override;

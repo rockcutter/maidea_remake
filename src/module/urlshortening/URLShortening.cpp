@@ -12,18 +12,18 @@ namespace program_options = boost::program_options;
 
 namespace Module {
 
-	const std::string URLShortening::Info::MODULE_NAME{"URLShortening"};
-	const std::string URLShortening::Info::COMMAND{"url"};
-	const std::string URLShortening::Info::DESCRIPTION{ "Shorten specific URLs" };
+	const std::string URLShortening::MODULE_NAME{"URLShortening"};
+	const std::string URLShortening::COMMAND{"url"};
+	const std::string URLShortening::DESCRIPTION{ "Shorten specific URLs" };
 
 	URLShortening::URLShortening() :
-		ModuleBase(Info::MODULE_NAME)
+		ModuleBase(MODULE_NAME)
 		{}
 
 	void URLShortening::InitializeAppCommand() {
 		SleepyDiscord::AppCommand::Option appCommand;
-		appCommand.name = Info::COMMAND;
-		appCommand.description = Info::DESCRIPTION;
+		appCommand.name = COMMAND;
+		appCommand.description = DESCRIPTION;
 
 		SleepyDiscord::AppCommand::Option url;
 		url.name = "url";

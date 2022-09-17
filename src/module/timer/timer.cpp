@@ -14,20 +14,20 @@ namespace program_options = boost::program_options;
 namespace chrono = std::chrono;
 
 namespace Module {
-	const std::string Timer::Info::MODULE_NAME{"Timer"};
-	const std::string Timer::Info::COMMAND{"timer"};
-	const std::string Timer::Info::COMMAND_DESCRIPTION{"set timer"};
+	const std::string Timer::MODULE_NAME{"Timer"};
+	const std::string Timer::COMMAND{"timer"};
+	const std::string Timer::COMMAND_DESCRIPTION{"set timer"};
 
 	Timer::Timer() : 
-		ModuleBase(Info::MODULE_NAME),
+		ModuleBase(MODULE_NAME),
 		SlashCommandProcessorBase()
 	{}
 
 
 	void Timer::InitializeAppCommand() {
 		SleepyDiscord::AppCommand::Option appCommand;
-		appCommand.name = Info::COMMAND;
-		appCommand.description = Info::COMMAND_DESCRIPTION;
+		appCommand.name = COMMAND;
+		appCommand.description = COMMAND_DESCRIPTION;
 
 		SleepyDiscord::AppCommand::Option duration;
 		duration.name = "duration";
