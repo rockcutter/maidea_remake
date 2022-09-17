@@ -5,15 +5,14 @@
 namespace program_options = boost::program_options;
 
 namespace Module {
-	const std::string Checklist::Info::MODULE_NAME{ "Checklist" };
-	const std::string Checklist::Info::COMMAND{"cl"};
-	const std::string Checklist::Info::COMMAND_DESCRIPTION{ "switch Checklist mode" };
-	std::vector<std::string> Checklist::channels;
+	const std::string Checklist::COMMAND_DESCRIPTION	= "switch Checklist mode";
+	const std::string Checklist::MODULE_NAME			= "Checklist";
+	const std::string Checklist::COMMAND				= "cl";
+	std::vector<std::string> Checklist::channels{};
 
 	Checklist::Checklist() :
-		ModuleBase(Checklist::Info::MODULE_NAME)
-	{
-	}
+		ModuleBase(Checklist::MODULE_NAME)
+	{}
 
 	bool Checklist::Enable(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID) {
 		if (this->IsEnable(channelID)) {
@@ -40,8 +39,8 @@ namespace Module {
 
 	void Checklist::InitializeAppCommand() {
 		SleepyDiscord::AppCommand::Option appCommand;
-		appCommand.name = Info::COMMAND;
-		appCommand.description = Info::COMMAND_DESCRIPTION;
+		appCommand.name			= COMMAND;
+		appCommand.description	= COMMAND_DESCRIPTION;
 		this->SetAppCommand(std::move(appCommand));
 	}
 
