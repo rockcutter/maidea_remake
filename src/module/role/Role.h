@@ -25,10 +25,9 @@ namespace Module {
 		};
 		static std::vector<std::string> MentionedRoleID(const std::string&);
 	public:
-		struct Info {
-			const static std::string COMMAND;
-			const static std::string MODULE_NAME;
-		};
+		//constants
+		const static std::string COMMAND;
+		const static std::string MODULE_NAME;
 
 		Role();		
 

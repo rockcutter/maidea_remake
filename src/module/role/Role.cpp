@@ -14,11 +14,11 @@ namespace Module {
 	const std::string Role::Marker::GRANT = "grant";
 	const std::string Role::Marker::REMOVE = "remove";
 
-	const std::string Role::Info::COMMAND{"role"};
-	const std::string Role::Info::MODULE_NAME{"Role"};
+	const std::string Role::COMMAND{"role"};
+	const std::string Role::MODULE_NAME{"Role"};
 
 	Role::Role() :
-		ModuleBase(Info::MODULE_NAME)
+		ModuleBase(MODULE_NAME)
 		{}
 
 	bool Role::ExecuteMarker(
