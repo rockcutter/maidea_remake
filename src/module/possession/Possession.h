@@ -11,7 +11,7 @@ namespace Module {
 		static std::vector<SleepyDiscord::Snowflake<SleepyDiscord::User>> privilegedUser;
 		SleepyDiscord::Snowflake<SleepyDiscord::Channel> targetChannelID;
 	public:
-		static struct Info {
+		struct Info {
 			const static std::string MODULENAME;
 			const static std::string COMMAND;
 			const static std::string COMMAND_END;

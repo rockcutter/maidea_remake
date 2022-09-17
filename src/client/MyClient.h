@@ -3,7 +3,6 @@
 //#include "handler/Handler.h"
 #include "module/base/SlashCommandProcessorBase.h"
 #include "module/base/TextProcessorBase.h"
-#include "module/base/ModuleBase.h"
 
 class MyClientClass : public SleepyDiscord::DiscordClient {
 private:

@@ -9,7 +9,7 @@
 namespace Module {
 	class Hello : public ModuleBase, public SlashCommandProcessorBase{
 	public:
-		static struct Info {
+		struct Info {
 			static const std::string MODULE_NAME;
 			static const std::string COMMAND;
 			static const std::string HELLO_MESSAGE;

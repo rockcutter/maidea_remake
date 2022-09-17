@@ -11,7 +11,7 @@ namespace Module {
 	private:
 		static std::vector<std::string> channels;
 	public:
-		static struct Info {
+		struct Info {
 			const static std::string MODULE_NAME;
 			const static std::string COMMAND;
 			const static std::string COMMAND_DESCRIPTION;

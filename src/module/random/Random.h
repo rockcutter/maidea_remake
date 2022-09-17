@@ -7,7 +7,7 @@
 namespace Module {
 	class Random : public ModuleBase , public TextProcessorBase, public SlashCommandProcessorBase{
 	public:
-		static struct Info {
+		struct Info {
 			static const std::string MODULE_NAME;
 			static const std::string COMMAND;
 			static const std::string COMMAND_DESCRIPTION;

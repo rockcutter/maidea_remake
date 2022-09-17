@@ -2,6 +2,7 @@
 #include <string>
 #include "sleepy_discord/sleepy_discord.h"
 #include <boost/program_options.hpp>
+#include "client/MyClient.h"
 
 namespace Module {
 	class ModuleBase {
