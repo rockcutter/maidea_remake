@@ -9,12 +9,12 @@
 namespace Module {
 	class Hello : public ModuleBase, public SlashCommandProcessorBase{
 	public:
-		struct Info {
-			static const std::string MODULE_NAME;
-			static const std::string COMMAND;
-			static const std::string HELLO_MESSAGE;
-			static const std::string COMMAND_DESCRIPTION;
-		};
+		//constant
+		static const std::string MODULE_NAME;
+		static const std::string COMMAND;
+		static const std::string HELLO_MESSAGE;
+		static const std::string COMMAND_DESCRIPTION;
+
 		Hello();
 		void Send(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID);
 		void InteractionHandler(SleepyDiscord::Interaction& interaction) override;
