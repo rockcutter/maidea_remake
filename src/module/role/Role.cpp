@@ -41,7 +41,7 @@ namespace Module {
 		const SleepyDiscord::User& user,
 		const SleepyDiscord::Emoji& emoji)
 	{
-		return; //ˆê’U’âŽ~
+		//return; //ˆê’U’âŽ~
 		auto IsCommand = [&message]() {
 			for (auto prefix : { ">", "!", "?", "\\" }) {
 				if (boost::starts_with(message.content, prefix + std::string{ "role" })) {
