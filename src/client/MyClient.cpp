@@ -1,11 +1,6 @@
 #include "MyClient.h"
-//#include "handler/MessageHandler.h"
 #include "util/ConsoleOut.h"
-//#include "handler/Handler.h"
-
 #include "RegisterModule.h"
-
-//#define DEBUG
 
 std::shared_ptr<MyClientClass> MyClientClass::instance(nullptr);
 
@@ -31,13 +26,6 @@ void MyClientClass::onMessage(SleepyDiscord::Message message) {
 		mod->TextHandler(message);
 	}
 	return;
-	//if (this->cmdHandler.IsCommand(message.content)) {
-
-	//	this->cmdHandler.Run(message);
-	//	return;
-	//}
-	//this->txtHandler.Run(message);
-	//return;
 }
 
 void MyClientClass::onReady(SleepyDiscord::Ready readyData) {

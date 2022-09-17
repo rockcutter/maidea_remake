@@ -1,6 +1,5 @@
 #pragma once
 #include "sleepy_discord/sleepy_discord.h"
-//#include "handler/Handler.h"
 #include "module/base/SlashCommandProcessorBase.h"
 #include "module/base/TextProcessorBase.h"
 

@@ -30,14 +30,6 @@ public:
 			Module::URLShortening
 		>::Make(modules);
 	}
-	
-	//ここにはTextCommandを処理するHandler関数を実装したModuleを登録する テンプレートパラメータに書き加えるだけでよい(可変長パラメータ)
-	//static void GetTextCommandProcessors(std::vector<std::unique_ptr<Module::TextProcessorBase>>& modules) {
-	//	MultipleUnique<
-	//		Module::TextProcessorBase,
-	//		Module::Hello
-	//	>::Make(modules);
-	//}
 
 	//ここにはPlainTextHandlerを実装したModuleを登録する テンプレートパラメータに書き加えるだけでよい(可変長パラメータ)
 	static void GetTextProcessors(std::vector<std::unique_ptr<Module::TextProcessorBase>>& modules) {
