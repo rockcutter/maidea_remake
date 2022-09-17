@@ -7,13 +7,13 @@
 namespace Module {
 	class Random : public ModuleBase , public TextProcessorBase, public SlashCommandProcessorBase{
 	public:
-		struct Info {
-			static const std::string MODULE_NAME;
-			static const std::string COMMAND;
-			static const std::string COMMAND_DESCRIPTION;
-			static const int DEFAULT_LOWER_LIMIT;
-			static const int DEFAULT_UPPER_LIMIT;
-		};
+		//constants
+		static const std::string MODULE_NAME;
+		static const std::string COMMAND;
+		static const std::string COMMAND_DESCRIPTION;
+		static const int DEFAULT_LOWER_LIMIT;
+		static const int DEFAULT_UPPER_LIMIT;
+
 		Random();
 		void TextHandler(const SleepyDiscord::Message& message) override;
 		void InteractionHandler(SleepyDiscord::Interaction& interaction) override;

@@ -11,21 +11,21 @@
 namespace program_options = boost::program_options;
 
 namespace Module {
-	const std::string Random::Info::MODULE_NAME{ "Random" };
-	const std::string Random::Info::COMMAND{ "rand" };
-	const std::string Random::Info::COMMAND_DESCRIPTION{ "generate random numbers" };
-	const int Random::Info::DEFAULT_LOWER_LIMIT{ 0 };
-	const int Random::Info::DEFAULT_UPPER_LIMIT{ 99 };
+	const std::string Random::MODULE_NAME{ "Random" };
+	const std::string Random::COMMAND{ "rand" };
+	const std::string Random::COMMAND_DESCRIPTION{ "generate random numbers" };
+	const int Random::DEFAULT_LOWER_LIMIT{ 0 };
+	const int Random::DEFAULT_UPPER_LIMIT{ 99 };
 
 	Random::Random() : 
-		ModuleBase(Info::MODULE_NAME)
+		ModuleBase(MODULE_NAME)
 	{
 	}
 
 	void Random::InitializeAppCommand() {
 		SleepyDiscord::AppCommand::Option appCommand;
-		appCommand.name = Info::COMMAND;
-		appCommand.description = Info::COMMAND_DESCRIPTION;
+		appCommand.name = COMMAND;
+		appCommand.description = COMMAND_DESCRIPTION;
 		SleepyDiscord::AppCommand::Option min;
 		min.name = "min";
 		min.type = SleepyDiscord::AppCommand::Option::TypeHelper<int>().getType();
