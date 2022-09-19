@@ -1,0 +1,10 @@
+version: '3'
+services:
+  maidea:
+    image: ubuntu:22.04
+    container_name: maidea
+    volumes:
+      - .:/maidea
+    tty: true
+    entrypoint: /maidea/entrypoint.sh
+
