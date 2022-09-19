@@ -1,12 +1,12 @@
 #pragma once
 #include "sleepy_discord/sleepy_discord.h"
-#include "handler/Handler.h"
+#include "module/base/SlashCommandProcessorBase.h"
+#include "module/base/TextProcessorBase.h"
 
 class MyClientClass : public SleepyDiscord::DiscordClient {
 private:
-	Handler::CommandHandler cmdHandler;
-	Handler::PlainTextHandler txtHandler;
-	std::vector<std::unique_ptr<Module::ModuleBase>> modules;
+	std::vector<std::unique_ptr<Module::SlashCommandProcessorBase>> slashCommandModuleArray;
+	std::vector<std::unique_ptr<Module::TextProcessorBase>> textModuleArray;
 	static std::shared_ptr<MyClientClass> instance;
 	MyClientClass(const std::string token, const char numOfThreads = (char)1);
 public:

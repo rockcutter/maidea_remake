@@ -1,11 +1,6 @@
 #include "MyClient.h"
-//#include "handler/MessageHandler.h"
 #include "util/ConsoleOut.h"
-#include "handler/Handler.h"
-
 #include "RegisterModule.h"
-
-//#define DEBUG
 
 std::shared_ptr<MyClientClass> MyClientClass::instance(nullptr);
 
@@ -27,66 +22,42 @@ std::shared_ptr<MyClientClass> MyClientClass::GetInstance() {
 }
 
 void MyClientClass::onMessage(SleepyDiscord::Message message) {
-	if (this->cmdHandler.IsCommand(message.content)) {
-		this->cmdHandler.Run(message);
-		return;
+	for (const auto& mod : this->textModuleArray) {
+		mod->TextHandler(message);
 	}
-	this->txtHandler.Run(message);
 	return;
 }
 
 void MyClientClass::onReady(SleepyDiscord::Ready readyData) {
-	//textcommand処理moduleの登録
-	std::vector<std::unique_ptr<Module::ModuleBase>> textCommandProcessors;
-	ModulePackager::GetTextCommandProcessors(textCommandProcessors);
-	this->cmdHandler.RegisterModuleArray(std::move(textCommandProcessors));
 
-	//text処理moduleの登録
-	std::vector<std::unique_ptr<Module::ModuleBase>> textProcessors;
-	ModulePackager::GetTextProcessors(textProcessors);
-	this->txtHandler.RegisterModuleArray(std::move(textProcessors));
-	
-	//slashcommand処理moduleの登録
-	ModulePackager::GetSlashCommandProcessors(this->modules);
-	
+	//使用するモジュールの一覧を保持
+	ModulePackager::GetTextProcessors(this->textModuleArray);
+	ModulePackager::GetSlashCommandProcessors(this->slashCommandModuleArray);
+
 	static bool isFirstTime = true;
 
-	if (isFirstTime) {
-		std::vector<SleepyDiscord::AppCommand> allAppCommands;
-		for (const auto& mod : modules) {
+	if (isFirstTime) { //一度だけ実行
+		//すべてのslashcommandをもつmoduleはinitialize
+		for (const auto& mod : this->slashCommandModuleArray) {
 			mod->InitializeAppCommand();
-			if (mod->appCommand.name != "") {
-#ifndef DEBUG
+		}
+
+		//slashcommandを登録
+		for (const auto& mod : this->slashCommandModuleArray) {
+			SleepyDiscord::AppCommand::Option opt = mod->GetAppCommand();
+			if (opt.name != "") {
 				this->createGlobalAppCommand(
-				 getID(),
-					mod->appCommand.name,
-					mod->appCommand.description,
-					std::move(mod->appCommand.options)
-				);
-				Util::ConsoleOut("createdAppCommand: " + mod->appCommand.name);
-				std::this_thread::sleep_for(std::chrono::milliseconds(5000));
-#else
-				SleepyDiscord::Snowflake<SleepyDiscord::Server> ser;
-				for (auto& server : readyData.servers) {
-					if (server.ID == 0000000000000) {
-						ser = server.ID;
-					}
-				}
-				this->createServerAppCommand(
 					getID(),
-					ser,
-					mod->appCommand.name,
-					mod->appCommand.description,
-					std::move(mod->appCommand.options)
+					opt.name,
+					opt.description,
+					std::move(opt.options)
 				);
-#endif
+				Util::ConsoleOut("createdAppCommand: " + opt.name);
+				std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 			}
 		}
 		isFirstTime = false;
 	}
-
-
-
 	Util::ConsoleOut("Ready");
 	return;
 }
@@ -110,14 +81,13 @@ void MyClientClass::onReaction(
 		this->onMessage(message);
 	}
 
-
 	return;
 }
 
 void MyClientClass::onInteraction(SleepyDiscord::Interaction interaction) {
 	std::string name = interaction.data.name;
-	for (auto& mod : this->modules) {
-		if (name == mod->appCommand.name) {
+	for (auto& mod : this->slashCommandModuleArray) {
+		if (name == mod->GetCommand()) {
 			mod->InteractionHandler(interaction);
 		}
 	}

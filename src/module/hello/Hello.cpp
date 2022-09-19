@@ -3,39 +3,36 @@
 #include <boost/format.hpp>
 
 namespace Module {
-	const std::string Hello::Info::COMMAND{ "hello" };
-	const std::string Hello::Info::MODULE_NAME{ "Hello" };
-	const std::string Hello::Info::HELLO_MESSAGE{ "Hello!" };
-	const std::string Hello::Info::COMMAND_DESCRIPTION{ "say hello" };
+	const std::string Hello::COMMAND				 = "hello" ;
+	const std::string Hello::MODULE_NAME			 = "Hello" ;
+	const std::string Hello::HELLO_MESSAGE			 = "Hello!";
+	const std::string Hello::COMMAND_DESCRIPTION	 = "say hello";
 
 	Hello::Hello():
 		ModuleBase(
-			Hello::Info::MODULE_NAME, 
-			Hello::Info::COMMAND,
-			boost::program_options::options_description())
+			Hello::MODULE_NAME
+		)
 	{}
 
 
 	void Hello::Send(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID) {
-		this->DiscordOut(channelID, Hello::Info::MODULE_NAME);
-	}
-
-	void Hello::Handler(const SleepyDiscord::Message& message) {
-		this->Send(message.channelID);
+		this->DiscordOut(channelID, Hello::MODULE_NAME);
 	}
 
 	void Hello::InteractionHandler(SleepyDiscord::Interaction& interaction) {
 
 		SleepyDiscord::Interaction::Response<> response;
-		response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
-		response.data.content = this->JoinModuleName(Hello::Info::HELLO_MESSAGE);
-		auto clientPtr = MyClientClass::GetInstance();
+		response.type			 = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
+		response.data.content	 = this->JoinModuleName(Hello::HELLO_MESSAGE);
+		auto clientPtr			 = MyClientClass::GetInstance();
 		clientPtr->createInteractionResponse(interaction.ID, interaction.token, response);
 		return;
 	}
 
 	void Hello::InitializeAppCommand() {
-		this->appCommand.name = Hello::Info::COMMAND;
-		this->appCommand.description = Hello::Info::COMMAND_DESCRIPTION;		
+		SleepyDiscord::AppCommand::Option appCommand;
+		appCommand.name			= Hello::COMMAND;
+		appCommand.description	= Hello::COMMAND_DESCRIPTION;		
+		this->SetAppCommand(std::move(appCommand));
 	}
 }

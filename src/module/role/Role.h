@@ -1,12 +1,14 @@
 #pragma once
 #include "sleepy_discord/sleepy_discord.h"
 #include "module/base/ModuleBase.h"
+#include "module/base/TextProcessorBase.h"
+
 #include <string>
 #include <functional>
 
 namespace Module {
 
-	class Role : public ModuleBase {
+	class Role : public ModuleBase, public TextProcessorBase {
 	private:
 		struct Operation {
 			struct Arguments {
@@ -23,14 +25,13 @@ namespace Module {
 		};
 		static std::vector<std::string> MentionedRoleID(const std::string&);
 	public:
-		struct Info {
-			const static std::string COMMAND;
-			const static std::string MODULE_NAME;
-		};
+		//constants
+		const static std::string COMMAND;
+		const static std::string MODULE_NAME;
 
 		Role();		
 
-		void Handler(const SleepyDiscord::Message& msg)override {}
+		void TextHandler(const SleepyDiscord::Message& msg)override {}
 
 		void Handler(
 			const SleepyDiscord::Channel& channel,
@@ -56,7 +57,6 @@ namespace Module {
 			const SleepyDiscord::Snowflake<SleepyDiscord::User>& userID,
 			const SleepyDiscord::Snowflake<SleepyDiscord::Role>& roleID);
 
-		void InitializeAppCommand() override {}
 	};
 }
 

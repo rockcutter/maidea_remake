@@ -12,25 +12,18 @@ namespace program_options = boost::program_options;
 
 namespace Module {
 
-	const std::string URLShortening::Info::MODULE_NAME{"URLShortening"};
-	const std::string URLShortening::Info::COMMAND{"url"};
-	const std::string URLShortening::Info::DESCRIPTION{ "Shorten specific URLs" };
+	const std::string URLShortening::MODULE_NAME{"URLShortening"};
+	const std::string URLShortening::COMMAND{"url"};
+	const std::string URLShortening::DESCRIPTION{ "Shorten specific URLs" };
 
 	URLShortening::URLShortening() :
-		ModuleBase(
-			Info::MODULE_NAME,
-			Info::COMMAND,
-			boost::program_options::options_description("URLShortening Module Usage")
-		)
-		{
-		this->options.add_options()
-			("help,h", "show help")
-			;
-	}
+		ModuleBase(MODULE_NAME)
+		{}
 
 	void URLShortening::InitializeAppCommand() {
-		this->appCommand.name = Info::COMMAND;
-		this->appCommand.description = Info::DESCRIPTION;
+		SleepyDiscord::AppCommand::Option appCommand;
+		appCommand.name = COMMAND;
+		appCommand.description = DESCRIPTION;
 
 		SleepyDiscord::AppCommand::Option url;
 		url.name = "url";
@@ -38,7 +31,8 @@ namespace Module {
 		url.type = SleepyDiscord::AppCommand::Option::TypeHelper<std::string>().getType();
 		url.description = "url here";
 
-		this->appCommand.options.push_back(std::move(url));
+		appCommand.options.push_back(std::move(url));
+		this->SetAppCommand(std::move(appCommand));
 	}
 
 	void URLShortening::InteractionHandler(SleepyDiscord::Interaction& interaction) {
@@ -59,7 +53,12 @@ namespace Module {
 
 		SleepyDiscord::Interaction::Response<> response;
 		response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
-		response.data.content = this->JoinModuleName(this->ShortenAmazonURL(url));
+		try {
+			response.data.content = this->JoinModuleName(this->ShortenAmazonURL(url));
+		}
+		catch (std::invalid_argument& e) {
+			response.data.content = this->JoinModuleName("Invalid URL");
+		}
 		auto clientPtr = MyClientClass::GetInstance();
 		clientPtr->createInteractionResponse(interaction, interaction.token, response);
 		return;
@@ -69,56 +68,14 @@ namespace Module {
 		std::vector<std::string> dirs;
 		boost::split(dirs, url, boost::is_any_of("/?"));
 		auto pos = std::find(dirs.begin(), dirs.end(), "dp");
-		if (pos == dirs.end()) {
-			throw std::invalid_argument("invalid Amazon URL");
+		if (pos != dirs.end()) {
+			return (boost::format("%1%/dp/%2%") % TOP_AMAZON % *++pos).str();
 		}
-		return (boost::format("%1%/dp/%2%") % TOP_AMAZON % *++pos).str();
+		pos = std::find(dirs.begin(), dirs.end(), "gp");
+		if (pos != dirs.end()) {
+			return (boost::format("%1%\/gp\/%2%\/%3%") % TOP_AMAZON % *(pos + 1) % *(pos + 2)).str();
+		}
+		throw std::invalid_argument("invalid Amazon URL");
 	}
 
-	void URLShortening::Handler(const SleepyDiscord::Message& message) {
-		program_options::variables_map vm;
-		std::vector<std::string> splitedCommandLine = boost::program_options::split_unix(message.content);
-
-		if (splitedCommandLine.size() < 2) {
-			this->DiscordOut(message.channelID, this->options);
-			return;
-		}
-
-		std::string url = splitedCommandLine.at(1);
-
-		try {
-			program_options::store(
-				program_options::command_line_parser(
-					splitedCommandLine
-				).options(this->options).run(),
-				vm
-			);
-		}
-		catch (program_options::error& e) {
-			(void)e.what();
-			this->DiscordOut(message.channelID, this->options);
-			return;
-		}
-		if (vm.count("help")) {
-			this->DiscordOut(message.channelID, this->options);
-			return;
-		}
-
-		if (url.find(TOP_AMAZON) != std::string::npos) {
-			try {
-				this->DiscordOut(message.channelID,
-					(boost::format("from `%1%`\n%2%") %
-						message.author.username % 
-						this->ShortenAmazonURL(url)
-						).str()
-				);
-				auto sp = MyClientClass::GetInstance();
-				sp->deleteMessage(message.channelID, message.ID);
-			}
-			catch (std::invalid_argument&) {
-				this->DiscordOut(message.channelID, "invalid Amazon URL");
-			}
-			return;
-		}
-	}
 }

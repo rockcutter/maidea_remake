@@ -3,12 +3,12 @@
 
 namespace Module {
 	
-	const std::string Possession::Info::MODULENAME{"Possession"};
-	const std::string Possession::Info::COMMAND{"possession"};
-	const std::string Possession::Info::COMMAND_START{"start"};
-	const std::string Possession::Info::COMMAND_END{"end"};
-	const std::string Possession::Info::COMMAND_SAY{"say"};
-	const std::string Possession::Info::COMMAND_DESCRIPTION{"possess this bot"};
+	const std::string Possession::MODULENAME			= {"Possession"};
+	const std::string Possession::COMMAND				= {"possession"};
+	const std::string Possession::COMMAND_START			= {"start"};
+	const std::string Possession::COMMAND_END			= {"end"};
+	const std::string Possession::COMMAND_SAY			= {"say"};
+	const std::string Possession::COMMAND_DESCRIPTION	= {"possess this bot"};
 
 	std::vector<SleepyDiscord::Snowflake<SleepyDiscord::User>> Possession::privilegedUser{};
 
@@ -17,49 +17,52 @@ namespace Module {
 	}
 
 	Possession::Possession():
-		ModuleBase(Info::MODULENAME, Info::COMMAND, boost::program_options::options_description()),
+		ModuleBase(MODULENAME),
 		possession(false),
 		targetChannelID()
 	{}
 
 	void Possession::InitializeAppCommand() {
 		using CmdOption = SleepyDiscord::AppCommand::Option;
+		
+		SleepyDiscord::AppCommand::Option appCommand;
 
-		this->appCommand.name = Info::COMMAND;
-		this->appCommand.description = Info::COMMAND_DESCRIPTION;
+		appCommand.name			= COMMAND;
+		appCommand.description	= COMMAND_DESCRIPTION;
 		
 		CmdOption start;
-		start.type = CmdOption::Type::SUB_COMMAND;
-		start.name = Info::COMMAND_START;
-		start.description = Info::COMMAND_DESCRIPTION;
+		start.type			= CmdOption::Type::SUB_COMMAND;
+		start.name			= COMMAND_START;
+		start.description	= COMMAND_DESCRIPTION;
 		
 		CmdOption end;
-		end.type = CmdOption::Type::SUB_COMMAND;
-		end.name = Info::COMMAND_END;
-		end.description = Info::COMMAND_DESCRIPTION;
+		end.type		= CmdOption::Type::SUB_COMMAND;
+		end.name		= COMMAND_END;
+		end.description = COMMAND_DESCRIPTION;
 
 		CmdOption say;
-		say.type = CmdOption::Type::SUB_COMMAND;
-		say.name = Info::COMMAND_SAY;
-		say.description = Info::COMMAND_DESCRIPTION;
+		say.type		= CmdOption::Type::SUB_COMMAND;
+		say.name		= COMMAND_SAY;
+		say.description = COMMAND_DESCRIPTION;
 
 		CmdOption statement;
-		statement.isRequired = true;
-		statement.name = "statement";
-		statement.description = "statement";
-		statement.type = CmdOption::Type::STRING;
+		statement.isRequired	= true;
+		statement.name			= "statement";
+		statement.description	= "statement";
+		statement.type			= CmdOption::Type::STRING;
 
 		say.options.push_back(std::move(statement));
 		
-		this->appCommand.options.push_back(std::move(say));		
-		this->appCommand.options.push_back(std::move(start));		
-		this->appCommand.options.push_back(std::move(end));		
-		
+		appCommand.options.emplace_back(std::move(say));		
+		appCommand.options.emplace_back(std::move(start));		
+		appCommand.options.emplace_back(std::move(end));		
+
+		this->SetAppCommand(std::move(appCommand));
 	}
 
 	void Possession::Start(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID) {
-		this->possession = true;
-		this->targetChannelID = channelID;
+		this->possession		= true;
+		this->targetChannelID	= channelID;
 		return ;
 	}
 
@@ -91,7 +94,7 @@ namespace Module {
 		}
 
 		for (auto& opt : interaction.data.options) {
-			if (opt.name == Info::COMMAND_SAY) {
+			if (opt.name == COMMAND_SAY) {
 				if (!this->possession) {
 					Response response;
 					response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
@@ -119,7 +122,7 @@ namespace Module {
 				response.data.flags = SleepyDiscord::InteractionAppCommandCallbackData::Flags::Ephemeral; //only for the user to see
 				clientPtr->createInteractionResponse(interaction, interaction.token, response);
 			}
-			else if (opt.name == Info::COMMAND_START) {
+			else if (opt.name == COMMAND_START) {
 				this->Start(interaction.channelID);
 				Response response;
 				response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;
@@ -128,7 +131,7 @@ namespace Module {
 				auto clientPtr = MyClientClass::GetInstance();
 				clientPtr->createInteractionResponse(interaction, interaction.token, response);
 			}
-			else if (opt.name == Info::COMMAND_END) {
+			else if (opt.name == COMMAND_END) {
 				this->Stop();
 				Response response;
 				response.type = SleepyDiscord::InteractionCallbackType::ChannelMessageWithSource;

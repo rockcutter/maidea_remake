@@ -6,7 +6,6 @@
 #include <iostream>
 #include <iostream>
 #include <boost/algorithm/string.hpp>
-#include "handler/Handler.h"
 #include "client/MyClient.h"
 
 namespace xp = boost::xpressive;
@@ -15,14 +14,11 @@ namespace Module {
 	const std::string Role::Marker::GRANT = "grant";
 	const std::string Role::Marker::REMOVE = "remove";
 
-	const std::string Role::Info::COMMAND{"role"};
-	const std::string Role::Info::MODULE_NAME{"Role"};
+	const std::string Role::COMMAND{"role"};
+	const std::string Role::MODULE_NAME{"Role"};
 
 	Role::Role() :
-		ModuleBase(
-			Info::MODULE_NAME,
-			Info::COMMAND,
-			boost::program_options::options_description("Role Module Usage"))
+		ModuleBase(MODULE_NAME)
 		{}
 
 	bool Role::ExecuteMarker(
@@ -45,6 +41,7 @@ namespace Module {
 		const SleepyDiscord::User& user,
 		const SleepyDiscord::Emoji& emoji)
 	{
+		//return; //ˆê’U’âŽ~
 		auto IsCommand = [&message]() {
 			for (auto prefix : { ">", "!", "?", "\\" }) {
 				if (boost::starts_with(message.content, prefix + std::string{ "role" })) {

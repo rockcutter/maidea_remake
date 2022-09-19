@@ -3,6 +3,8 @@
 #include <memory>
 #include <stdexcept>
 #include "module/base/ModuleBase.h"
+#include "module/base/TextProcessorBase.h"
+#include "module/base/SlashCommandProcessorBase.h"
 #include "module/hello/Hello.h"
 #include "module/timer/timer.h"
 #include "module/urlshortening/URLShortening.h"
@@ -14,40 +16,27 @@
 
 //ここでモジュールを登録する
 class ModulePackager {
-	using ModulePtrArray = std::vector<std::unique_ptr<Module::ModuleBase>>;
 public:
 	
 	//ここにはSlashCommandを実装したModuleを登録する テンプレートパラメータに書き加えるだけでよい(可変長パラメータ)
-	static void GetSlashCommandProcessors(ModulePtrArray& modules) {
+	static void GetSlashCommandProcessors(std::vector<std::unique_ptr<Module::SlashCommandProcessorBase>>& modules) {
 		MultipleUnique<
-			Module::ModuleBase,
+			Module::SlashCommandProcessorBase,
+			Module::Checklist,
 			Module::Hello,
 			Module::Timer,
-			Module::URLShortening,
-			Module::Checklist,
 			Module::Random,
-			Module::Possession
-		>::Make(modules);
-	}
-	
-	//ここにはTextCommandを処理するHandler関数を実装したModuleを登録する テンプレートパラメータに書き加えるだけでよい(可変長パラメータ)
-	static void GetTextCommandProcessors(ModulePtrArray& modules) {
-		MultipleUnique<
-			Module::ModuleBase,
-			Module::Hello,
-			Module::Timer,
-			Module::URLShortening,
-			Module::Checklist,
-			Module::Random
+			Module::Possession,
+			Module::URLShortening
 		>::Make(modules);
 	}
 
 	//ここにはPlainTextHandlerを実装したModuleを登録する テンプレートパラメータに書き加えるだけでよい(可変長パラメータ)
-	static void GetTextProcessors(ModulePtrArray& modules) {
+	static void GetTextProcessors(std::vector<std::unique_ptr<Module::TextProcessorBase>>& modules) {
 		MultipleUnique<
-			Module::ModuleBase,
-			Module::Checklist,
-			Module::Random
+			Module::TextProcessorBase,
+			Module::Random,
+			Module::Checklist
 		>::Make(modules);
 	}
 };

@@ -1,18 +1,16 @@
 #include <boost/program_options.hpp>
 #include "module/base/ModuleBase.h"
+#include "module/base/SlashCommandProcessorBase.h"
 #include "sleepy_discord/sleepy_discord.h"
 
 namespace Module {
-	class Timer : public ModuleBase{
+	class Timer : public ModuleBase , public SlashCommandProcessorBase{
 	private:
 	public:
-		struct Info {
-			const static std::string MODULE_NAME;
-			const static std::string COMMAND;
-			const static std::string COMMAND_DESCRIPTION;
-		};
+		const static std::string MODULE_NAME;
+		const static std::string COMMAND;
+		const static std::string COMMAND_DESCRIPTION;
 		Timer();
-		void Handler(const SleepyDiscord::Message& message) override;
 		void InteractionHandler(SleepyDiscord::Interaction& interaction) override;
 		void InitializeAppCommand() override;
 	};
