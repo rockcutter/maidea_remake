@@ -21,6 +21,11 @@ slash commandを実装しており、/をこのbotが導入されているdiscor
 * boost 1.79.0
 * SleepyDiscord
  
+# docker-compose
+```bash
+# docker-compose up -d
+```
+ 
 # Installation
 boost 
 https://boostjp.github.io/howtobuild.html などを参考にインストールしておく
