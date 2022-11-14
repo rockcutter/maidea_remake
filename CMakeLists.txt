@@ -1,5 +1,6 @@
 #CMakeLists.txt
 cmake_minimum_required (VERSION 3.6)
+set(CMAKE_CXX_STANDARD 20)
 project(maidea)
 set(CMAKE_CXX_STANDARD 17)
 add_executable(maidea "src/main.cpp"  )
