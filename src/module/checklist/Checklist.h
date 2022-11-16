@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <string_view>
 #include "module/base/ModuleBase.h"
 #include "module/base/SlashCommandProcessorBase.h"
 #include "module/base/TextProcessorBase.h"
@@ -13,10 +14,9 @@ namespace Module {
 		static std::vector<std::string> channels;
 	public:
 		//constants
-
-		const static std::string MODULE_NAME;
-		const static std::string COMMAND;
-		const static std::string COMMAND_DESCRIPTION;
+		constexpr static std::string_view MODULE_NAME{"Checklist"};
+		constexpr static std::string_view COMMAND{"cl"};
+		constexpr static std::string_view COMMAND_DESCRIPTION{"switch Checklist mode"};
 
 		Checklist();
 		static bool IsEnable(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID);

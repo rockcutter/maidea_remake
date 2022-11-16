@@ -10,10 +10,10 @@ namespace Module {
 	class Hello : public ModuleBase, public SlashCommandProcessorBase{
 	public:
 		//constant
-		static const std::string MODULE_NAME;
-		static const std::string COMMAND;
-		static const std::string HELLO_MESSAGE;
-		static const std::string COMMAND_DESCRIPTION;
+		static constexpr std::string_view MODULE_NAME{"Hello"};
+		static constexpr std::string_view COMMAND{"hello"};
+		static constexpr std::string_view HELLO_MESSAGE{"Hello!"};
+		static constexpr std::string_view COMMAND_DESCRIPTION{"say hello"};
 
 		Hello();
 		void Send(const SleepyDiscord::Snowflake<SleepyDiscord::Channel>& channelID);

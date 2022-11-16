@@ -11,11 +11,6 @@
 namespace xp = boost::xpressive;
 
 namespace Module {
-	const std::string Role::Marker::GRANT = "grant";
-	const std::string Role::Marker::REMOVE = "remove";
-
-	const std::string Role::COMMAND{"role"};
-	const std::string Role::MODULE_NAME{"Role"};
 
 	Role::Role() :
 		ModuleBase(MODULE_NAME)

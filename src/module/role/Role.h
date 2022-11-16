@@ -20,14 +20,14 @@ namespace Module {
 			using RoleOperationType = const std::function<SleepyDiscord::BoolResponse(Arguments)>;
 		};
 		struct Marker {
-			const static std::string GRANT;
-			const static std::string REMOVE;
+			constexpr static std::string_view GRANT{"grant"};
+			constexpr static std::string_view REMOVE{"remove"};
 		};
 		static std::vector<std::string> MentionedRoleID(const std::string&);
 	public:
 		//constants
-		const static std::string COMMAND;
-		const static std::string MODULE_NAME;
+		constexpr static std::string_view COMMAND{"role"};
+		constexpr static std::string_view MODULE_NAME{"Role"};
 
 		Role();		
 

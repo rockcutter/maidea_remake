@@ -12,10 +12,10 @@ namespace Module {
 		/// <summary>
 		/// 文字列の先頭にモジュール名を結合して表示用に整形する
 		/// </summary>
-		std::string JoinModuleName(const std::string& str);
+		std::string JoinModuleName(std::string_view str);
 	public:
 		ModuleBase(
-			const std::string& moduleName
+			std::string_view moduleName
 		);
 		//getter
 		const std::string& GetModuleName() { return this->moduleName; }
@@ -33,7 +33,5 @@ namespace Module {
 			std::shared_ptr<MyClientClass> client = MyClientClass::GetInstance();
 			return client->sendMessage(channelID, this->JoinModuleName(ss.str()));
 		}
-
 	};
-
 }

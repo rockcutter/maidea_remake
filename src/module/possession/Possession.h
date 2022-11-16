@@ -12,12 +12,12 @@ namespace Module {
 		SleepyDiscord::Snowflake<SleepyDiscord::Channel> targetChannelID;
 	public:
 		//constants
-		const static std::string MODULENAME;
-		const static std::string COMMAND;
-		const static std::string COMMAND_END;
-		const static std::string COMMAND_SAY;
-		const static std::string COMMAND_DESCRIPTION;			
-		const static std::string COMMAND_START;
+		constexpr static std::string_view MODULENAME{"Possession"};
+		constexpr static std::string_view COMMAND{"possession"};
+		constexpr static std::string_view COMMAND_END{"end"};
+		constexpr static std::string_view COMMAND_SAY{"say"};
+		constexpr static std::string_view COMMAND_DESCRIPTION{"possess this bot"};			
+		constexpr static std::string_view COMMAND_START{"start"};
 
 		static void RegisterPrivilegedUser(const SleepyDiscord::Snowflake<SleepyDiscord::User>&);
 		Possession();
