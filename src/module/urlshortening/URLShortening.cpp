@@ -11,11 +11,6 @@ constexpr char TOP_AMAZON[] = "https://www.amazon.co.jp";
 namespace program_options = boost::program_options;
 
 namespace Module {
-
-	const std::string URLShortening::MODULE_NAME{"URLShortening"};
-	const std::string URLShortening::COMMAND{"url"};
-	const std::string URLShortening::DESCRIPTION{ "Shorten specific URLs" };
-
 	URLShortening::URLShortening() :
 		ModuleBase(MODULE_NAME)
 		{}
@@ -64,7 +59,7 @@ namespace Module {
 		return;
 	}
 
-	std::string URLShortening::ShortenAmazonURL(const std::string& url) {
+	std::string URLShortening::ShortenAmazonURL(std::string_view url) {
 		std::vector<std::string> dirs;
 		boost::split(dirs, url, boost::is_any_of("/?"));
 		auto pos = std::find(dirs.begin(), dirs.end(), "dp");

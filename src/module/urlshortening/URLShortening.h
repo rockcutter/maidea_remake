@@ -5,12 +5,12 @@
 namespace Module {
 	class URLShortening : public ModuleBase , public SlashCommandProcessorBase{
 	private:
-		std::string ShortenAmazonURL(const std::string& url);
+		std::string ShortenAmazonURL(std::string_view url);
 	public:
 		//constants
-		const static std::string MODULE_NAME;
-		const static std::string COMMAND;
-		const static std::string DESCRIPTION;
+		constexpr static std::string_view MODULE_NAME{"URLShortening"};
+		constexpr static std::string_view COMMAND{"url"};
+		constexpr static std::string_view DESCRIPTION{"Shorten specific URLs"};
 		URLShortening();
 		void InteractionHandler(SleepyDiscord::Interaction& interaction) override;
 		void InitializeAppCommand() override;
