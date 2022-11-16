@@ -14,10 +14,6 @@ namespace program_options = boost::program_options;
 namespace chrono = std::chrono;
 
 namespace Module {
-	const std::string Timer::MODULE_NAME{"Timer"};
-	const std::string Timer::COMMAND{"timer"};
-	const std::string Timer::COMMAND_DESCRIPTION{"set timer"};
-
 	Timer::Timer() : 
 		ModuleBase(MODULE_NAME),
 		SlashCommandProcessorBase()

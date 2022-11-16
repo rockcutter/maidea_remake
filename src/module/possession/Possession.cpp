@@ -2,14 +2,6 @@
 #include "client/MyClient.h"
 
 namespace Module {
-	
-	const std::string Possession::MODULENAME			= {"Possession"};
-	const std::string Possession::COMMAND				= {"possession"};
-	const std::string Possession::COMMAND_START			= {"start"};
-	const std::string Possession::COMMAND_END			= {"end"};
-	const std::string Possession::COMMAND_SAY			= {"say"};
-	const std::string Possession::COMMAND_DESCRIPTION	= {"possess this bot"};
-
 	std::vector<SleepyDiscord::Snowflake<SleepyDiscord::User>> Possession::privilegedUser{};
 
 	void Possession::RegisterPrivilegedUser(const SleepyDiscord::Snowflake<SleepyDiscord::User>& userID) {

@@ -5,9 +5,6 @@
 namespace program_options = boost::program_options;
 
 namespace Module {
-	const std::string Checklist::COMMAND_DESCRIPTION	= "switch Checklist mode";
-	const std::string Checklist::MODULE_NAME			= "Checklist";
-	const std::string Checklist::COMMAND				= "cl";
 	std::vector<std::string> Checklist::channels{};
 
 	Checklist::Checklist() :

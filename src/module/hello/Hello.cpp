@@ -3,11 +3,6 @@
 #include <boost/format.hpp>
 
 namespace Module {
-	const std::string Hello::COMMAND				 = "hello" ;
-	const std::string Hello::MODULE_NAME			 = "Hello" ;
-	const std::string Hello::HELLO_MESSAGE			 = "Hello!";
-	const std::string Hello::COMMAND_DESCRIPTION	 = "say hello";
-
 	Hello::Hello():
 		ModuleBase(
 			Hello::MODULE_NAME

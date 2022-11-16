@@ -11,7 +11,7 @@ namespace Module {
 		moduleName(moduleName)
 	{}
 
-	std::string ModuleBase::JoinModuleName(const std::string& str) {
+	std::string ModuleBase::JoinModuleName(std::string_view str) {
 		return (boost::format("`%1%`\n%2%") % this->moduleName % str).str();
 	}
 }
