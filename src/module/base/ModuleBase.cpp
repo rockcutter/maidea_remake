@@ -6,7 +6,7 @@
 namespace Module {
 
 	ModuleBase::ModuleBase(
-		const std::string& moduleName
+		std::string_view moduleName
 	) :
 		moduleName(moduleName)
 	{}

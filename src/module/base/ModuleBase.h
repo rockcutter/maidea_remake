@@ -15,7 +15,7 @@ namespace Module {
 		std::string JoinModuleName(const std::string& str);
 	public:
 		ModuleBase(
-			const std::string& moduleName
+			std::string_view moduleName
 		);
 		//getter
 		const std::string& GetModuleName() { return this->moduleName; }
