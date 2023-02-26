@@ -1,4 +1,4 @@
-add_library(Util STATIC ConsoleOut.cpp MultipleUnique.h ReadConfig.cpp)
+add_library(Util STATIC ConsoleOut.cpp MultipleUnique.h ReadConfig.cpp SplitString.cpp)
 
 #add_library(ConsoleOut ConsoleOut.cpp  "MultipleUnique.h" "ReadConfig.cpp")
 
