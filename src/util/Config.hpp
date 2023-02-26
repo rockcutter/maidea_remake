@@ -41,6 +41,7 @@ public:
 	static auto GetConfig(){
 		if (!Config::isConfigLoaded) {
 			Config::LoadConfig();
+			Config::isConfigLoaded = true;
 		}
 		return Config::configMap;
 	}
