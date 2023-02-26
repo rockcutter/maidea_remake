@@ -7,7 +7,7 @@
 inline constexpr std::string_view CONFIG_FILE_PATH 			= "maidea.cfg";
 inline constexpr std::string_view CONFIG_DISCORD_TOKEN_KEY 	= "DISCORD_TOKEN";
 
-int main(int argc, const char * const * const argv) {
+int main() {
 	InitializeApp();
 	Config::SetConfigFilePath(CONFIG_FILE_PATH);
 	auto&& configMap = Config::GetConfig();
