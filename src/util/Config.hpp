@@ -9,14 +9,14 @@ class Config {
 private:
 	static inline bool isConfigLoaded = false;
 	static inline std::unordered_map<std::string, std::string> configMap{};
-	static inline std::string_view configFilePath = "maidea.cfg";
+	static inline std::string_view configFilePath = "";
 	
 	static void LoadConfig() {
 		configMap.clear();
 
 		std::ifstream ifs{std::string{Config::configFilePath}};
 		if(!ifs) {
-			return;
+			throw std::runtime_error("config file not found");
 		}
 
 		std::string readLineStr;
