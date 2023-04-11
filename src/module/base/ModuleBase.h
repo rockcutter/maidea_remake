@@ -1,7 +1,8 @@
 #pragma once
 #include <string>
-#include "sleepy_discord/sleepy_discord.h"
+#include <string_view>
 #include <boost/program_options.hpp>
+#include "sleepy_discord/sleepy_discord.h"
 #include "client/MyClient.h"
 
 namespace Module {
@@ -10,7 +11,7 @@ namespace Module {
 		const std::string moduleName;
 
 		/// <summary>
-		/// •¶š—ñ‚Ìæ“ª‚Éƒ‚ƒWƒ…[ƒ‹–¼‚ğŒ‹‡‚µ‚Ä•\¦—p‚É®Œ`‚·‚é
+		/// 
 		/// </summary>
 		std::string JoinModuleName(std::string_view str);
 	public:
@@ -21,7 +22,7 @@ namespace Module {
 		const std::string& GetModuleName() { return this->moduleName; }
 
 		/// <summary>
-		/// •¶š—ñ‚ğdiscord‚Å‘—M‚·‚é
+		/// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½discordï¿½Å‘ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½
 		/// </summary>
 		template <class T>
 		SleepyDiscord::ObjectResponse<SleepyDiscord::Message> DiscordOut(
