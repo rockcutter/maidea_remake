@@ -1,36 +1,27 @@
-#src/module
-add_library(Module INTERFACE)
+# src/module/CMakeLists.txt
 
-#ここに作成したディレクトリを追加する
-#例: add_subdirectory(example)
-add_subdirectory(base)
-add_subdirectory(hello)
-add_subdirectory(timer)
-add_subdirectory(urlshortening)
-add_subdirectory(checklist)
-add_subdirectory(random)
-add_subdirectory(role)
-add_subdirectory(possession)
+# TODO 繧ｽ繝ｼ繧ｹ繝輔ぃ繧､繝ｫ繧定ｿｽ蜉
+set(module_source_file
+    ${CMAKE_CURRENT_SOURCE_DIR}/base/ModuleBase.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/checklist/Checklist.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/hello/Hello.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/possession/Possession.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/random/Random.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/role/Role.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/timer/timer.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/urlshortening/URLShortening.cpp
+)
 
-#ここに作成したライブラリをModuleにリンクする
-#例: target_link_libraries(Module INTERFACE Module_Example)
-target_link_libraries(Module INTERFACE Module_ModuleBase)
-target_link_libraries(Module INTERFACE Module_Hello)
-target_link_libraries(Module INTERFACE Module_Timer)
-target_link_libraries(Module INTERFACE Module_URLShortening)
-target_link_libraries(Module INTERFACE Module_Checklist)
-target_link_libraries(Module INTERFACE Module_Random)
-target_link_libraries(Module INTERFACE Module_Role)
-target_link_libraries(Module INTERFACE Module_Possession)
+add_library(
+    module
+    STATIC
+    ${module_source_file}
+)
 
-#ここでinclude directoryを指定する(任意)
-#例: target_include_directories(Module_Example PUBLIC ${PROJECT_SOURCE_DIR}/src)
-target_include_directories(Module_ModuleBase PUBLIC ${PROJECT_SOURCE_DIR}/src)
-target_include_directories(Module_Hello PUBLIC ${PROJECT_SOURCE_DIR}/src)
-target_include_directories(Module_Timer PUBLIC ${PROJECT_SOURCE_DIR}/src)
-target_include_directories(Module_URLShortening PUBLIC ${PROJECT_SOURCE_DIR}/src)
-target_include_directories(Module_Checklist PUBLIC ${PROJECT_SOURCE_DIR}/src)
-target_include_directories(Module_Random PUBLIC ${PROJECT_SOURCE_DIR}/src)
-target_include_directories(Module_Role PUBLIC ${PROJECT_SOURCE_DIR}/src)
-target_include_directories(Module_Possession PUBLIC ${PROJECT_SOURCE_DIR}/src)
+target_compile_features(module PRIVATE cxx_std_17)
+target_compile_options(module PRIVATE
+    $<$<CXX_COMPILER_ID:GNU>: -O3 -Wall -Wextra -Wpedantic>
+    $<$<CXX_COMPILER_ID:MSVC>: /W4 >
+)
 
+target_link_libraries(module sleepy-discord)
