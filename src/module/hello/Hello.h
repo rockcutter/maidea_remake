@@ -4,7 +4,6 @@
 #include "sleepy_discord/sleepy_discord.h"
 #include "module/base/ModuleBase.h"
 #include "module/base/SlashCommandProcessorBase.h"
-#include "SlashCommandProcessorBase.h"
 
 namespace Module {
 	class Hello : public ModuleBase, public SlashCommandProcessorBase{
