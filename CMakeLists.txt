@@ -3,9 +3,22 @@ enable_language(CXX)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# loggerをFetchContentしておく
+include(FetchContent)
+
+FetchContent_Declare(
+    logger
+    GIT_REPOSITORY https://github.com/rockcutter/logger.git
+    GIT_TAG origin/main
+)
+
+FetchContent_MakeAvailable(logger)
+include_directories(${logger_SOURCE_DIR})
+
 # TODO project_nameを書き換える
 project(maidea)
 
+# TODO ソースを追加
 set(proj_src
     src/main.cpp
     src/Initialize.cpp
@@ -31,6 +44,8 @@ target_link_libraries(${CMAKE_PROJECT_NAME} client)
 target_link_libraries(${CMAKE_PROJECT_NAME} util)
 target_link_libraries(${CMAKE_PROJECT_NAME} module)
 
+
+# include_directories(${PROJECT_SOURCE_DIR}/bld/_deps)
 
 # #CMakeLists.txt
 # cmake_minimum_required (VERSION 3.6)
