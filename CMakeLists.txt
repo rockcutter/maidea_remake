@@ -39,6 +39,8 @@ include_directories(
 add_subdirectory(sleepy-discord)
 add_subdirectory(src)
 
+target_precompile_headers(maidea PUBLIC ${PROJECT_SOURCE_DIR}/sleepy-discord/include/sleepy_discord/sleepy_discord.h)
+
 target_link_libraries(${CMAKE_PROJECT_NAME} sleepy-discord)
 target_link_libraries(${CMAKE_PROJECT_NAME} client)
 target_link_libraries(${CMAKE_PROJECT_NAME} util)
