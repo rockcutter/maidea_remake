@@ -1,7 +1,10 @@
-# src/module/CMakeLists.txt
+# TODO ライブラリ名を追加
+set(current_library_name
+    module
+)
 
 # TODO ソースファイルを追加
-set(module_source_file
+set(current_library_source_file
     ${CMAKE_CURRENT_SOURCE_DIR}/base/ModuleBase.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/checklist/Checklist.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/hello/Hello.cpp
@@ -13,15 +16,15 @@ set(module_source_file
 )
 
 add_library(
-    module
+    ${current_library_name}
     STATIC
-    ${module_source_file}
+    ${current_library_source_file}
 )
 
-target_compile_features(module PRIVATE cxx_std_17)
-target_compile_options(module PRIVATE
+target_compile_features(${current_library_name} PRIVATE cxx_std_17)
+target_compile_options(${current_library_name} PRIVATE
     $<$<CXX_COMPILER_ID:GNU>: -O3 -Wall -Wextra -Wpedantic>
     $<$<CXX_COMPILER_ID:MSVC>: /W4 >
 )
 
-target_link_libraries(module sleepy-discord)
+target_link_libraries(${current_library_name} sleepy-discord)

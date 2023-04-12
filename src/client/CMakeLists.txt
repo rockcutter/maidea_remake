@@ -1,20 +1,44 @@
-# src/client/CMakeLists.txt
+# # src/client/CMakeLists.txt
+
+# # TODO ソースファイルを追加
+# set(client_source_file
+    # ${CMAKE_CURRENT_SOURCE_DIR}/MyClient.cpp
+# )
+
+# add_library(
+    # client
+    # STATIC
+    # ${client_source_file}
+# )
+
+# target_compile_features(client PRIVATE cxx_std_17)
+# target_compile_options(client PRIVATE
+    # $<$<CXX_COMPILER_ID:GNU>: -O3 -Wall -Wextra -Wpedantic>
+    # $<$<CXX_COMPILER_ID:MSVC>: /W4 >
+# )
+
+# target_link_libraries(client sleepy-discord)
+
+# TODO ライブラリ名を追加
+set(current_library_name
+    client
+)
 
 # TODO ソースファイルを追加
-set(client_source_file
+set(current_library_source_file
     ${CMAKE_CURRENT_SOURCE_DIR}/MyClient.cpp
 )
 
 add_library(
-    client
+    ${current_library_name}
     STATIC
-    ${client_source_file}
+    ${current_library_source_file}
 )
 
-target_compile_features(client PRIVATE cxx_std_17)
-target_compile_options(client PRIVATE
+target_compile_features(${current_library_name} PRIVATE cxx_std_17)
+target_compile_options(${current_library_name} PRIVATE
     $<$<CXX_COMPILER_ID:GNU>: -O3 -Wall -Wextra -Wpedantic>
     $<$<CXX_COMPILER_ID:MSVC>: /W4 >
 )
 
-target_link_libraries(client sleepy-discord)
+target_link_libraries(${current_library_name} sleepy-discord)
