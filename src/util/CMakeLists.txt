@@ -6,7 +6,6 @@ set(current_library_name
 # TODO ソースファイルを追加
 set(current_library_source_file
     ${CMAKE_CURRENT_SOURCE_DIR}/ConsoleOut.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/ReadConfig.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SplitString.cpp
 )
 
