@@ -7,6 +7,7 @@ set(current_library_name
 set(current_library_source_file
     ${CMAKE_CURRENT_SOURCE_DIR}/ConsoleOut.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SplitString.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Config.cpp
 )
 
 add_library(
